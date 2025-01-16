@@ -1,0 +1,407 @@
+# Community composition
+
+```{r load_data_community}
+load("data/data.Rdata")
+```
+
+## Taxonomy overview 
+
+### Stacked barplot
+
+```{r taxonomy_barplot, fig.height=5, fig.width=10, fig.fullwidth=TRUE}
+genome_counts_filt %>%
+  mutate_at(vars(-genome),~./sum(.)) %>% #apply TSS nornalisation
+  pivot_longer(-genome, names_to = "sample", values_to = "count") %>% #reduce to minimum number of columns
+  left_join(., genome_metadata, by = join_by(genome == genome)) %>% #append genome metadata
+  left_join(., sample_metadata, by = join_by(sample == sample)) %>% #append sample metadata
+  filter(count > 0) %>% #filter 0 counts
+  ggplot(., aes(x=sample,y=count, fill=order, group=order)) + #grouping enables keeping the same sorting of taxonomic units
+    geom_bar(stat="identity", colour="white", linewidth=0.1) + #plot stacked bars with white borders
+    scale_fill_manual(values=order_colors) +
+    facet_nested(. ~ treatment + day,  scales="free", space="free") + #facet per day and treatment
+    guides(fill = guide_legend(ncol = 1)) +
+    theme(axis.text.x=element_blank(),
+          axis.title.x = element_blank(),
+          panel.background = element_blank(),
+          panel.border = element_blank(),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          axis.line = element_line(linewidth = 0.5, linetype = "solid", colour = "black")) +
+   labs(fill="Phylum",y = "Relative abundance",x="Samples") +
+   theme(legend.position = "none")
+```
+### Phylum relative abundances
+
+```{r taxonomy_phylum_summary, warning=FALSE, comments="", message=FALSE}
+phylum_summary <- genome_counts_filt %>%
+  mutate_at(vars(-genome),~./sum(.)) %>% #apply TSS nornalisation
+  pivot_longer(-genome, names_to = "sample", values_to = "count") %>%
+  left_join(sample_metadata, by = join_by(sample == sample)) %>%
+  left_join(genome_metadata, by = join_by(genome == genome)) %>%
+  group_by(sample,phylum) %>%
+  summarise(relabun=sum(count))
+
+phylum_summary %>%
+    group_by(phylum) %>%
+    summarise(mean=mean(relabun, na.rm=T),sd=sd(relabun, na.rm=T)) %>%
+    arrange(-mean) %>%
+    tt()
+```
+
+```{r taxonomy_boxplot_phylum, warning=FALSE, comments="", message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
+phylum_arrange <- phylum_summary %>%
+    group_by(phylum) %>%
+    summarise(mean=mean(relabun)) %>%
+    arrange(-mean) %>%
+    select(phylum) %>%
+    pull()
+
+phylum_summary %>%
+    filter(phylum %in% phylum_arrange) %>%
+    mutate(phylum=factor(phylum,levels=rev(phylum_arrange))) %>%
+    ggplot(aes(x=relabun, y=phylum, group=phylum, color=phylum)) +
+        scale_color_manual(values=phylum_colors[rev(phylum_arrange)]) +
+        geom_jitter(alpha=0.5) + 
+        theme_minimal() + 
+        theme(legend.position="none") +
+        labs(y="Phylum",x="Relative abundance")
+```
+
+```{r taxonomy_phylum_time, warning=FALSE, comments="", message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
+phylum_arrange <- phylum_summary %>%
+    group_by(phylum) %>%
+    summarise(mean=mean(relabun)) %>%
+    arrange(-mean) %>%
+    select(phylum) %>%
+    pull()
+
+phylum_summary %>%
+    left_join(sample_metadata,by="sample") %>% 
+    filter(phylum %in% phylum_arrange) %>%
+    mutate(phylum=factor(phylum,levels=rev(phylum_arrange))) %>%
+    filter(treatment!="TG0") %>% 
+    ggplot(aes(x=day, y=relabun, group=phylum, color=phylum, fill=phylum)) +
+        scale_color_manual(values=phylum_colors[rev(phylum_arrange)]) +
+        scale_fill_manual(values=phylum_colors[rev(phylum_arrange)]) +
+        geom_jitter(width=0.3) + 
+        geom_smooth(method="loess",se=TRUE) +
+        theme_minimal() + 
+        facet_wrap(. ~ treatment, nrow=1) +
+        theme(legend.position="none") +
+        labs(y="Phylum",x="Days")
+```
+
+## Taxonomy boxplot
+
+### Family
+```{r taxonomy_family_summary, warning=FALSE, comments="", message=FALSE}
+family_summary <- genome_counts_filt %>%
+  mutate_at(vars(-genome),~./sum(.)) %>% #apply TSS nornalisation
+  pivot_longer(-genome, names_to = "sample", values_to = "count") %>% #reduce to minimum number of columns
+  left_join(sample_metadata, by = join_by(sample == sample)) %>% #append sample metadata
+  left_join(., genome_metadata, by = join_by(genome == genome)) %>% #append genome metadata
+  group_by(sample,family) %>%
+  summarise(relabun=sum(count))
+
+family_summary %>%
+    group_by(family) %>%
+    summarise(mean=mean(relabun, na.rm=T),sd=sd(relabun, na.rm=T)) %>%
+    arrange(-mean) %>%
+    tt()
+```
+
+
+```{r taxonomy_jitterplot_family, warning=FALSE, comments="", message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
+family_arrange <- family_summary %>%
+    group_by(family) %>%
+    summarise(mean=sum(relabun, na.rm=TRUE)) %>%
+    arrange(-mean) %>%
+    select(family) %>%
+    pull()
+
+# Per day
+family_summary %>%
+    left_join(genome_metadata %>% select(family,phylum) %>% unique(),by=join_by(family==family)) %>%
+    left_join(sample_metadata,by=join_by(sample==sample)) %>%
+    filter(family %in% family_arrange[1:20]) %>%
+    mutate(family=factor(family,levels=rev(family_arrange[1:20]))) %>%
+    filter(relabun > 0) %>%
+    ggplot(aes(x=relabun, y=family, group=family, color=phylum)) +
+        scale_color_manual(values=phylum_colors[-8]) +
+        geom_jitter(alpha=0.5) + 
+        facet_grid(.~day)+
+        theme_minimal() + 
+        labs(y="Family", x="Relative abundance", color="Phylum")
+
+# Per treatment
+family_summary %>%
+    left_join(genome_metadata %>% select(family,phylum) %>% unique(),by=join_by(family==family)) %>%
+    left_join(sample_metadata,by=join_by(sample==sample)) %>%
+    filter(family %in% family_arrange[1:20]) %>%
+    mutate(family=factor(family,levels=rev(family_arrange[1:20]))) %>%
+    filter(relabun > 0) %>%
+    ggplot(aes(x=relabun, y=family, group=family, color=phylum)) +
+        scale_color_manual(values=phylum_colors[-8]) +
+        geom_jitter(alpha=0.5) + 
+        facet_grid(.~treatment)+
+        theme_minimal() + 
+        labs(y="Family", x="Relative abundance", color="Phylum")
+
+```
+
+### Genus
+
+```{r taxonomy_genus_summary, warning=FALSE, comments="", message=FALSE}
+genus_summary <- genome_counts_filt %>%
+  mutate_at(vars(-genome),~./sum(.)) %>% #apply TSS nornalisation
+  pivot_longer(-genome, names_to = "sample", values_to = "count") %>% #reduce to minimum number of columns
+  left_join(sample_metadata, by = join_by(sample == sample)) %>% #append sample metadata
+  left_join(genome_metadata, by = join_by(genome == genome)) %>% #append genome metadata
+  group_by(sample,phylum,genus) %>%
+  summarise(relabun=sum(count)) %>%
+  filter(genus != "g__") %>%
+  mutate(genus= sub("^g__", "", genus))
+
+genus_summary_sort <- genus_summary %>%
+    group_by(genus) %>%
+    summarise(mean=mean(relabun, na.rm=T),sd=sd(relabun, na.rm=T)) %>%
+    arrange(-mean) 
+
+genus_summary_sort %>%
+    tt()
+```
+
+```{r taxonomy_jitterplot_genus, fig.height=14, fig.width=10, fig.fullwidth=TRUE}
+genus_arrange <- genus_summary %>%
+    group_by(genus) %>%
+    summarise(mean=sum(relabun)) %>%
+    filter(genus != "g__")%>%
+    arrange(-mean) %>%
+    select(genus) %>%
+    mutate(genus= sub("^g__", "", genus)) %>%
+    pull()
+
+#Per day
+genus_summary %>%
+    left_join(sample_metadata,by=join_by(sample==sample)) %>%
+    mutate(genus=factor(genus, levels=rev(genus_summary_sort %>% pull(genus)))) %>%
+    filter(relabun > 0) %>%
+    ggplot(aes(x=relabun, y=genus, group=genus, color=phylum)) +
+        scale_color_manual(values=phylum_colors) +
+        geom_jitter(alpha=0.5) + 
+        facet_grid(.~day)+
+        theme_minimal() + 
+        labs(y="Family", x="Relative abundance", color="Phylum")
+
+#Per treatment
+genus_summary %>%
+    left_join(sample_metadata,by=join_by(sample==sample)) %>%
+    mutate(genus=factor(genus, levels=rev(genus_summary_sort %>% pull(genus)))) %>%
+    filter(relabun > 0) %>%
+    ggplot(aes(x=relabun, y=genus, group=genus, color=phylum)) +
+        scale_color_manual(values=phylum_colors) +
+        geom_jitter(alpha=0.5) + 
+        facet_grid(.~treatment)+
+        theme_minimal() + 
+        labs(y="Family", x="Relative abundance", color="Phylum")
+```
+
+### Salmonella enterica
+
+```{r taxonomy_salmonella_summary, warning=FALSE, comments="", message=FALSE}
+salmonella_summary <- genome_counts_filt %>%
+  mutate_at(vars(-genome),~./sum(.)) %>% #apply TSS nornalisation
+  pivot_longer(-genome, names_to = "sample", values_to = "count") %>% #reduce to minimum number of columns
+  left_join(sample_metadata, by = join_by(sample == sample)) %>% #append sample metadata
+  left_join(genome_metadata, by = join_by(genome == genome)) %>% #append genome metadata
+  filter(genome=="GPB:bin_000051") %>%
+  #group_by(sample, species, day, treatment) %>%
+  #summarise(relabun=sum(count), .groups="drop") %>%
+  filter(species != "s__")
+
+salmonella_summary %>%
+    select(-species) %>%
+    filter(treatment != "TG0") %>%
+    group_by(day, treatment) %>%
+    summarise(mean=mean(count, na.rm=T),sd=sd(count, na.rm=T)) %>%
+    mutate(salmonella=paste0(mean * 100," ± ", sd*100)) %>%
+    select(-c(mean,sd)) %>%
+    pivot_wider(names_from = "day", values_from = "salmonella") %>%
+    tt()
+```
+
+### Probiotics
+
+```{r taxonomy_enterococcus_summary, warning=FALSE, comments="", message=FALSE}
+genome_counts_filt %>%
+  mutate_at(vars(-genome),~./sum(.)) %>%
+  pivot_longer(-genome, names_to = "sample", values_to = "count") %>%
+  left_join(sample_metadata, by = join_by(sample == sample)) %>% 
+  left_join(genome_metadata, by = join_by(genome == genome)) %>% 
+  filter(genome %in% c("GEXTRA:bin_000001","GEXTRA:bin_000002","GEXTRA:bin_000004","GPB:bin_000025","GEXTRA:bin_000006")) %>%
+    select(-genus) %>%
+    filter(treatment != "TG0") %>%
+    group_by(day, treatment) %>%
+    summarise(mean=mean(count, na.rm=T),sd=sd(count, na.rm=T)) %>%
+    mutate(salmonella=paste0(mean * 100," ± ", sd*100)) %>%
+    select(-c(mean,sd)) %>%
+    pivot_wider(names_from = "day", values_from = "salmonella") %>%
+    tt()
+```
+
+```{r taxonomy_ligilactobacillus_summary, warning=FALSE, comments="", message=FALSE}
+genome_counts_filt %>%
+  mutate_at(vars(-genome),~./sum(.)) %>%
+  pivot_longer(-genome, names_to = "sample", values_to = "count") %>%
+  left_join(sample_metadata, by = join_by(sample == sample)) %>% 
+  left_join(genome_metadata, by = join_by(genome == genome)) %>% 
+  filter(species=="s__Ligilactobacillus salivarius") %>%
+  filter(species != "s__") %>%
+    select(-species) %>%
+    filter(treatment != "TG0") %>%
+    group_by(day, treatment) %>%
+    summarise(mean=mean(count, na.rm=T),sd=sd(count, na.rm=T)) %>%
+    mutate(salmonella=paste0(mean * 100," ± ", sd*100)) %>%
+    select(-c(mean,sd)) %>%
+    pivot_wider(names_from = "day", values_from = "salmonella") %>%
+    tt()
+```
+
+```{r taxonomy_bifidobacterium_summary, warning=FALSE, comments="", message=FALSE}
+genome_counts_filt %>%
+  mutate_at(vars(-genome),~./sum(.)) %>%
+  pivot_longer(-genome, names_to = "sample", values_to = "count") %>%
+  left_join(sample_metadata, by = join_by(sample == sample)) %>% 
+  left_join(genome_metadata, by = join_by(genome == genome)) %>% 
+  filter(species=="s__Bifidobacterium animalis") %>%
+  filter(species != "s__") %>%
+    select(-species) %>%
+    filter(treatment != "TG0") %>%
+    group_by(day, treatment) %>%
+    summarise(mean=mean(count, na.rm=T),sd=sd(count, na.rm=T)) %>%
+    mutate(salmonella=paste0(mean * 100," ± ", sd*100)) %>%
+    select(-c(mean,sd)) %>%
+    pivot_wider(names_from = "day", values_from = "salmonella") %>%
+    tt()
+```
+
+```{r taxonomy_limosilactobacillus_summary, warning=FALSE, comments="", message=FALSE}
+genome_counts_filt %>%
+  mutate_at(vars(-genome),~./sum(.)) %>%
+  pivot_longer(-genome, names_to = "sample", values_to = "count") %>%
+  left_join(sample_metadata, by = join_by(sample == sample)) %>% 
+  left_join(genome_metadata, by = join_by(genome == genome)) %>% 
+  filter(species=="s__Limosilactobacillus reuteri") %>%
+  filter(species != "s__") %>%
+    select(-species) %>%
+    filter(treatment != "TG0") %>%
+    group_by(day, treatment) %>%
+    summarise(mean=mean(count, na.rm=T),sd=sd(count, na.rm=T)) %>%
+    mutate(salmonella=paste0(mean * 100," ± ", sd*100)) %>%
+    select(-c(mean,sd)) %>%
+    pivot_wider(names_from = "day", values_from = "salmonella") %>%
+    tt()
+```
+
+## Functional overview 
+
+```{r function_ordination_pcoa_plot_treatment_time, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
+genome_counts_filt %>%
+  mutate_at(vars(-genome),~./sum(.)) %>%
+  pivot_longer(-genome, names_to = "sample", values_to = "count") %>%
+  left_join(sample_metadata, by = join_by(sample == sample)) %>% 
+  filter(!is.na(day)) %>% 
+  group_by(genome,treatment,day) %>% 
+  summarise(count=mean(count)) %>% 
+  left_join(gift_pcoa_vectors %>% rownames_to_column(var="genome"), by="genome") %>%
+  left_join(genome_metadata, by="genome") %>%
+  ggplot() +
+      scale_color_manual(values=order_colors)+
+
+      #genome positions
+      geom_point(aes(x=Axis.1,y=Axis.2, color=order, size=count), 
+                 alpha=0.8, shape=16) +
+      #scale_color_manual(values=phylum_colors) +
+      scale_size_continuous(range = c(0,10)) +
+      #loading positions
+
+     #Primary and secondary scale adjustments
+     scale_x_continuous(name = paste0("PCoA1 (",round(gift_pcoa_rel_eigen[1]*100, digits = 2), " %)"),
+                      sec.axis = sec_axis(~ . / scale, name = "Loadings on PCoA1")
+            ) +
+     scale_y_continuous(name = paste0("PCoA2 (",round(gift_pcoa_rel_eigen[2]*100, digits = 2), " %)"),
+                      sec.axis = sec_axis(~ . / scale, name = "Loadings on PCoA2")
+            ) +
+    facet_grid(treatment ~ day) +
+    theme_linedraw() + 
+    theme(legend.position = "none")
+
+```
+
+```{r function_ordination_pcoa_plot_treatment_time_mci, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
+genome_counts_filt %>%
+  mutate_at(vars(-genome),~./sum(.)) %>%
+  pivot_longer(-genome, names_to = "sample", values_to = "count") %>%
+  left_join(sample_metadata, by = join_by(sample == sample)) %>% 
+  filter(!is.na(day)) %>% 
+  group_by(genome,treatment,day) %>% 
+  summarise(count=mean(count)) %>% 
+  left_join(gift_pcoa_vectors %>% rownames_to_column(var="genome"), by="genome") %>%
+  left_join(genome_metadata, by="genome") %>%
+  ggplot(aes(x=Axis.1, y=count, group=treatment, color=treatment)) +
+        scale_color_manual(values=treatment_colors)+
+        geom_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE) +
+        facet_grid(. ~ day) +
+        theme_minimal() + 
+        theme(legend.position = "none")
+```
+
+```{r function_ordination_pcoa_plot_treatment_time_functions, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
+genome_gifts %>%
+    to.elements(., GIFT_db) %>% 
+    to.functions(., GIFT_db) %>% 
+    to.community(., genome_counts_filt %>%
+                    mutate_at(vars(-genome),~./sum(.)) %>%
+                   column_to_rownames(var="genome"), GIFT_db) %>% 
+    as.data.frame() %>% 
+    rownames_to_column(var="sample") %>% 
+    pivot_longer(-sample, names_to = "trait", values_to = "value") %>%
+    left_join(sample_metadata, by = join_by(sample == sample)) %>% 
+    group_by(trait,treatment,day) %>% 
+    summarise(value=mean(value)) %>% 
+    mutate(trait=factor(trait)) %>% 
+    filter(treatment != "TG0") %>% 
+    ggplot(aes(x=fct_reorder(trait, desc(value)), y=value, fill=trait)) +
+        geom_bar(stat="identity", width=1) +
+    facet_grid(treatment ~ day) +
+    theme_minimal() + 
+    theme(legend.position = "none")
+```
+
+```{r function_ordination_pcoa_plot_treatment_time_mci2, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
+genome_gifts %>%
+    to.elements(., GIFT_db) %>% 
+    to.functions(., GIFT_db) %>% 
+    to.community(., genome_counts_filt %>%
+                    mutate_at(vars(-genome),~./sum(.)) %>%
+                   column_to_rownames(var="genome"), GIFT_db) %>% 
+    as.data.frame() %>% 
+    rownames_to_column(var="sample") %>% 
+    pivot_longer(-sample, names_to = "trait", values_to = "value") %>%
+    left_join(sample_metadata, by = join_by(sample == sample)) %>% 
+    group_by(sample,treatment,day) %>% 
+    summarise(value=mean(value)) %>% 
+    filter(treatment != "TG0") %>% 
+    ggplot(aes(x=day, y=value, group=day, fill=treatment, color=treatment)) +
+        geom_boxplot() +
+        geom_jitter() +
+        scale_color_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+      scale_fill_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE50", "#6A9AC350","#97D8C450","#AFD69950","#F3B94250")) +
+    facet_grid(treatment ~ .) +
+    theme_linedraw() + 
+    theme(legend.position = "none")
+```

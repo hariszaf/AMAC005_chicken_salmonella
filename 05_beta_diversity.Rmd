@@ -1,0 +1,312 @@
+# Beta diversity
+
+```{r load_data_beta}
+load("data/data.Rdata")
+```
+
+```{r beta_div, comment="", message=FALSE, warning=FALSE}
+beta_q0n <- genome_counts_filt %>%
+  column_to_rownames(., "genome") %>%
+  filter(rowSums(. != 0, na.rm = TRUE) > 0) %>%
+  select_if(~!all(. == 0)) %>%
+  hillpair(., q = 0)
+
+beta_q1n <- genome_counts_filt %>%
+  column_to_rownames(., "genome") %>%
+  filter(rowSums(. != 0, na.rm = TRUE) > 0) %>%
+  select_if(~!all(. == 0)) %>%
+  hillpair(., q = 1)
+
+beta_q1p <- genome_counts_filt %>%
+  column_to_rownames(., "genome") %>%
+  filter(rowSums(. != 0, na.rm = TRUE) > 0) %>%
+  select_if(~!all(. == 0)) %>%
+  hillpair(., q = 1, tree = keep.tip(genome_tree,tip=rownames(.)))
+
+dist <- genome_gifts %>%
+    to.elements(., GIFT_db) %>%
+    traits2dist(., method="gower")
+
+beta_q1f <- genome_counts_filt %>%
+  column_to_rownames(., "genome") %>%
+  filter(rowSums(. != 0, na.rm = TRUE) > 0) %>%
+  select_if(~!all(. == 0)) %>%
+  hillpair(., q = 1, dist = dist[rownames(.), rownames(.)])
+
+save(beta_q0n, beta_q1n, beta_q1p, file="data/beta_diversity.Rdata")
+```
+
+## Permanova
+
+```{r load_beta, comment="", message=FALSE, warning=FALSE}
+load("data/beta_diversity.Rdata")
+```
+
+```{r permanova, comment="", message=FALSE, warning=FALSE}
+
+#Richness
+betadisper(beta_q0n$C, sample_metadata$treatment[sample_metadata$treatment != "TG0"]) %>% permutest(., pairwise = TRUE) 
+adonis2(beta_q0n$C ~ treatment * day, 
+        data = sample_metadata %>% filter(treatment != "TG0") %>% arrange(match(sample,labels(beta_q1n$C))), 
+        permutations = 999) %>%
+        broom::tidy() %>%
+        tt()
+
+#Neutral diversity
+betadisper(beta_q1n$C, sample_metadata$treatment[sample_metadata$treatment != "TG0"]) %>% permutest(., pairwise = TRUE) 
+adonis2(beta_q1n$C ~ treatment * day, 
+        data = sample_metadata %>% filter(treatment != "TG0") %>% arrange(match(sample,labels(beta_q1n$C))), 
+        permutations = 999) %>%
+        broom::tidy() %>%
+        tt()
+
+
+#Phylogenetic diversity
+betadisper(beta_q1p$C, sample_metadata$treatment[sample_metadata$treatment != "TG0"]) %>% permutest(., pairwise = TRUE) 
+adonis2(beta_q1p$C ~ treatment * day, 
+        data = sample_metadata %>% filter(treatment != "TG0") %>% arrange(match(sample,labels(beta_q1p$C))), 
+        permutations = 999) %>%
+        broom::tidy() %>%
+        tt()
+
+
+#Functional diversity
+betadisper(beta_q1f$C, sample_metadata$treatment[sample_metadata$treatment != "TG0"]) %>% permutest(., pairwise = TRUE) 
+adonis2(beta_q1f$C ~ treatment * day, 
+        data = sample_metadata %>% filter(treatment != "TG0") %>% arrange(match(sample,labels(beta_q1f$C))), 
+        permutations = 999) %>%
+        broom::tidy() %>%
+        tt()
+```
+
+## Richness
+
+```{r beta_div_nmds_richness, comment="", message=FALSE, warning=FALSE, fig.height=7, fig.width=10, fig.fullwidth=TRUE}
+nmds_richness <- beta_q0n$S %>%
+  vegan::metaMDS(., trymax = 500, k = 2, trace=0) %>%
+  vegan::scores() %>%
+  as_tibble(., rownames = "sample") %>%
+  dplyr::left_join(sample_metadata, by = join_by(sample == sample)) %>%
+  group_by(treatment,day) %>%
+  mutate(x_cen = median(NMDS1, na.rm = TRUE)) %>%
+  mutate(y_cen = median(NMDS2, na.rm = TRUE)) %>%
+  ungroup() 
+```
+
+### All time points
+
+```{r beta_div_nmds_richness_plot_all, comment="", message=FALSE, warning=FALSE, fig.height=7, fig.width=10, fig.fullwidth=TRUE}
+nmds_richness %>%
+  ggplot(aes(x = NMDS1, y = NMDS2, color = treatment, fill = treatment, shape = as.factor(day))) +
+    scale_color_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+    scale_fill_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE50", "#6A9AC350","#97D8C450","#AFD69950","#F3B94250")) +
+    scale_shape_manual(name="Day",
+          breaks=c(7,14,21,28,35),
+          values=c(21,22,23,24,25)) +
+    geom_point(size = 4) +
+    #   stat_ellipse(aes(color = beta_q1n_nmds$Groups))+
+    geom_segment(aes(x = x_cen, y = y_cen, xend = NMDS1, yend = NMDS2), alpha = 0.9) +
+    theme_classic() +
+    theme(
+      axis.text.x = element_text(size = 12),
+      axis.text.y = element_text(size = 12),
+      axis.title = element_text(size = 20, face = "bold"),
+      axis.text = element_text(face = "bold", size = 18),
+      panel.background = element_blank(),
+      axis.line = element_line(size = 0.5, linetype = "solid", colour = "black"),
+      legend.text = element_text(size = 16),
+      legend.title = element_text(size = 18),
+      legend.position = "right", legend.box = "vertical"
+    ) +
+    labs(shape="Individual")
+```
+
+```{r beta_div_nmds_richness_trajectories, comment="", message=FALSE, warning=FALSE, fig.height=7, fig.width=10, fig.fullwidth=TRUE}
+nmds_richness %>%
+  select(x_cen,y_cen,treatment,day) %>% 
+  unique() %>% 
+  arrange(treatment,day) %>% 
+  ggplot(aes(x = x_cen, y = y_cen, color = treatment, fill = treatment)) +
+    scale_color_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+    scale_fill_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE50", "#6A9AC350","#97D8C450","#AFD69950","#F3B94250")) +
+    geom_point(size = 4) +
+    geom_path(aes(xend=c(tail(x_cen, n=-1), NA), 
+                  yend=c(tail(y_cen, n=-1), NA), 
+                  group=treatment),
+                  size = 2,
+                  alpha=0.5,
+                  arrow=arrow(type = "closed", length=unit(0.5,"cm"))
+      ) +
+    #   stat_ellipse(aes(color = beta_q1n_nmds$Groups))+
+    #geom_segment(aes(x = x_cen, y = y_cen, xend = NMDS1, yend = NMDS2), alpha = 0.9) +
+    theme_classic() +
+    theme(
+      axis.text.x = element_text(size = 12),
+      axis.text.y = element_text(size = 12),
+      axis.title = element_text(size = 20, face = "bold"),
+      axis.text = element_text(face = "bold", size = 18),
+      panel.background = element_blank(),
+      axis.line = element_line(size = 0.5, linetype = "solid", colour = "black"),
+      legend.text = element_text(size = 16),
+      legend.title = element_text(size = 18),
+      legend.position = "right", legend.box = "vertical"
+    ) +
+    labs(shape="Individual")
+```
+
+```{r beta_div_nmds_richness_plot_d7, comment="", message=FALSE, warning=FALSE, fig.height=7, fig.width=10, fig.fullwidth=TRUE}
+nmds_richness %>%
+  filter(day == 7) %>% 
+  ggplot(aes(x = NMDS1, y = NMDS2, color = treatment, fill = treatment, shape = as.factor(day))) +
+    scale_color_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+    scale_fill_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE50", "#6A9AC350","#97D8C450","#AFD69950","#F3B94250")) +
+    scale_shape_manual(name="Day",
+          breaks=c(7,14,21,28,35),
+          values=c(21,22,23,24,25)) +
+    geom_point(size = 4) +
+    #   stat_ellipse(aes(color = beta_q1n_nmds$Groups))+
+    geom_segment(aes(x = x_cen, y = y_cen, xend = NMDS1, yend = NMDS2), alpha = 0.9) +
+    theme_classic() +
+    theme(
+      axis.text.x = element_text(size = 12),
+      axis.text.y = element_text(size = 12),
+      axis.title = element_text(size = 20, face = "bold"),
+      axis.text = element_text(face = "bold", size = 18),
+      panel.background = element_blank(),
+      axis.line = element_line(size = 0.5, linetype = "solid", colour = "black"),
+      legend.text = element_text(size = 16),
+      legend.title = element_text(size = 18),
+      legend.position = "right", legend.box = "vertical"
+    ) +
+    labs(shape="Individual")
+```
+## Neutral diversity
+
+```{r beta_div_nmds_neutral, comment="", message=FALSE, warning=FALSE, fig.height=7, fig.width=10, fig.fullwidth=TRUE}
+nmds_neutral <- beta_q1n$S %>%
+  vegan::metaMDS(., trymax = 500, k = 2, trace=0) %>%
+  vegan::scores() %>%
+  as_tibble(., rownames = "sample") %>%
+  dplyr::left_join(sample_metadata, by = join_by(sample == sample)) %>%
+  group_by(treatment,day) %>%
+  mutate(x_cen = median(NMDS1, na.rm = TRUE)) %>%
+  mutate(y_cen = median(NMDS2, na.rm = TRUE)) %>%
+  ungroup() 
+```
+
+### All time points
+
+```{r beta_div_nmds_neutral_all, comment="", message=FALSE, warning=FALSE, fig.height=7, fig.width=10, fig.fullwidth=TRUE}
+nmds_neutral %>%
+  ggplot(aes(x = NMDS1, y = NMDS2, color = treatment, fill = treatment, shape = as.factor(day))) +
+    scale_color_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+    scale_fill_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE50", "#6A9AC350","#97D8C450","#AFD69950","#F3B94250")) +
+    scale_shape_manual(name="Day",
+          breaks=c(7,14,21,28,35),
+          values=c(21,22,23,24,25)) +
+    geom_point(size = 4) +
+    #   stat_ellipse(aes(color = beta_q1n_nmds$Groups))+
+    geom_segment(aes(x = x_cen, y = y_cen, xend = NMDS1, yend = NMDS2), alpha = 0.9) +
+    theme_classic() +
+    theme(
+      axis.text.x = element_text(size = 12),
+      axis.text.y = element_text(size = 12),
+      axis.title = element_text(size = 20, face = "bold"),
+      axis.text = element_text(face = "bold", size = 18),
+      panel.background = element_blank(),
+      axis.line = element_line(size = 0.5, linetype = "solid", colour = "black"),
+      legend.text = element_text(size = 16),
+      legend.title = element_text(size = 18),
+      legend.position = "right", legend.box = "vertical"
+    ) +
+    labs(shape="Individual")
+```
+
+### Trajectories
+
+```{r beta_div_nmds_neutral_trajectories, comment="", message=FALSE, warning=FALSE, fig.height=7, fig.width=10, fig.fullwidth=TRUE}
+nmds_neutral %>%
+  select(x_cen,y_cen,treatment,day) %>% 
+  unique() %>% 
+  arrange(treatment,day) %>% 
+  ggplot(aes(x = x_cen, y = y_cen, color = treatment, fill = treatment)) +
+    scale_color_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+    scale_fill_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE50", "#6A9AC350","#97D8C450","#AFD69950","#F3B94250")) +
+    geom_point(size = 4) +
+    geom_path(aes(xend=c(tail(x_cen, n=-1), NA), 
+                  yend=c(tail(y_cen, n=-1), NA), 
+                  group=treatment),
+                  size = 2,
+                  alpha=0.5,
+                  arrow=arrow(type = "closed", length=unit(0.5,"cm"))
+      ) +
+    #   stat_ellipse(aes(color = beta_q1n_nmds$Groups))+
+    #geom_segment(aes(x = x_cen, y = y_cen, xend = NMDS1, yend = NMDS2), alpha = 0.9) +
+    theme_classic() +
+    theme(
+      axis.text.x = element_text(size = 12),
+      axis.text.y = element_text(size = 12),
+      axis.title = element_text(size = 20, face = "bold"),
+      axis.text = element_text(face = "bold", size = 18),
+      panel.background = element_blank(),
+      axis.line = element_line(size = 0.5, linetype = "solid", colour = "black"),
+      legend.text = element_text(size = 16),
+      legend.title = element_text(size = 18),
+      legend.position = "right", legend.box = "vertical"
+    ) +
+    labs(shape="Individual")
+```
+
+## Day 7
+
+```{r beta_div_nmds_neutral_d7, comment="", message=FALSE, warning=FALSE, fig.height=7, fig.width=10, fig.fullwidth=TRUE}
+nmds_neutral %>%
+  filter(day == 7) %>% 
+  ggplot(aes(x = NMDS1, y = NMDS2, color = treatment, fill = treatment, shape = as.factor(day))) +
+    scale_color_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+    scale_fill_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE50", "#6A9AC350","#97D8C450","#AFD69950","#F3B94250")) +
+    scale_shape_manual(name="Day",
+          breaks=c(7,14,21,28,35),
+          values=c(21,22,23,24,25)) +
+    geom_point(size = 4) +
+    #   stat_ellipse(aes(color = beta_q1n_nmds$Groups))+
+    geom_segment(aes(x = x_cen, y = y_cen, xend = NMDS1, yend = NMDS2), alpha = 0.9) +
+    theme_classic() +
+    theme(
+      axis.text.x = element_text(size = 12),
+      axis.text.y = element_text(size = 12),
+      axis.title = element_text(size = 20, face = "bold"),
+      axis.text = element_text(face = "bold", size = 18),
+      panel.background = element_blank(),
+      axis.line = element_line(size = 0.5, linetype = "solid", colour = "black"),
+      legend.text = element_text(size = 16),
+      legend.title = element_text(size = 18),
+      legend.position = "right", legend.box = "vertical"
+    ) +
+    labs(shape="Individual")
+```
+

@@ -1,0 +1,302 @@
+## Alpha diversity
+
+```{r load_data_alpha}
+load("data/data.Rdata")
+```
+
+```{r alpha_div, comment="", message=FALSE, warning=FALSE}
+# Calculate Hill numbers
+richness <- genome_counts_filt %>%
+  column_to_rownames(var = "genome") %>%
+  dplyr::select(where(~ !all(. == 0))) %>%
+  hilldiv(., q = 0) %>%
+  t() %>%
+  as.data.frame() %>%
+  dplyr::rename(richness = 1) %>%
+  rownames_to_column(var = "sample")
+
+neutral <- genome_counts_filt %>%
+  column_to_rownames(var = "genome") %>%
+  dplyr::select(where(~ !all(. == 0))) %>%
+  hilldiv(., q = 1) %>%
+  t() %>%
+  as.data.frame() %>%
+  dplyr::rename(neutral = 1) %>%
+  rownames_to_column(var = "sample")
+
+phylogenetic <- genome_counts_filt %>%
+  column_to_rownames(var = "genome") %>%
+  dplyr::select(where(~ !all(. == 0))) %>%
+  hilldiv(., q = 1, tree = genome_tree) %>%
+  t() %>%
+  as.data.frame() %>%
+  dplyr::rename(phylogenetic = 1) %>%
+  rownames_to_column(var = "sample")
+
+# Aggregate basal GIFT into elements
+dist <- genome_gifts %>%
+  to.elements(., GIFT_db) %>%
+  traits2dist(., method = "gower")
+
+# Remove genomes with no hits
+dist_filt <- dist[!rownames(dist) %in% c("GEXTRA:bin_000002", "GEXTRA:bin_000006"), 
+                               !colnames(dist) %in% c("GEXTRA:bin_000002", "GEXTRA:bin_000006")]
+
+functional <- genome_counts_filt %>%
+  arrange(match(genome,rownames(dist))) %>%
+  filter(!genome %in% c("GEXTRA:bin_000002", "GEXTRA:bin_000006")) %>% 
+  column_to_rownames(var = "genome") %>%
+  dplyr::select(where(~ !all(. == 0))) %>%
+  hilldiv(., q = 1, dist = dist_filt) %>%
+  t() %>%
+  as.data.frame() %>%
+  dplyr::rename(functional = 1) %>%
+  rownames_to_column(var = "sample") %>%
+  mutate(functional = if_else(is.nan(functional), 1, functional))
+
+# Merge all metrics
+alpha_div <- richness %>%
+  full_join(neutral, by = join_by(sample == sample)) %>%
+  full_join(phylogenetic, by = join_by(sample == sample)) %>%
+  full_join(functional, by = join_by(sample == sample))
+```
+
+```{r alpha_div_boxplot, comment="", message=FALSE, warning=FALSE, fig.height=3, fig.width=10, fig.fullwidth=TRUE}
+
+#Richness
+alpha_div %>%
+  pivot_longer(-sample, names_to = "metric", values_to = "value") %>%
+  left_join(., sample_metadata, by = join_by(sample == sample)) %>%
+  filter(metric=="richness") %>%
+      ggplot(aes(y = value, x = day, group=day, color=treatment, fill=treatment)) +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(alpha=0.5) +
+      scale_color_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+      scale_fill_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE50", "#6A9AC350","#97D8C450","#AFD69950","#F3B94250")) +
+      facet_grid(treatment ~ ., scales = "fixed") +
+      coord_cartesian(xlim = c(1, NA)) +
+      theme_classic() +
+      theme(
+        strip.background = element_blank(),
+        panel.grid.minor.x = element_line(size = .1, color = "grey"),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1)
+      )
+
+#Neutral
+alpha_div %>%
+  pivot_longer(-sample, names_to = "metric", values_to = "value") %>%
+  left_join(., sample_metadata, by = join_by(sample == sample)) %>%
+  filter(metric=="neutral") %>%
+      ggplot(aes(y = value, x = day, group=day, color=treatment, fill=treatment)) +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(alpha=0.5) +
+      scale_color_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+      scale_fill_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE50", "#6A9AC350","#97D8C450","#AFD69950","#F3B94250")) +
+      facet_grid(treatment ~ ., scales = "fixed") +
+      theme_classic() +
+      theme(
+        strip.background = element_blank(),
+        panel.grid.minor.x = element_line(size = .1, color = "grey"),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1)
+      ) +
+    theme_linedraw() + 
+    theme(legend.position = "none")
+
+#Phylogenetic
+alpha_div %>%
+  pivot_longer(-sample, names_to = "metric", values_to = "value") %>%
+  left_join(., sample_metadata, by = join_by(sample == sample)) %>%
+  filter(metric=="phylogenetic") %>%
+      ggplot(aes(y = value, x = day, group=day, color=treatment, fill=treatment)) +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(alpha=0.5) +
+      scale_color_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+      scale_fill_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE50", "#6A9AC350","#97D8C450","#AFD69950","#F3B94250")) +
+      facet_grid(treatment ~ ., scales = "fixed") +
+      coord_cartesian(xlim = c(1, NA)) +
+      theme_classic() +
+      theme(
+        strip.background = element_blank(),
+        panel.grid.minor.x = element_line(size = .1, color = "grey"),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1)
+      )
+
+#Functional
+alpha_div %>%
+  pivot_longer(-sample, names_to = "metric", values_to = "value") %>%
+  left_join(., sample_metadata, by = join_by(sample == sample)) %>%
+  filter(metric=="functional") %>%
+      ggplot(aes(y = value, x = treatment, group=treatment, color=treatment, fill=treatment)) +
+      geom_boxplot(outlier.shape = NA) +
+      geom_jitter(alpha=0.5) +
+      scale_color_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+      scale_fill_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE50", "#6A9AC350","#97D8C450","#AFD69950","#F3B94250")) +
+      facet_wrap(. ~ day, scales = "fixed", ncol=5) +
+      coord_cartesian(xlim = c(1, NA)) +
+      theme_classic() +
+      theme(
+        strip.background = element_blank(),
+        panel.grid.minor.x = element_line(size = .1, color = "grey"),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1)
+      )
+```
+
+```{r alpha_div_trajectories, comment="", message=FALSE, warning=FALSE, fig.height=3, fig.width=10, fig.fullwidth=TRUE}
+#Richness
+alpha_div %>%
+  pivot_longer(-sample, names_to = "metric", values_to = "value") %>%
+  left_join(., sample_metadata, by = join_by(sample == sample)) %>%
+  filter(metric=="richness") %>%
+      ggplot(aes(y = value, x = day, group=treatment, color=treatment, fill=treatment)) +
+      geom_point() +
+      geom_smooth(method="loess",se=TRUE)+
+      scale_color_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+      scale_fill_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE50", "#6A9AC350","#97D8C450","#AFD69950","#F3B94250")) +
+      coord_cartesian(xlim = c(7, 35)) +
+      theme_classic() +
+      theme(
+        strip.background = element_blank(),
+        panel.grid.minor.x = element_line(size = .1, color = "grey"),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1)
+      )
+
+alpha_div %>%
+  pivot_longer(-sample, names_to = "metric", values_to = "value") %>%
+  left_join(., sample_metadata, by = join_by(sample == sample)) %>%
+  filter(metric=="neutral") %>%
+      ggplot(aes(y = value, x = day, group=treatment, color=treatment, fill=treatment)) +
+      geom_point() +
+      geom_smooth(method="loess",se=TRUE)+
+      scale_color_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+      scale_fill_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE50", "#6A9AC350","#97D8C450","#AFD69950","#F3B94250")) +
+      coord_cartesian(xlim = c(7, 35)) +
+      theme_classic() +
+      theme(
+        strip.background = element_blank(),
+        panel.grid.minor.x = element_line(size = .1, color = "grey"),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1)
+      )
+
+alpha_div %>%
+  pivot_longer(-sample, names_to = "metric", values_to = "value") %>%
+  left_join(., sample_metadata, by = join_by(sample == sample)) %>%
+  filter(metric=="phylogenetic") %>%
+      ggplot(aes(y = value, x = day, group=treatment, color=treatment, fill=treatment)) +
+      geom_point() +
+      geom_smooth(method="loess",se=TRUE)+
+      scale_color_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+      scale_fill_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE50", "#6A9AC350","#97D8C450","#AFD69950","#F3B94250")) +
+      coord_cartesian(xlim = c(7, 35)) +
+      theme_classic() +
+      theme(
+        strip.background = element_blank(),
+        panel.grid.minor.x = element_line(size = .1, color = "grey"),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1)
+      )
+
+alpha_div %>%
+  pivot_longer(-sample, names_to = "metric", values_to = "value") %>%
+  left_join(., sample_metadata, by = join_by(sample == sample)) %>%
+  filter(metric=="functional") %>%
+      ggplot(aes(y = value, x = day, group=treatment, color=treatment, fill=treatment)) +
+      geom_point() +
+      geom_smooth(method="loess",se=TRUE)+
+      scale_color_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+      scale_fill_manual(name="Treatment",
+          breaks=c("TG1","TG2","TG3","TG4","TG5"),
+          values=c("#4059AE50", "#6A9AC350","#97D8C450","#AFD69950","#F3B94250")) +
+      coord_cartesian(xlim = c(7, 35)) +
+      theme_classic() +
+      theme(
+        strip.background = element_blank(),
+        panel.grid.minor.x = element_line(size = .1, color = "grey"),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1)
+      )
+```
+
+## Alpha diversity vs. MCI
+
+```{r alpha_div_vs mci, comment="", message=FALSE, warning=FALSE, fig.height=3, fig.width=10, fig.fullwidth=TRUE}
+
+alpha <- alpha_div %>%
+  pivot_longer(-sample, names_to = "metric", values_to = "alpha") %>%
+  left_join(., sample_metadata, by = join_by(sample == sample)) %>%
+  filter(metric=="richness") %>%
+  select(sample,alpha)
+
+mci <- genome_gifts %>%
+    to.elements(., GIFT_db) %>% 
+    to.functions(., GIFT_db) %>% 
+    to.community(., genome_counts_filt %>%
+                    mutate_at(vars(-genome),~./sum(.)) %>%
+                   column_to_rownames(var="genome"), GIFT_db) %>% 
+    as.data.frame() %>% 
+    rownames_to_column(var="sample") %>% 
+    pivot_longer(-sample, names_to = "trait", values_to = "mci") %>%
+    left_join(sample_metadata, by = join_by(sample == sample)) %>% 
+    group_by(sample,treatment,day) %>% 
+    summarise(mci=mean(mci)) %>% 
+    filter(treatment != "TG0") 
+
+inner_join(alpha,mci,by="sample") %>%
+      ggplot(aes(y = alpha, x = mci)) +
+      geom_smooth(method = "glm", 
+                  formula = y~x, 
+                  method.args = list(family = gaussian(link = 'log')),
+                  color="#999999") +
+      geom_point(aes(color=treatment)) +
+      scale_color_manual(name="Treatment",
+      breaks=c("TG1","TG2","TG3","TG4","TG5"),
+      values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+      theme_classic() + 
+        theme(legend.position = "none")
+
+```
+
+

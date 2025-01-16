@@ -1,0 +1,86 @@
+---
+title: "3D'omics | Poultry Salmonella trial"
+subtitle: "Manuscript in prep"
+author:
+  - Antton Alberdi^[University of Copenhagen, antton.alberdi@sund.ku.dk]
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+url: https://3d-omics.github.io/AMAC005_salmonella_trial
+description: |
+  Data analysis code for the study on the effect of probiotics on Salmonella infection in broiler chicken.
+link-citations: yes
+github-repo: 3d-omics/AMAC005_salmonella_trial
+---
+
+```{r knitr_opts, echo=FALSE}
+knitr::opts_chunk$set(
+    class.source = "script-source",
+    class.output = "script-output",
+    comment = NA)
+```
+
+# Introduction
+
+This webbook contains all the code used for the study on the effect of probiotics on Salmonella infection in broiler chicken.
+
+## Prepare the R environment
+
+### Environment
+
+To reproduce all the analyses locally, clone this repository in your computer using:
+
+```
+RStudio > New Project > Version Control > Git
+```
+
+And indicating the following git repository:
+
+> https://github.com/3d-omics/AMAC005_salmonella_trial.git
+
+Once the R project has been created, follow the instructions and code chunks shown in this webbook.
+
+### Libraries
+
+The following R packages are required for the data analysis.
+
+```{r load_libraries, warning=FALSE, comments="", message=FALSE}
+# Base
+library(R.utils)
+library(knitr)
+library(tidyverse)
+library(devtools)
+library(tinytable)
+library(broom)
+library(broom.mixed)
+
+# For tree handling
+library(ape)
+library(phyloseq)
+library(phytools)
+
+# For plotting
+library(ggplot2)
+library(ggrepel)
+library(ggpubr)
+library(ggnewscale)
+library(gridExtra)
+library(ggtreeExtra)
+library(ggtree)
+library(ggh4x)
+library(corrplot)
+
+# For statistics
+library(microbiome)
+library(spaa)
+library(vegan)
+library(Rtsne)
+library(geiger)
+library(hilldiv2)
+library(distillR)
+library(ANCOMBC)
+library(lme4)
+library(Hmsc)
+library(igraph)
+```
