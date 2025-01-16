@@ -7,11 +7,11 @@ date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
-url: https://3d-omics.github.io/AMAC005_salmonella_trial
+url: https://3d-omics.github.io/AMAC005_chicken_salmonella
 description: |
   Data analysis code for the study on the effect of probiotics on Salmonella infection in broiler chicken.
 link-citations: yes
-github-repo: 3d-omics/AMAC005_salmonella_trial
+github-repo: 3d-omics/AMAC005_chicken_salmonella
 ---
 
 ```{r knitr_opts, echo=FALSE}
@@ -37,7 +37,7 @@ RStudio > New Project > Version Control > Git
 
 And indicating the following git repository:
 
-> https://github.com/3d-omics/AMAC005_salmonella_trial.git
+> https://github.com/3d-omics/AMAC005_chicken_salmonella.git
 
 Once the R project has been created, follow the instructions and code chunks shown in this webbook.
 
