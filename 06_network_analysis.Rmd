@@ -1,46 +1,63 @@
 # Network analysis
 
+
+```{r load_overall}
+cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_day_14.cx2"
+mag_cor <- adjacency_matrix_frox_cx2(cxFile)
+```
+
+
+
+
 ```{r cor_total, comment="", message=FALSE, warning=FALSE}
-
-mag_cor <- genome_counts_filt %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    t() %>%
-    cor(.,method="pearson")
-
-threshold <- 0.7
-
 #Positive correlations
+threshold <- 0.7
 mag_cor_pos <- ifelse(mag_cor > threshold, 1, 0)
 graph_pos <- graph_from_adjacency_matrix(mag_cor_pos, mode = "undirected", diag = FALSE)
 
 #Node color
-V(graph_pos)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
+V(graph_pos)$color <- tibble(
+    order=genome_metadata$order %>% unique() %>% sort(),
+    color=order_colors
+  ) %>%
+  right_join(genome_metadata, by="order")%>%
   filter(genome %in%  V(graph_pos)$name) %>%
-  select(genome,color) %>%
+  select(genome, color) %>%
   pull(color)
 
-#Node size
-V(graph_pos)$size <- genome_counts_filt %>%
-  mutate_at(vars(-genome),~./sum(.)) %>%
+# Node size, skipping metavars
+missing_nodes <- setdiff(V(graph_pos)$name, genome_counts_filt$genome)
+default_size <- 8  # Choose a default size for all nodes
+
+# Step 2: Calculate sizes only for nodes that are in genome_counts_filt
+sizes <- genome_counts_filt %>%
+  mutate_at(vars(-genome), ~ . / sum(.)) %>%
   rowwise() %>%
   mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-  ungroup() %>% 
-  select(genome,average) %>% 
-  filter(genome %in%  V(graph_pos)$name) %>%
-  arrange(match(genome,V(graph_pos)$name)) %>%
-  mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
+  ungroup() %>%
+  select(genome, average) %>%
+  filter(genome %in% V(graph_pos)$name) %>%
+  arrange(match(genome, V(graph_pos)$name)) %>%
+  mutate(size = scales::rescale(average, to = c(2, 10))) %>%
   pull(size)
+
+# Set a specific size for the missing nodes
+size_vector <- rep(default_size, length(V(graph_pos)$name))  # Start with default sizes for all nodes
+size_vector[V(graph_pos)$name %in% genome_counts_filt$genome] <- sizes  # Assign calculated sizes to present nodes
+V(graph_pos)$size <- size_vector
+
+
+# If you want to set a shape instead of size, use the shape attribute
+V(graph_pos)$shape <- ifelse(V(graph_pos)$name %in% missing_nodes, "square", "circle")  # Or "hexagon"
 
 cluster_pos <- cluster_edge_betweenness(graph_pos)
 
 communities_pos <- split(V(graph_pos)$name, membership(cluster_pos) )%>%
   keep(~ length(.x) > 1)
+```
 
+
+```{r neg_cor}
 #Negative correlations
 mag_cor_neg <- ifelse(mag_cor < -threshold, 1, 0)
 graph_neg <- graph_from_adjacency_matrix(mag_cor_neg, mode = "undirected", diag = FALSE)
@@ -81,7 +98,7 @@ plot(
   vertex.color = V(graph_pos)$color,
   vertex.size = V(graph_pos)$size,
   vertex.label = NA,
-  vertex.frame.color = NA, 
+  vertex.frame.color = NA,
   edge.width = 1,
   mark.groups = communities(cluster_pos) %>% keep(~ length(.x) >= 2),
   mark.col = "#f4f4f4",
@@ -94,7 +111,7 @@ plot(
   vertex.color = V(graph_neg)$color,
   vertex.size = V(graph_neg)$size,
   vertex.label = NA,
-  vertex.frame.color = NA, 
+  vertex.frame.color = NA,
   edge.width = 1,
   mark.groups = communities(cluster_neg) %>% keep(~ length(.x) >= 2),
   mark.col = "#f4f4f4",
