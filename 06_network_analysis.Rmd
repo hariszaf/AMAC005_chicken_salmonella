@@ -1,797 +1,133 @@
 # Network analysis
 
-
 ```{r load_overall}
-cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_day_14.cx2"
-mag_cor <- adjacency_matrix_frox_cx2(cxFile)
+order_colors <- c(
+  "#08D1D1","#BF7022","#2EBC82","#2E91BC","#2E5ABC","#09CE8D","#E0A608","#097265","#AB56D8","#0AA01F","#274945","#4E397A","#B3265B",
+  "#2EBC45","#7F4561","#58BC2E","#BC2EA1","#6A52C6","#AD8D8D", "#CFE71F")
+
+# order_colors <- c(
+#   "#08D1D1","#BF7022","#2EBC82","#2E91BC","#2E5ABC","#09CE8D","#E0A608","#097265","#AB56D8","#0AA01F","#274945","#4E397A","#B3265B",
+#   "#2EBC45","#7F4561","#58BC2E","#BC2EA1","#6A52C6","#AD8D8D")
+
 ```
 
 
+## Overall 
 
 
-```{r cor_total, comment="", message=FALSE, warning=FALSE}
-#Positive correlations
-threshold <- 0.7
-mag_cor_pos <- ifelse(mag_cor > threshold, 1, 0)
-graph_pos <- graph_from_adjacency_matrix(mag_cor_pos, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_pos)$color <- tibble(
-    order=genome_metadata$order %>% unique() %>% sort(),
-    color=order_colors
-  ) %>%
-  right_join(genome_metadata, by="order")%>%
-  filter(genome %in%  V(graph_pos)$name) %>%
-  select(genome, color) %>%
-  pull(color)
-
-# Node size, skipping metavars
-missing_nodes <- setdiff(V(graph_pos)$name, genome_counts_filt$genome)
-default_size <- 8  # Choose a default size for all nodes
-
-# Step 2: Calculate sizes only for nodes that are in genome_counts_filt
-sizes <- genome_counts_filt %>%
-  mutate_at(vars(-genome), ~ . / sum(.)) %>%
-  rowwise() %>%
-  mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-  ungroup() %>%
-  select(genome, average) %>%
-  filter(genome %in% V(graph_pos)$name) %>%
-  arrange(match(genome, V(graph_pos)$name)) %>%
-  mutate(size = scales::rescale(average, to = c(2, 10))) %>%
-  pull(size)
-
-# Set a specific size for the missing nodes
-size_vector <- rep(default_size, length(V(graph_pos)$name))  # Start with default sizes for all nodes
-size_vector[V(graph_pos)$name %in% genome_counts_filt$genome] <- sizes  # Assign calculated sizes to present nodes
-V(graph_pos)$size <- size_vector
-
-
-# If you want to set a shape instead of size, use the shape attribute
-V(graph_pos)$shape <- ifelse(V(graph_pos)$name %in% missing_nodes, "square", "circle")  # Or "hexagon"
-
-cluster_pos <- cluster_edge_betweenness(graph_pos)
-
-communities_pos <- split(V(graph_pos)$name, membership(cluster_pos) )%>%
-  keep(~ length(.x) > 1)
+```{r overvall}
+cxFile  <- "microbetag_analysis/microbetag_nets/overall.cx"
+overall = process_cxfile(cxFile, "overall", genome_metadata, genome_counts_filt, order_colors)
 ```
 
-
-```{r neg_cor}
-#Negative correlations
-mag_cor_neg <- ifelse(mag_cor < -threshold, 1, 0)
-graph_neg <- graph_from_adjacency_matrix(mag_cor_neg, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_neg)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_neg)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_neg)$size <- genome_counts_filt %>%
-  mutate_at(vars(-genome),~./sum(.)) %>%
-  rowwise() %>%
-  mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-  ungroup() %>% 
-  select(genome,average) %>% 
-  filter(genome %in%  V(graph_neg)$name) %>%
-  arrange(match(genome,V(graph_neg)$name)) %>%
-  mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-  pull(size)
-
-cluster_neg <- cluster_edge_betweenness(graph_neg)
-
-communities_neg <- split(V(graph_neg)$name, membership(cluster_neg) )%>%
-  keep(~ length(.x) > 1)
+```{r plots-overall}
+all_days_pos_plot <- plot_graph(overall$graph_pos, overall$clusters_pos, "all_days_pos.png")
+all_days_neg_plot <- plot_graph(overall$graph_neg, overall$clusters_neg, "all_days_neg.png")
 ```
 
-```{r cor_total_correlogram, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-corrplot(mag_cor, method = 'color', order = 'AOE')
-```
-
-```{r cor_total_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-plot(
-  graph_pos,
-  vertex.color = V(graph_pos)$color,
-  vertex.size = V(graph_pos)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA,
-  edge.width = 1,
-  mark.groups = communities(cluster_pos) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
-
-plot(
-  graph_neg,
-  vertex.color = V(graph_neg)$color,
-  vertex.size = V(graph_neg)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA,
-  edge.width = 1,
-  mark.groups = communities(cluster_neg) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
-```
 
 ## Timewise analysis
 
 ### Day 7
 
 ```{r cor_day7, comment="", message=FALSE, warning=FALSE}
-sorted_genomes <- genome_tree$tip.label
-
-sample_subset <- sample_metadata %>%
-  filter(day==7) %>%
-  pull(sample)
-
-mag_cor <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    t() %>%
-    cor(.,method="pearson")
-
-threshold <- 0.7
-
-#Positive correlations
-mag_cor_pos <- ifelse(mag_cor > threshold, 1, 0)
-graph_pos <- graph_from_adjacency_matrix(mag_cor_pos, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_pos)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_pos)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_pos)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_pos)$name) %>%
-    arrange(match(genome,V(graph_pos)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_pos <- cluster_edge_betweenness(graph_pos)
-
-communities_pos_7 <- split(V(graph_pos)$name, membership(cluster_pos) )%>%
-  keep(~ length(.x) > 1)
-
-#Negative correlations
-mag_cor_neg <- ifelse(mag_cor < -threshold, 1, 0)
-graph_neg <- graph_from_adjacency_matrix(mag_cor_neg, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_neg)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_neg)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_neg)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_neg)$name) %>%
-    arrange(match(genome,V(graph_neg)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_neg <- cluster_edge_betweenness(graph_neg)
-communities_neg_7 <- split(V(graph_neg)$name, membership(cluster_neg) )%>%
-  keep(~ length(.x) > 1)
-
-#Network properties
-network_positive_d7 <- tibble(day="day7",
-                     density=graph.density(graph_pos),
-                     modularity=modularity(cluster_walktrap(graph_pos)),
-                     assortability=assortativity_degree(graph_pos),
-                     connectivity=mean(components(graph_pos)$csize),
-                     centrality=eigen_centrality(graph_pos)$value)
-
-network_negative_d7 <- tibble(day="day7",
-                     density=graph.density(graph_neg),
-                     modularity=modularity(cluster_walktrap(graph_neg)),
-                     assortability=assortativity_degree(graph_neg),
-                     connectivity=mean(components(graph_neg)$csize),
-                     centrality=eigen_centrality(graph_neg)$value)
-
+cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_day_7.cx"
+day7 = process_cxfile(cxFile, day, "day7", genome_metadata, genome_counts_filt, order_colors)
 ```
 
-```{r cor_day7_correlogram, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-corrplot(mag_cor, method = 'color', order = 'AOE')
-```
 
 ```{r cor_day7_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-plot(
-  graph_pos,
-  vertex.color = V(graph_pos)$color,
-  vertex.size = V(graph_pos)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_pos) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
-
-plot(
-  graph_neg,
-  vertex.color = V(graph_neg)$color,
-  vertex.size = V(graph_neg)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_neg) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
+d7_pos_plot <- plot_graph(day7$graph_pos, day7$clusters_pos, "day07_pos.png")
+d7_neg_plot <- plot_graph(day7$graph_neg, day7$clusters_neg, "day07_neg.png")
 ```
 
 ### Day 14
 
 ```{r cor_day14, comment="", message=FALSE, warning=FALSE}
-sorted_genomes <- genome_tree$tip.label
-
-sample_subset <- sample_metadata %>%
-  filter(day==14) %>%
-  pull(sample)
-
-mag_cor <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    t() %>%
-    cor(.,method="pearson")
-
-threshold <- 0.7
-
-#Positive correlations
-mag_cor_pos <- ifelse(mag_cor > threshold, 1, 0)
-graph_pos <- graph_from_adjacency_matrix(mag_cor_pos, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_pos)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_pos)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_pos)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_pos)$name) %>%
-    arrange(match(genome,V(graph_pos)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_pos <- cluster_edge_betweenness(graph_pos)
-
-communities_pos_14 <- split(V(graph_pos)$name, membership(cluster_pos) )%>%
-  keep(~ length(.x) > 1)
-
-#Negative correlations
-mag_cor_neg <- ifelse(mag_cor < -threshold, 1, 0)
-graph_neg <- graph_from_adjacency_matrix(mag_cor_neg, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_neg)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_neg)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_neg)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_neg)$name) %>%
-    arrange(match(genome,V(graph_neg)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_neg <- cluster_edge_betweenness(graph_neg)
-communities_neg_14 <- split(V(graph_neg)$name, membership(cluster_neg) )%>%
-  keep(~ length(.x) > 1)
-
-#Network properties
-network_positive_d14 <- tibble(day="day14",
-                     density=graph.density(graph_pos),
-                     modularity=modularity(cluster_walktrap(graph_pos)),
-                     assortability=assortativity_degree(graph_pos),
-                     connectivity=mean(components(graph_pos)$csize),
-                     centrality=eigen_centrality(graph_pos)$value)
-
-network_negative_d14 <- tibble(day="day14",
-                     density=graph.density(graph_neg),
-                     modularity=modularity(cluster_walktrap(graph_neg)),
-                     assortability=assortativity_degree(graph_neg),
-                     connectivity=mean(components(graph_neg)$csize),
-                     centrality=eigen_centrality(graph_neg)$value)
-```
-
-```{r cor_day14_correlogram, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-corrplot(mag_cor, method = 'color', order = 'AOE')
+cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_day_14.cx"
+day14 = process_cxfile(cxFile, day, "day14", genome_metadata, genome_counts_filt, order_colors)
 ```
 
 ```{r cor_day14_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-plot(
-  graph_pos,
-  vertex.color = V(graph_pos)$color,
-  vertex.size = V(graph_pos)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_pos) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
-
-plot(
-  graph_neg,
-  vertex.color = V(graph_neg)$color,
-  vertex.size = V(graph_neg)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_neg) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
+d14_pos_plot <- plot_graph(day14$graph_pos, day14$clusters_pos, "day14_pos.png")
+d14_neg_plot <- plot_graph(day14$graph_neg, day14$clusters_neg, "day14_neg.png")
 ```
 
 ### Day 21
 
 ```{r cor_day21, comment="", message=FALSE, warning=FALSE}
-sorted_genomes <- genome_tree$tip.label
-
-sample_subset <- sample_metadata %>%
-  filter(day==21) %>%
-  pull(sample)
-
-mag_cor <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    t() %>%
-    cor(.,method="pearson")
-
-threshold <- 0.7
-
-#Positive correlations
-mag_cor_pos <- ifelse(mag_cor > threshold, 1, 0)
-graph_pos <- graph_from_adjacency_matrix(mag_cor_pos, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_pos)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_pos)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_pos)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_pos)$name) %>%
-    arrange(match(genome,V(graph_pos)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_pos <- cluster_edge_betweenness(graph_pos)
-
-communities_pos_21 <- split(V(graph_pos)$name, membership(cluster_pos) )%>%
-  keep(~ length(.x) > 1)
-
-#Negative correlations
-mag_cor_neg <- ifelse(mag_cor < -threshold, 1, 0)
-graph_neg <- graph_from_adjacency_matrix(mag_cor_neg, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_neg)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_neg)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_neg)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_neg)$name) %>%
-    arrange(match(genome,V(graph_neg)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_neg <- cluster_edge_betweenness(graph_neg)
-communities_neg_21 <- split(V(graph_neg)$name, membership(cluster_neg) )%>%
-  keep(~ length(.x) > 1)
-
-#Network properties
-network_positive_d21 <- tibble(day="day21",
-                     density=graph.density(graph_pos),
-                     modularity=modularity(cluster_walktrap(graph_pos)),
-                     assortability=assortativity_degree(graph_pos),
-                     connectivity=mean(components(graph_pos)$csize),
-                     centrality=eigen_centrality(graph_pos)$value)
-
-network_negative_d21 <- tibble(day="day21",
-                     density=graph.density(graph_neg),
-                     modularity=modularity(cluster_walktrap(graph_neg)),
-                     assortability=assortativity_degree(graph_neg),
-                     connectivity=mean(components(graph_neg)$csize),
-                     centrality=eigen_centrality(graph_neg)$value)
+cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_day_21.cx"
+day21 = process_cxfile(cxFile, day, "day21", genome_metadata, genome_counts_filt, order_colors)
 ```
 
-```{r cor_day21_correlogram, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-corrplot(mag_cor, method = 'color', order = 'AOE')
-```
 
 ```{r cor_day21_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-plot(
-  graph_pos,
-  vertex.color = V(graph_pos)$color,
-  vertex.size = V(graph_pos)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_pos) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
-
-plot(
-  graph_neg,
-  vertex.color = V(graph_neg)$color,
-  vertex.size = V(graph_neg)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_neg) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
+d21_pos_plot <- plot_graph(day21$graph_pos, day21$clusters_pos, "day21_pos.png")
+d21_neg_plot <- plot_graph(day21$graph_neg, day21$clusters_neg, "day21_neg.png")
 ```
 
 ### Day 28
 
 ```{r cor_day28, comment="", message=FALSE, warning=FALSE}
-sorted_genomes <- genome_tree$tip.label
-
-sample_subset <- sample_metadata %>%
-  filter(day==28) %>%
-  pull(sample)
-
-mag_cor <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    t() %>%
-    cor(.,method="pearson")
-
-threshold <- 0.7
-
-#Positive correlations
-mag_cor_pos <- ifelse(mag_cor > threshold, 1, 0)
-graph_pos <- graph_from_adjacency_matrix(mag_cor_pos, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_pos)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_pos)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_pos)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_pos)$name) %>%
-    arrange(match(genome,V(graph_pos)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_pos <- cluster_edge_betweenness(graph_pos)
-
-communities_pos_28 <- split(V(graph_pos)$name, membership(cluster_pos) )%>%
-  keep(~ length(.x) > 1)
-
-#Negative correlations
-mag_cor_neg <- ifelse(mag_cor < -threshold, 1, 0)
-graph_neg <- graph_from_adjacency_matrix(mag_cor_neg, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_neg)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_neg)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_neg)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_neg)$name) %>%
-    arrange(match(genome,V(graph_neg)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_neg <- cluster_edge_betweenness(graph_neg)
-communities_neg_28 <- split(V(graph_neg)$name, membership(cluster_neg) )%>%
-  keep(~ length(.x) > 1)
-
-#Network properties
-network_positive_d28 <- tibble(day="day28",
-                     density=graph.density(graph_pos),
-                     modularity=modularity(cluster_walktrap(graph_pos)),
-                     assortability=assortativity_degree(graph_pos),
-                     connectivity=mean(components(graph_pos)$csize),
-                     centrality=eigen_centrality(graph_pos)$value)
-
-network_negative_d28 <- tibble(day="day28",
-                     density=graph.density(graph_neg),
-                     modularity=modularity(cluster_walktrap(graph_neg)),
-                     assortability=assortativity_degree(graph_neg),
-                     connectivity=mean(components(graph_neg)$csize),
-                     centrality=eigen_centrality(graph_neg)$value)
+cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_day_28.cx"
+day28 = process_cxfile(cxFile, day, "day28", genome_metadata, genome_counts_filt, order_colors)
 ```
 
-```{r cor_day28_correlogram, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-corrplot(mag_cor, method = 'color', order = 'AOE')
-```
 
 ```{r cor_day28_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-plot(
-  graph_pos,
-  vertex.color = V(graph_pos)$color,
-  vertex.size = V(graph_pos)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_pos) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
-
-plot(
-  graph_neg,
-  vertex.color = V(graph_neg)$color,
-  vertex.size = V(graph_neg)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_neg) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
+d28_pos_plot <- plot_graph(day28$graph_pos, day28$clusters_pos, "day28_pos.png")
+d28_neg_plot <- plot_graph(day28$graph_neg, day28$clusters_neg, "day28_neg.png")
 ```
 
 ### Day 35
 
 ```{r cor_day35, comment="", message=FALSE, warning=FALSE}
-sorted_genomes <- genome_tree$tip.label
-
-sample_subset <- sample_metadata %>%
-  filter(day==35) %>%
-  pull(sample)
-
-mag_cor <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    t() %>%
-    cor(.,method="pearson")
-
-threshold <- 0.7
-
-#Positive correlations
-mag_cor_pos <- ifelse(mag_cor > threshold, 1, 0)
-graph_pos <- graph_from_adjacency_matrix(mag_cor_pos, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_pos)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_pos)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_pos)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_pos)$name) %>%
-    arrange(match(genome,V(graph_pos)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_pos <- cluster_edge_betweenness(graph_pos)
-
-communities_pos_35 <- split(V(graph_pos)$name, membership(cluster_pos) )%>%
-  keep(~ length(.x) > 1)
-
-#Negative correlations
-mag_cor_neg <- ifelse(mag_cor < -threshold, 1, 0)
-graph_neg <- graph_from_adjacency_matrix(mag_cor_neg, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_neg)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_neg)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_neg)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_neg)$name) %>%
-    arrange(match(genome,V(graph_neg)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_neg <- cluster_edge_betweenness(graph_neg)
-communities_neg_35 <- split(V(graph_neg)$name, membership(cluster_neg) )%>%
-  keep(~ length(.x) > 1)
-
-#Network properties
-network_positive_d35 <- tibble(day="day35",
-                     density=graph.density(graph_pos),
-                     modularity=modularity(cluster_walktrap(graph_pos)),
-                     assortability=assortativity_degree(graph_pos),
-                     connectivity=mean(components(graph_pos)$csize),
-                     centrality=eigen_centrality(graph_pos)$value)
-
-network_negative_d35 <- tibble(day="day35",
-                     density=graph.density(graph_neg),
-                     modularity=modularity(cluster_walktrap(graph_neg)),
-                     assortability=assortativity_degree(graph_neg),
-                     connectivity=mean(components(graph_neg)$csize),
-                     centrality=eigen_centrality(graph_neg)$value)
+cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_day_35.cx"
+day35  <- process_cxfile(cxFile, day, "day35", genome_metadata, genome_counts_filt, order_colors)
 ```
 
-```{r cor_day35_correlogram, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-corrplot(mag_cor, method = 'color', order = 'AOE')
-```
 
 ```{r cor_day35_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-plot(
-  graph_pos,
-  vertex.color = V(graph_pos)$color,
-  vertex.size = V(graph_pos)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_pos) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
-
-plot(
-  graph_neg,
-  vertex.color = V(graph_neg)$color,
-  vertex.size = V(graph_neg)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_neg) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
+d35_pos_plot <- plot_graph(day35$graph_pos, day35$clusters_pos, "day35_pos.png")
+d35_neg_plot <- plot_graph(day35$graph_neg, day35$clusters_neg, "day35_neg.png")
 ```
+
+
+
+```{r as}
+# POSITIVE
+img1 <- readPNG("day07_pos.png")
+img2 <- readPNG("day14_pos.png")
+img3 <- readPNG("day21_pos.png")
+img4 <- readPNG("day28_pos.png")
+img5 <- readPNG("day35_pos.png")
+
+# NEGATIVE
+img6 <- readPNG("day07_neg.png")
+img7 <- readPNG("day14_neg.png")
+img8 <- readPNG("day21_neg.png")
+img9 <- readPNG("day28_neg.png")
+img10 <- readPNG("day35_neg.png")
+
+
+img_list <- list(img1, img2, img3, img4, img5, img6, img7, img8, img9, img10)
+
+png("grid_plot.png", width = 5000, height = 1000, res = 300)  # Adjust size and resolution as needed
+
+
+grid_objects <- lapply(img_list, function(img) {
+  rasterGrob(img, interpolate = TRUE)
+})
+
+grid.arrange(grobs = grid_objects, ncol = 5, nrow = 2)
+grid.text("positive", x = unit(0.03, "npc"), y = unit(0.75, "npc"), rot = 90, gp = gpar(fontsize = 14))
+grid.text("negative", x = unit(0.03, "npc"), y = unit(0.25, "npc"), rot = 90, gp = gpar(fontsize = 14))
+
+dev.off()
+
+```
+
+
 
 
 ## Treatment-wise analysis
@@ -799,670 +135,63 @@ plot(
 ### TG1
 
 ```{r cor_TG1, comment="", message=FALSE, warning=FALSE}
-sorted_genomes <- genome_tree$tip.label
-
-sample_subset <- sample_metadata %>%
-  filter(treatment=="TG1") %>%
-  pull(sample)
-
-mag_cor <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    t() %>%
-    cor(.,method="pearson")
-
-threshold <- 0.7
-
-#Positive correlations
-mag_cor_pos <- ifelse(mag_cor > threshold, 1, 0)
-graph_pos <- graph_from_adjacency_matrix(mag_cor_pos, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_pos)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_pos)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_pos)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_pos)$name) %>%
-    arrange(match(genome,V(graph_pos)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_pos <- cluster_edge_betweenness(graph_pos)
-
-communities_pos_TG1 <- split(V(graph_pos)$name, membership(cluster_pos) )%>%
-  keep(~ length(.x) > 1)
-
-#Negative correlations
-mag_cor_neg <- ifelse(mag_cor < -threshold, 1, 0)
-graph_neg <- graph_from_adjacency_matrix(mag_cor_neg, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_neg)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_neg)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_neg)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_neg)$name) %>%
-    arrange(match(genome,V(graph_neg)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_neg <- cluster_edge_betweenness(graph_neg)
-communities_neg_TG1 <- split(V(graph_neg)$name, membership(cluster_neg) )%>%
-  keep(~ length(.x) > 1)
-
-#Network properties
-network_positive_TG1 <- tibble(treatment="TG1",
-                     density=graph.density(graph_pos),
-                     modularity=modularity(cluster_walktrap(graph_pos)),
-                     assortability=assortativity_degree(graph_pos),
-                     connectivity=mean(components(graph_pos)$csize),
-                     centrality=eigen_centrality(graph_pos)$value)
-
-network_negative_TG1 <- tibble(treatment="TG1",
-                     density=graph.density(graph_neg),
-                     modularity=modularity(cluster_walktrap(graph_neg)),
-                     assortability=assortativity_degree(graph_neg),
-                     connectivity=mean(components(graph_neg)$csize),
-                     centrality=eigen_centrality(graph_neg)$value)
+cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_TG1.cx"
+TG1  <- process_cxfile(cxFile, treatment, "TG1", genome_metadata, genome_counts_filt, order_colors)
 ```
 
-```{r cor_TG1_correlogram, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-corrplot(mag_cor, method = 'color', order = 'AOE')
-```
 
 ```{r cor_TG1_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-plot(
-  graph_pos,
-  vertex.color = V(graph_pos)$color,
-  vertex.size = V(graph_pos)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_pos) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
-
-plot(
-  graph_neg,
-  vertex.color = V(graph_neg)$color,
-  vertex.size = V(graph_neg)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_neg) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
+TG1_pos_plot <- plot_graph(TG1$graph_pos, TG1$clusters_pos, "TG1_pos.png")
+TG1_neg_plot <- plot_graph(TG1$graph_neg, TG1$clusters_neg, "TG1_neg.png")
 ```
 
 ### TG2
 
 ```{r cor_TG2, comment="", message=FALSE, warning=FALSE}
-sorted_genomes <- genome_tree$tip.label
-
-sample_subset <- sample_metadata %>%
-  filter(treatment=="TG2") %>%
-  pull(sample)
-
-mag_cor <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    t() %>%
-    cor(.,method="pearson")
-
-threshold <- 0.7
-
-#Positive correlations
-mag_cor_pos <- ifelse(mag_cor > threshold, 1, 0)
-graph_pos <- graph_from_adjacency_matrix(mag_cor_pos, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_pos)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_pos)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_pos)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_pos)$name) %>%
-    arrange(match(genome,V(graph_pos)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_pos <- cluster_edge_betweenness(graph_pos)
-
-communities_pos_TG2 <- split(V(graph_pos)$name, membership(cluster_pos) )%>%
-  keep(~ length(.x) > 1)
-
-#Negative correlations
-mag_cor_neg <- ifelse(mag_cor < -threshold, 1, 0)
-graph_neg <- graph_from_adjacency_matrix(mag_cor_neg, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_neg)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_neg)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_neg)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_neg)$name) %>%
-    arrange(match(genome,V(graph_neg)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_neg <- cluster_edge_betweenness(graph_neg)
-communities_neg_TG2 <- split(V(graph_neg)$name, membership(cluster_neg) )%>%
-  keep(~ length(.x) > 1)
-
-#Network properties
-network_positive_TG2 <- tibble(treatment="TG2",
-                     density=graph.density(graph_pos),
-                     modularity=modularity(cluster_walktrap(graph_pos)),
-                     assortability=assortativity_degree(graph_pos),
-                     connectivity=mean(components(graph_pos)$csize),
-                     centrality=eigen_centrality(graph_pos)$value)
-
-network_negative_TG2 <- tibble(treatment="TG2",
-                     density=graph.density(graph_neg),
-                     modularity=modularity(cluster_walktrap(graph_neg)),
-                     assortability=assortativity_degree(graph_neg),
-                     connectivity=mean(components(graph_neg)$csize),
-                     centrality=eigen_centrality(graph_neg)$value)
-```
-
-```{r cor_TG2_correlogram, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-corrplot(mag_cor, method = 'color', order = 'AOE')
+cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_TG2.cx"
+TG2    <- process_cxfile(cxFile, treatment, "TG2", genome_metadata, genome_counts_filt, order_colors)
 ```
 
 ```{r cor_TG2_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-plot(
-  graph_pos,
-  vertex.color = V(graph_pos)$color,
-  vertex.size = V(graph_pos)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_pos) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
-
-plot(
-  graph_neg,
-  vertex.color = V(graph_neg)$color,
-  vertex.size = V(graph_neg)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_neg) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
+TG2_pos_plot <- plot_graph(TG2$graph_pos, TG2$clusters_pos, "TG2_pos.png")
+TG2_neg_plot <- plot_graph(TG2$graph_neg, TG2$clusters_neg, "TG2_neg.png")
 ```
 
 ### TG3
 
 ```{r cor_TG3, comment="", message=FALSE, warning=FALSE}
-sorted_genomes <- genome_tree$tip.label
-
-sample_subset <- sample_metadata %>%
-  filter(treatment=="TG2") %>%
-  pull(sample)
-
-mag_cor <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    t() %>%
-    cor(.,method="pearson")
-
-threshold <- 0.7
-
-#Positive correlations
-mag_cor_pos <- ifelse(mag_cor > threshold, 1, 0)
-graph_pos <- graph_from_adjacency_matrix(mag_cor_pos, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_pos)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_pos)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_pos)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_pos)$name) %>%
-    arrange(match(genome,V(graph_pos)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_pos <- cluster_edge_betweenness(graph_pos)
-
-communities_pos_TG3 <- split(V(graph_pos)$name, membership(cluster_pos) )%>%
-  keep(~ length(.x) > 1)
-
-#Negative correlations
-mag_cor_neg <- ifelse(mag_cor < -threshold, 1, 0)
-graph_neg <- graph_from_adjacency_matrix(mag_cor_neg, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_neg)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_neg)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_neg)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_neg)$name) %>%
-    arrange(match(genome,V(graph_neg)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_neg <- cluster_edge_betweenness(graph_neg)
-communities_neg_TG3 <- split(V(graph_neg)$name, membership(cluster_neg) )%>%
-  keep(~ length(.x) > 1)
-
-#Network properties
-network_positive_TG3 <- tibble(treatment="TG3",
-                     density=graph.density(graph_pos),
-                     modularity=modularity(cluster_walktrap(graph_pos)),
-                     assortability=assortativity_degree(graph_pos),
-                     connectivity=mean(components(graph_pos)$csize),
-                     centrality=eigen_centrality(graph_pos)$value)
-
-network_negative_TG3 <- tibble(treatment="TG3",
-                     density=graph.density(graph_neg),
-                     modularity=modularity(cluster_walktrap(graph_neg)),
-                     assortability=assortativity_degree(graph_neg),
-                     connectivity=mean(components(graph_neg)$csize),
-                     centrality=eigen_centrality(graph_neg)$value)
-```
-
-```{r cor_TG3_correlogram, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-corrplot(mag_cor, method = 'color', order = 'AOE')
+cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_TG3.cx"
+TG3    <- process_cxfile(cxFile, treatment, "TG3", genome_metadata, genome_counts_filt, order_colors)
 ```
 
 ```{r cor_TG3_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-plot(
-  graph_pos,
-  vertex.color = V(graph_pos)$color,
-  vertex.size = V(graph_pos)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_pos) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
-
-plot(
-  graph_neg,
-  vertex.color = V(graph_neg)$color,
-  vertex.size = V(graph_neg)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_neg) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
+TG3_pos_plot <- plot_graph(TG3$graph_pos, TG3$clusters_pos, "TG3_pos.png")
+TG3_neg_plot <- plot_graph(TG3$graph_neg, TG3$clusters_neg, "TG3_neg.png")
 ```
 
 ### TG4
 
 ```{r cor_TG4, comment="", message=FALSE, warning=FALSE}
-sorted_genomes <- genome_tree$tip.label
-
-sample_subset <- sample_metadata %>%
-  filter(treatment=="TG4") %>%
-  pull(sample)
-
-mag_cor <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    t() %>%
-    cor(.,method="pearson")
-
-threshold <- 0.7
-
-#Positive correlations
-mag_cor_pos <- ifelse(mag_cor > threshold, 1, 0)
-graph_pos <- graph_from_adjacency_matrix(mag_cor_pos, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_pos)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_pos)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_pos)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_pos)$name) %>%
-    arrange(match(genome,V(graph_pos)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_pos <- cluster_edge_betweenness(graph_pos)
-
-communities_pos_TG4 <- split(V(graph_pos)$name, membership(cluster_pos) )%>%
-  keep(~ length(.x) > 1)
-
-#Negative correlations
-mag_cor_neg <- ifelse(mag_cor < -threshold, 1, 0)
-graph_neg <- graph_from_adjacency_matrix(mag_cor_neg, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_neg)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_neg)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_neg)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_neg)$name) %>%
-    arrange(match(genome,V(graph_neg)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_neg <- cluster_edge_betweenness(graph_neg)
-communities_neg_TG4 <- split(V(graph_neg)$name, membership(cluster_neg) )%>%
-  keep(~ length(.x) > 1)
-
-#Network properties
-network_positive_TG4 <- tibble(treatment="TG4",
-                     density=graph.density(graph_pos),
-                     modularity=modularity(cluster_walktrap(graph_pos)),
-                     assortability=assortativity_degree(graph_pos),
-                     connectivity=mean(components(graph_pos)$csize),
-                     centrality=eigen_centrality(graph_pos)$value)
-
-network_negative_TG4 <- tibble(treatment="TG4",
-                     density=graph.density(graph_neg),
-                     modularity=modularity(cluster_walktrap(graph_neg)),
-                     assortability=assortativity_degree(graph_neg),
-                     connectivity=mean(components(graph_neg)$csize),
-                     centrality=eigen_centrality(graph_neg)$value)
+cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_TG4.cx"
+TG4    <- process_cxfile(cxFile, treatment, "TG4", genome_metadata, genome_counts_filt, order_colors)
 ```
 
-```{r cor_TG4_correlogram, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-corrplot(mag_cor, method = 'color', order = 'AOE')
-```
 
 ```{r cor_TG4_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-plot(
-  graph_pos,
-  vertex.color = V(graph_pos)$color,
-  vertex.size = V(graph_pos)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_pos) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
-
-plot(
-  graph_neg,
-  vertex.color = V(graph_neg)$color,
-  vertex.size = V(graph_neg)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_neg) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
+TG4_pos_plot <- plot_graph(TG4$graph_pos, TG4$clusters_pos, "TG4_pos.png")
+TG4_neg_plot <- plot_graph(TG4$graph_neg, TG4$clusters_neg, "TG4_neg.png")
 ```
 
 ### TG5
 
 ```{r cor_TG5, comment="", message=FALSE, warning=FALSE}
-sorted_genomes <- genome_tree$tip.label
-
-sample_subset <- sample_metadata %>%
-  filter(treatment=="TG5") %>%
-  pull(sample)
-
-mag_cor <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    t() %>%
-    cor(.,method="pearson")
-
-threshold <- 0.7
-
-#Positive correlations
-mag_cor_pos <- ifelse(mag_cor > threshold, 1, 0)
-graph_pos <- graph_from_adjacency_matrix(mag_cor_pos, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_pos)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_pos)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_pos)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_pos)$name) %>%
-    arrange(match(genome,V(graph_pos)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_pos <- cluster_edge_betweenness(graph_pos)
-communities_pos_TG5 <- split(V(graph_pos)$name, membership(cluster_pos) )%>%
-  keep(~ length(.x) > 1)
-
-#Negative correlations
-mag_cor_neg <- ifelse(mag_cor < -threshold, 1, 0)
-graph_neg <- graph_from_adjacency_matrix(mag_cor_neg, mode = "undirected", diag = FALSE)
-
-#Node color
-V(graph_neg)$color <- tibble(order=genome_metadata$order %>% unique() %>% sort(),
-                             color=order_colors) %>%
-  right_join(genome_metadata,by="order")%>%
-  filter(genome %in%  V(graph_neg)$name) %>%
-  select(genome,color) %>%
-  pull(color)
-
-#Node size
-V(graph_neg)$size <- genome_counts_filt[,c("genome",sample_subset)] %>%
-    dplyr::select(where(~ !all(. == 0))) %>%
-    filter(rowSums(select(., where(is.numeric)) != 0) > 3) %>%
-    column_to_rownames(var = "genome") %>%
-    transform(., 'clr') %>%
-    as.data.frame() %>%
-    rownames_to_column(var="genome") %>% 
-    rowwise() %>% 
-    mutate(average = mean(c_across(where(is.numeric)), na.rm = TRUE)) %>%
-    ungroup() %>% 
-    select(genome,average) %>% 
-    filter(genome %in%  V(graph_neg)$name) %>%
-    arrange(match(genome,V(graph_neg)$name)) %>%
-    mutate(size = scales::rescale(average, to = c(2, 10))) %>% 
-    pull(size)
-
-cluster_neg <- cluster_edge_betweenness(graph_neg)
-communities_neg_TG5 <- split(V(graph_neg)$name, membership(cluster_neg) )%>%
-  keep(~ length(.x) > 1)
-
-#Network properties
-network_positive_TG5 <- tibble(treatment="TG5",
-                     density=graph.density(graph_pos),
-                     modularity=modularity(cluster_walktrap(graph_pos)),
-                     assortability=assortativity_degree(graph_pos),
-                     connectivity=mean(components(graph_pos)$csize),
-                     centrality=eigen_centrality(graph_pos)$value)
-
-network_negative_TG5 <- tibble(treatment="TG5",
-                     density=graph.density(graph_neg),
-                     modularity=modularity(cluster_walktrap(graph_neg)),
-                     assortability=assortativity_degree(graph_neg),
-                     connectivity=mean(components(graph_neg)$csize),
-                     centrality=eigen_centrality(graph_neg)$value)
-```
-
-```{r cor_TG5_correlogram, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-corrplot(mag_cor, method = 'color', order = 'AOE')
+cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_TG5.cx"
+TG5    <- process_cxfile(cxFile, treatment, "TG5", genome_metadata, genome_counts_filt, order_colors)
 ```
 
 ```{r cor_TG5_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-plot(
-  graph_pos,
-  vertex.color = V(graph_pos)$color,
-  vertex.size = V(graph_pos)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_pos) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
-
-plot(
-  graph_neg,
-  vertex.color = V(graph_neg)$color,
-  vertex.size = V(graph_neg)$size,
-  vertex.label = NA,
-  vertex.frame.color = NA, 
-  edge.width = 1,
-  mark.groups = communities(cluster_neg) %>% keep(~ length(.x) >= 2),
-  mark.col = "#f4f4f4",
-  mark.border = NA,
-  layout = layout_with_fr
-)
+TG5_pos_plot <- plot_graph(TG5$graph_pos, TG5$clusters_pos, "TG5_pos.png")
+TG5_neg_plot <- plot_graph(TG5$graph_neg, TG5$clusters_neg, "TG5_neg.png")
 ```
 
 ## Combined
@@ -1472,41 +201,41 @@ plot(
 How the nodes in the graph tend to cluster together, indicating how tightly correlated groups of genomes are.
 
 ```{r network_properties, comment="", message=FALSE, warning=FALSE}
-bind_rows(network_positive_d7, 
-          network_positive_d14, 
-          network_positive_d21, 
-          network_positive_d28, 
-          network_positive_d35) %>% 
+bind_rows(day7$metrics_pos, 
+          day14$metrics_pos, 
+          day21$metrics_pos,
+          day28$metrics_pos,
+          day35$metrics_pos) %>% 
   tt()
 
-bind_rows(network_negative_d7, 
-          network_negative_d14, 
-          network_negative_d21, 
-          network_negative_d28, 
-          network_negative_d35) %>% 
+bind_rows(day7$metrics_neg, 
+          day14$metrics_neg, 
+          day21$metrics_neg,
+          day28$metrics_neg,
+          day35$metrics_neg) %>% 
   tt()
 
-bind_rows(network_positive_TG1, 
-          network_positive_TG2, 
-          network_positive_TG3, 
-          network_positive_TG4, 
-          network_positive_TG5)%>% 
+bind_rows(TG1$metrics_pos,
+          TG2$metrics_pos,
+          TG3$metrics_pos,
+          TG4$metrics_pos,
+          TG5$metrics_pos)%>%
   tt()
 
-bind_rows(network_negative_TG1, 
-          network_negative_TG2, 
-          network_negative_TG3, 
-          network_negative_TG4, 
-          network_negative_TG5) %>% 
+bind_rows(TG1$metrics_neg,
+          TG2$metrics_neg,
+          TG3$metrics_neg,
+          TG4$metrics_neg,
+          TG5$metrics_neg,) %>%
   tt()
 ```
 
 ```{r transitivity_plots, comment="", message=FALSE, warning=FALSE}
-bind_rows(network_positive_d7, 
-          network_positive_d14, 
-          network_positive_d21, 
-          network_positive_d28, 
-          network_positive_d35) %>% 
+bind_rows(day7$metrics_pos, 
+          day14$metrics_pos, 
+          day21$metrics_pos, 
+          day28$metrics_pos, 
+          day35$metrics_pos) %>% 
   mutate(day=factor(day,levels=c("day7","day14","day21","day28","day35"))) %>%
   pivot_longer(!day, names_to="metric", values_to = "value") %>% 
   filter(metric != "assortability") %>% 
@@ -1515,12 +244,12 @@ bind_rows(network_positive_d7,
     facet_wrap(. ~ metric, scales="free", nrow = 1) +
     theme_classic()
 
-bind_rows(network_negative_d7, 
-          network_negative_d14, 
-          network_negative_d21, 
-          network_negative_d28, 
-          network_negative_d35) %>% 
-  mutate(day=factor(day,levels=c("day7","day14","day21","day28","day35"))) %>%
+bind_rows(day7$metrics_neg, 
+          day14$metrics_neg, 
+          day21$metrics_neg, 
+          day28$metrics_neg, 
+          day35$metrics_neg) %>% 
+  mutate(day=factor(day, levels=c("day7","day14","day21","day28","day35"))) %>%
   pivot_longer(!day, names_to="metric", values_to = "value") %>% 
   filter(metric != "assortability") %>%  
   ggplot(aes(x=day, y=value)) + 
@@ -1528,28 +257,28 @@ bind_rows(network_negative_d7,
     facet_wrap(. ~ metric, scales="free", nrow = 1) +
     theme_classic()
 
-bind_rows(network_positive_TG1, 
-          network_positive_TG2, 
-          network_positive_TG3, 
-          network_positive_TG4, 
-          network_positive_TG5) %>% 
+bind_rows(TG1$metrics_pos,
+          TG2$metrics_pos,
+          TG3$metrics_pos,
+          TG4$metrics_pos,
+          TG5$metrics_pos) %>%
   mutate(treatment=factor(treatment,levels=c("TG1","TG2","TG3","TG4","TG5"))) %>%
-  pivot_longer(!treatment, names_to="metric", values_to = "value") %>% 
-  filter(metric != "assortability") %>%  
-  ggplot(aes(x=treatment, y=value)) + 
+  pivot_longer(!treatment, names_to="metric", values_to = "value") %>%
+  filter(metric != "assortability") %>%
+  ggplot(aes(x=treatment, y=value)) +
     geom_col() +
     facet_wrap(. ~ metric, scales="free", nrow = 1) +
     theme_classic()
 
-bind_rows(network_negative_TG1, 
-          network_negative_TG2, 
-          network_negative_TG3, 
-          network_negative_TG4, 
-          network_negative_TG5) %>% 
+bind_rows(TG1$metrics_neg,
+          TG2$metrics_neg,
+          TG3$metrics_neg,
+          TG4$metrics_neg,
+          TG5$metrics_neg) %>%
   mutate(treatment=factor(treatment,levels=c("TG1","TG2","TG3","TG4","TG5"))) %>%
-  pivot_longer(!treatment, names_to="metric", values_to = "value") %>% 
-  filter(metric != "assortability") %>%  
-  ggplot(aes(x=treatment, y=value)) + 
+  pivot_longer(!treatment, names_to="metric", values_to = "value") %>%
+  filter(metric != "assortability") %>%
+  ggplot(aes(x=treatment, y=value)) +
     geom_col() +
     facet_wrap(. ~ metric, scales="free", nrow = 1) +
     theme_classic()
@@ -1560,54 +289,38 @@ bind_rows(network_negative_TG1,
 #### Clusters per day
 
 ```{r community_clusters_day, comment="", message=FALSE, warning=FALSE}
-day_clusters_positive <- c(communities_pos_7, 
-                  communities_pos_14, 
-                  communities_pos_21, 
-                  communities_pos_28, 
-                  communities_pos_35) %>%
+day_clusters_positive <- c(day7$communities_pos, 
+                           day14$communities_pos,
+                           day21$communities_pos,
+                           day28$communities_pos,
+                           day35$communities_pos) %>%
   purrr::map(~ combn(.x, 2, simplify = FALSE)) %>%
   unlist(recursive = FALSE) %>% 
   purrr::map(~ sort(.x))
 
 # Calculate functional distances
-day_clusters_positive <- table(map_chr(day_clusters_positive, ~ paste(.x, collapse = " - "))) %>% 
-  as.data.frame(., stringsAsFactors = FALSE) %>%
-  rename(genomes=1,count=2) %>%
-  mutate(distance = map_dbl(genomes, function(pair) {
-    genomes <- str_split(pair, " - ", simplify = TRUE)
-    dist_value <- stats::dist(genome_gifts[genomes, ], method = "manhattan") / ncol(genome_gifts[genomes, ])
-    return(as.numeric(dist_value))
-  })) %>% 
-  arrange(-count)
+day_clusters_positive_dist <- compute_cluster_distances(day_clusters_positive, genome_gifts)
 
 # Print top pairs
-day_clusters_positive %>% 
-  filter(count>3) %>% 
+day_clusters_positive_dist %>% 
+  filter(count>2) %>% 
   tt()
 ```
 
 #### Clusters per treatment
 
 ```{r community_clusters_treatment, comment="", message=FALSE, warning=FALSE}
-treatment_clusters_positive <- c(communities_pos_TG1, 
-                        communities_pos_TG2, 
-                        communities_pos_TG3, 
-                        communities_pos_TG4, 
-                        communities_pos_TG5) %>%
+treatment_clusters_positive <- c(TG1$communities_pos, 
+                        TG2$communities_pos, 
+                        TG3$communities_pos, 
+                        TG4$communities_pos, 
+                        TG5$communities_pos) %>%
   purrr::map(~ combn(.x, 2, simplify = FALSE)) %>%
   unlist(recursive = FALSE) %>% 
   purrr::map(~ sort(.x))
 
 # Calculate functional distances
-treatment_clusters_positive <- table(map_chr(treatment_clusters_positive, ~ paste(.x, collapse = " - "))) %>% 
-  as.data.frame(., stringsAsFactors = FALSE) %>%
-  rename(genomes=1,count=2) %>%
-  mutate(distance = map_dbl(genomes, function(pair) {
-    genomes <- str_split(pair, " - ", simplify = TRUE)
-    dist_value <- stats::dist(genome_gifts[genomes, ], method = "manhattan") / ncol(genome_gifts[genomes, ])
-    return(as.numeric(dist_value))
-  })) %>% 
-  arrange(-count)
+treatment_clusters_positive_dist <- compute_cluster_distances(treatment_clusters_positive, genome_gifts)
 
 # Print top pairs
 treatment_clusters_positive %>% 
@@ -1618,49 +331,37 @@ treatment_clusters_positive %>%
 #### Cluster combined
 
 ```{r community_clusters_all, comment="", message=FALSE, warning=FALSE}
-all_clusters_positive <- c(communities_pos_7, 
-                        communities_pos_14, 
-                        communities_pos_21, 
-                        communities_pos_28, 
-                        communities_pos_35,
-                        communities_pos_TG1, 
-                        communities_pos_TG2, 
-                        communities_pos_TG3, 
-                        communities_pos_TG4, 
-                        communities_pos_TG5) %>%
+all_clusters_positive <- c(day7$communities_pos, 
+                           day14$communities_pos,
+                           day21$communities_pos,
+                           day28$communities_pos,
+                           day35$communities_pos
+                        ) %>%
   purrr::map(~ combn(.x, 2, simplify = FALSE)) %>%
   unlist(recursive = FALSE) %>% 
   purrr::map(~ sort(.x))
 
 # Calculate functional distances
-all_clusters_positive <- table(map_chr(all_clusters_positive, ~ paste(.x, collapse = " - "))) %>% 
-  as.data.frame(., stringsAsFactors = FALSE) %>%
-  rename(genomes=1,count=2) %>%
-  mutate(distance = map_dbl(genomes, function(pair) {
-    genomes <- str_split(pair, " - ", simplify = TRUE)
-    dist_value <- stats::dist(genome_gifts[genomes, ], method = "manhattan") / ncol(genome_gifts[genomes, ])
-    return(as.numeric(dist_value))
-  })) %>% 
-  arrange(-count)
+all_clusters_positive_dist <- compute_cluster_distances(all_clusters_positive, genome_gifts)
 
 # Print top pairs
-all_clusters_positive %>% 
-  filter(count>5) %>% 
+all_clusters_positive_dist %>% 
+  filter(count>2) %>% 
   tt()
 ```
 
 ```{r community_clusters_all_plot, comment="", message=FALSE, warning=FALSE}
-day_clusters_positive_filtered <- day_clusters_positive %>% 
+day_clusters_positive_filtered <- day_clusters_positive_dist %>% 
   filter(count>3) %>%
   rename(count_day=count) %>% 
   mutate(clustering_day=TRUE)
 
-treatment_clusters_positive_filtered <- treatment_clusters_positive %>% 
+treatment_clusters_positive_filtered <- treatment_clusters_positive_dist %>% 
   filter(count>3) %>%
   rename(count_treatment=count) %>% 
   mutate(clustering_treatment=TRUE)
 
-all_clusters_positive_filtered <- all_clusters_positive %>% 
+all_clusters_positive_filtered <- all_clusters_positive_dist %>% 
   filter(count > 5) %>%
   rename(count_all=count) %>% 
   mutate(clustering_all=TRUE)
@@ -1696,28 +397,20 @@ associated_pairs_positive %>%
 #### Clusters per day
 
 ```{r community_clusters_day_negative, comment="", message=FALSE, warning=FALSE}
-day_clusters_negative <- c(communities_neg_7, 
-                  communities_neg_14, 
-                  communities_neg_21, 
-                  communities_neg_28, 
-                  communities_neg_35) %>%
+day_clusters_negative <- c(day7$communities_neg, 
+                           day14$communities_neg,
+                           day21$communities_neg,
+                           day28$communities_neg,
+                           day35$communities_neg) %>%
   purrr::map(~ combn(.x, 2, simplify = FALSE)) %>%
   unlist(recursive = FALSE) %>% 
   purrr::map(~ sort(.x))
 
 # Calculate functional distances
-day_clusters_negative <- table(map_chr(day_clusters_negative, ~ paste(.x, collapse = " - "))) %>% 
-  as.data.frame(., stringsAsFactors = FALSE) %>%
-  rename(genomes=1,count=2) %>%
-  mutate(distance = map_dbl(genomes, function(pair) {
-    genomes <- str_split(pair, " - ", simplify = TRUE)
-    dist_value <- stats::dist(genome_gifts[genomes, ], method = "manhattan") / ncol(genome_gifts[genomes, ])
-    return(as.numeric(dist_value))
-  })) %>% 
-  arrange(-count)
+day_clusters_negative_dist <- compute_cluster_distances(day_clusters_negative, genome_gifts)
 
 # Print top pairs
-day_clusters_negative %>% 
+day_clusters_negative_dist %>% 
   filter(count>3) %>% 
   tt()
 ```
@@ -1725,78 +418,61 @@ day_clusters_negative %>%
 #### Clusters per treatment
 
 ```{r community_clusters_treatment_negative, comment="", message=FALSE, warning=FALSE}
-treatment_clusters_negative <- c(communities_neg_TG1, 
-                        communities_neg_TG2, 
-                        communities_neg_TG3, 
-                        communities_neg_TG4, 
-                        communities_neg_TG5) %>%
+treatment_clusters_negative <- c(TG1$communities_neg,
+                                 TG2$communities_neg,
+                                 TG3$communities_neg,
+                                 TG4$communities_neg,
+                                 TG5$communities_neg) %>%
   purrr::map(~ combn(.x, 2, simplify = FALSE)) %>%
   unlist(recursive = FALSE) %>% 
   purrr::map(~ sort(.x))
 
-# Calculate functional distances
-treatment_clusters_negative <- table(map_chr(treatment_clusters_negative, ~ paste(.x, collapse = " - "))) %>% 
-  as.data.frame(., stringsAsFactors = FALSE) %>%
-  rename(genomes=1,count=2) %>%
-  mutate(distance = map_dbl(genomes, function(pair) {
-    genomes <- str_split(pair, " - ", simplify = TRUE)
-    dist_value <- stats::dist(genome_gifts[genomes, ], method = "manhattan") / ncol(genome_gifts[genomes, ])
-    return(as.numeric(dist_value))
-  })) %>% 
-  arrange(-count)
+treatment_clusters_negative_dist <- compute_cluster_distances(treatment_clusters_negative, genome_gifts)
 
-# Print top pairs
-treatment_clusters_negative %>% 
-  filter(count>3) %>% 
+# Print top pairs  --  all pairs actually appear only once
+treatment_clusters_negative_dist %>% 
+  filter(count>1) %>% 
   tt()
 ```
 
 #### Cluster combined
 
 ```{r community_clusters_all_negative, comment="", message=FALSE, warning=FALSE}
-all_clusters_negative <- c(communities_neg_7, 
-                        communities_neg_14, 
-                        communities_neg_21, 
-                        communities_neg_28, 
-                        communities_neg_35,
-                        communities_neg_TG1, 
-                        communities_neg_TG2, 
-                        communities_neg_TG3, 
-                        communities_neg_TG4, 
-                        communities_neg_TG5) %>%
+all_clusters_negative <- c(day7$communities_neg,
+                           day14$communities_neg,
+                           day21$communities_neg,
+                           day28$communities_neg,
+                           day35$communities_neg,
+                           TG1$communities_neg,
+                           TG2$communities_neg,
+                           TG3$communities_neg,
+                           TG4$communities_neg,
+                           TG5$communities_neg) %>%
   purrr::map(~ combn(.x, 2, simplify = FALSE)) %>%
   unlist(recursive = FALSE) %>% 
   purrr::map(~ sort(.x))
 
 # Calculate functional distances
-all_clusters_negative <- table(map_chr(all_clusters_negative, ~ paste(.x, collapse = " - "))) %>% 
-  as.data.frame(., stringsAsFactors = FALSE) %>%
-  rename(genomes=1,count=2) %>%
-  mutate(distance = map_dbl(genomes, function(pair) {
-    genomes <- str_split(pair, " - ", simplify = TRUE)
-    dist_value <- stats::dist(genome_gifts[genomes, ], method = "manhattan") / ncol(genome_gifts[genomes, ])
-    return(as.numeric(dist_value))
-  })) %>% 
-  arrange(-count)
+all_clusters_negative_dist <- compute_cluster_distances(all_clusters_negative, genome_gifts)
 
 # Print top pairs
-all_clusters_negative %>% 
-  filter(count>5) %>% 
+all_clusters_negative_dist %>% 
+  filter(count>1) %>% 
   tt()
 ```
 
 ```{r community_clusters_all_plot2, comment="", message=FALSE, warning=FALSE}
-day_clusters_negative_filtered <- day_clusters_negative %>% 
+day_clusters_negative_filtered <- day_clusters_negative_dist %>% 
   filter(count>3) %>%
   rename(count_day=count) %>% 
   mutate(clustering_day=TRUE)
 
-treatment_clusters_negative_filtered <- treatment_clusters_negative %>% 
+treatment_clusters_negative_filtered <- treatment_clusters_negative_dist %>% 
   filter(count>3) %>%
   rename(count_treatment=count) %>% 
   mutate(clustering_treatment=TRUE)
 
-all_clusters_negative_filtered <- all_clusters_negative %>% 
+all_clusters_negative_filtered <- all_clusters_negative_dist %>% 
   filter(count > 5) %>%
   rename(count_all=count) %>% 
   mutate(clustering_all=TRUE)
@@ -1829,7 +505,6 @@ associated_pairs_negative %>%
 ### Association vs. functional distance
 
 ```{r association_distance_pos_neg_test, comment="", message=FALSE, warning=FALSE}
-
 weighted_sd <- function(x, w) {
   weighted_mean <- sum(w * x) / sum(w)
   variance <- sum(w * (x - weighted_mean)^2) / sum(w)

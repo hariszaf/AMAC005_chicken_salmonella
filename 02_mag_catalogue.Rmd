@@ -163,7 +163,7 @@ function_table <- genome_gifts %>%
 
 # Generate  basal tree
 function_tree <- force.ultrametric(genome_tree, method="extend") %>%
-                ggtree(., size = 0.3) 
+                ggtree(., size = 0.3)
 
 #Add phylum colors next to the tree tips
 function_tree <- gheatmap(function_tree, order_heatmap, offset=0, width=0.1, colnames=FALSE) +

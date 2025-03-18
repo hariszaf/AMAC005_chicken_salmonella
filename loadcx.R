@@ -1,21 +1,6 @@
-install.packages("BiocManager")
-BiocManager::install("RCy3")
-
-# library(tidyr)
-library(RCX)
-library(RCy3)
-library(igraph)
-library(dplyr)
-library(tibble)
-library(tidyverse)
-
-setwd("github_repos/contribute-to/AMAC005_chicken_salmonella/")
-
-
-
-library(dplyr)
-library(scales)
-library(igraph)
+# install.packages("BiocManager")
+# BiocManager::install("RCy3")
+# setwd("github_repos/contribute-to/AMAC005_chicken_salmonella/")
 
 
 # Build adj table
@@ -78,8 +63,6 @@ adjacency_matrix_frox_cx2 <- function(cxFile) {
 }
 
 
-
-
 # Set size, colors etc
 set_node_attributes <- function(graph_pos, genome_metadata, genome_counts_filt, order_colors, default_size = 8) {
   # Ensure genome_counts_filt and genome_metadata are compatible with graph_pos names
@@ -125,7 +108,6 @@ set_node_attributes <- function(graph_pos, genome_metadata, genome_counts_filt, 
 }
 
 
-
 # Add metavars to genome_metadata
 add_missing_records <- function(nodes, genome_metadata) {
   # Get the difference (nodes not in genome_metadata$genome)
@@ -153,35 +135,131 @@ add_missing_records <- function(nodes, genome_metadata) {
 }
 
 
+# Graph metrics
+graph_metrics <- function(graph, col_name, name){
+  return(
+    tibble(
+      !!col_name := name,  # Unquote the symbol to use it as a column name
+      density=graph.density(graph),
+      modularity=modularity(cluster_walktrap(graph)),
+      assortability=assortativity_degree(graph),
+      connectivity=mean(components(graph)$csize),
+      centrality=eigen_centrality(graph)$value
+    )
+  )
+}
+
+
+# Process a file
+process_cxfile <- function(cxFile, col_name, net_name, genome_metadata, genome_counts_filt, order_colors, threshold = 0.7) {
+
+  # --------------
+  # POSITIVE EDGES
+  # --------------
+
+  # Load the adjacency matrix (replace with the correct function to read CX files)
+  mag_cor <- adjacency_matrix_frox_cx2(cxFile)  # Replace with actual function
+
+  # Apply threshold to correlations (positive correlations only)
+  # NOTE: for the case of overall:
+
+  # if ( endsWith(cxFile, "overall.cx") | endsWith(cxFile, "microbetag_net_TG2.cx")  ) {
+  w <- matrix(unlist(mag_cor), nrow = nrow(mag_cor), ncol = ncol(mag_cor))
+  mag_cor_pos<- ifelse(w > threshold, 1, 0)
+  dimnames(mag_cor_pos) <- dimnames(mag_cor)
+  # }
+  # mag_cor_pos <- ifelse(mag_cor > threshold, 1, 0)
+
+  # Create an undirected graph from the adjacency matrix
+  graph_pos <- igraph::graph_from_adjacency_matrix(mag_cor_pos, mode = "undirected", diag = FALSE)
+
+  # Set node attributes (you should ensure these variables are defined)
+  graph_pos <- set_node_attributes(graph_pos, genome_metadata, genome_counts_filt, order_colors)
+
+  # Perform clustering using edge betweenness
+  cluster_pos <- cluster_edge_betweenness(graph_pos)
+
+  # Split communities based on clustering and filter for those with more than one member
+  communities_pos <- split(V(graph_pos)$name, membership(cluster_pos)) %>% keep(~ length(.x) > 1)
+
+  # --------------
+  # NEGATIVE EDGES
+  # --------------
+
+  #Negative correlations
+  mag_cor_neg <- ifelse(w < -threshold, 1, 0)
+  dimnames(mag_cor_neg) <- dimnames(mag_cor)
+
+  graph_neg <- graph_from_adjacency_matrix(mag_cor_neg, mode = "undirected", diag = FALSE)
+
+  graph_neg <- set_node_attributes(graph_neg, genome_metadata, genome_counts_filt, order_colors)
+
+  cluster_neg <- cluster_edge_betweenness(graph_neg)
+
+  communities_neg <- split(V(graph_neg)$name, membership(cluster_neg) )%>% keep(~ length(.x) > 1)
+
+  # --------------
+  # METRICS
+  # --------------
+  col_name <- ensym(col_name)
+  metrics_pos <- graph_metrics(graph_pos, col_name, net_name)
+  metrics_neg <- graph_metrics(graph_neg, col_name, net_name)
+
+  # Return both graph and communities
+  return(
+    list(
+      graph_pos    = graph_pos,
+      clusters_pos = cluster_pos,
+      graph_neg    = graph_neg,
+      clusters_neg = cluster_neg,
+      metrics_pos  = metrics_pos,
+      metrics_neg  = metrics_neg,
+      communities_pos = communities_pos,
+      communities_neg = communities_neg
+    )
+  )
+}
+
+
+# Plot a graph function along with its clusters
+plot_graph <- function(graph, cluster, outputfile, min_community_size = 2, vertex_color = NULL, vertex_size = NULL, edge_width = 1, mark_col = "#f4f4f4") {
+
+  png(outputfile, width = 2600, height = 2400, res  = 300)
+
+  # Create the igraph plot
+  p <- igraph::plot.igraph(
+    graph,
+    vertex.color = vertex_color %||% V(graph)$color,
+    vertex.size = vertex_size %||% V(graph)$size,
+    vertex.label = NA,
+    vertex.frame.color = NA,
+    edge.width = edge_width,
+    mark.groups = communities(cluster) %>% keep(~ length(.x) >= min_community_size),
+    mark.col = mark_col,
+    mark.border = NA,
+    layout = layout_with_fr
+  )
+
+  dev.off()
+}
 
 
 
+#
+compute_cluster_distances <- function(clusters, genome_gifts) {
+  table(map_chr(clusters, ~ paste(.x, collapse = " - "))) %>%
+    as.data.frame(stringsAsFactors = FALSE) %>%
+    rename(genomes = 1, count = 2) %>%
+    mutate(distance = map_dbl(genomes, function(pair) {
+      genomes <- str_split(pair, " - ", simplify = TRUE) %>% as.vector()
+      genomes <- genomes[genomes %in% rownames(genome_gifts)]  # Keep only valid genomes
 
+      if (length(genomes) < 2) return(NA_real_)  # Avoid errors if less than 2 genomes
 
-# ----------------------------------
+      dist_value <- stats::dist(genome_gifts[genomes, , drop = FALSE], method = "manhattan") /
+        ncol(genome_gifts[genomes, , drop = FALSE])
+      return(as.numeric(dist_value))
+    })) %>%
+    arrange(-count)
+}
 
-#
-# ig2 <- createIgraphFromNetwork("microbetag_analysis/microbetag_nets/microbetag_net_day_14.cx2")
-# ig2 <- importNetworkFromFile("microbetag_analysis/microbetag_nets/microbetag_net_day_14.cx2")
-#
-#
-# if (!require("BiocManager", quietly = TRUE))
-#   install.packages("BiocManager")
-#
-# BiocManager::install("RCyjs")
-#
-#
-#
-# #sif <- "/home/luna.kuleuven.be/u0156635/github_repos/contribute-to/AMAC005_chicken_salmonella/microbetag_analysis/microbetag_nets/day7.sif"
-#
-# sif <- "microbetag_analysis/microbetag_nets/day7.sif"
-#
-# oncytoscape <- importNetworkFromFile(sif)
-#
-# #  You need to keep cytoscape in the network of interest
-# ig <- createIgraphFromNetwork(oncytoscape)
-#
-#
-# edgelist <- igraph::get.edgelist(ig)
-#
-# edge_attributes <- igraph::edge_attr(ig)

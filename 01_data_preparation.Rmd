@@ -142,7 +142,7 @@ genome_counts_filt <- read_counts_filt %>%
 Raw functional annotations are distilled into genome-inferred functional traits to generate biologically more meaningful functional traits for downstream analyses.
 
 ```{r distill_annotations, warning=FALSE, comments="", message=FALSE, results='hide', eval=FALSE}
-genome_gifts <- distill(genome_annotations,GIFT_db,genomecol=2,annotcol=c(9,10,19))
+genome_gifts <- distill(genome_annotations, GIFT_db, genomecol=2, annotcol=c(9,10,19))
 ```
 
 ## Color scheme
@@ -158,12 +158,12 @@ phylum_colors <- read_tsv("https://raw.githubusercontent.com/earthhologenome/EHI
     arrange(phylum) %>%
     pull(colors, name=phylum)
 
-order_colors <- c("#08D1D1","#BF7022","#2EBC82","#2E91BC","#2E5ABC","#09CE8D","#E0A608","#097265","#AB56D8","#0AA01F","#274945","#4E397A","#B3265B","#2EBC45","#7F4561","#58BC2E","#BC2EA1","#6A52C6","#AD8D8D")
-
-
-treatment_colors <- c(TG1="#4059AE",TG2="#6A9AC3",TG3="#97D8C4",TG4="#AFD699",TG5="#F3B942")
-
-
+# order_colors <- c(
+#   "#08D1D1","#BF7022","#2EBC82","#2E91BC","#2E5ABC","#09CE8D","#E0A608","#097265","#AB56D8","#0AA01F","#274945","#4E397A","#B3265B",
+#   "#2EBC45","#7F4561","#58BC2E","#BC2EA1","#6A52C6","#AD8D8D")
+# 
+# 
+# treatment_colors <- c(TG1="#4059AE",TG2="#6A9AC3",TG3="#97D8C4",TG4="#AFD699",TG5="#F3B942")
 ```
 
 
