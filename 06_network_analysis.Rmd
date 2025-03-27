@@ -303,7 +303,7 @@ day_clusters_positive_dist <- compute_cluster_distances(day_clusters_positive, g
 
 # Print top pairs
 day_clusters_positive_dist %>% 
-  filter(count>2) %>% 
+  filter(count>1) %>% 
   tt()
 ```
 
@@ -323,8 +323,8 @@ treatment_clusters_positive <- c(TG1$communities_pos,
 treatment_clusters_positive_dist <- compute_cluster_distances(treatment_clusters_positive, genome_gifts)
 
 # Print top pairs
-treatment_clusters_positive %>% 
-  filter(count>3) %>% 
+treatment_clusters_positive_dist %>% 
+  filter(count>1) %>% 
   tt()
 ```
 
@@ -346,35 +346,41 @@ all_clusters_positive_dist <- compute_cluster_distances(all_clusters_positive, g
 
 # Print top pairs
 all_clusters_positive_dist %>% 
-  filter(count>2) %>% 
+  filter(count>1) %>% 
   tt()
 ```
 
 ```{r community_clusters_all_plot, comment="", message=FALSE, warning=FALSE}
 day_clusters_positive_filtered <- day_clusters_positive_dist %>% 
-  filter(count>3) %>%
+  filter(count>1) %>%
   rename(count_day=count) %>% 
   mutate(clustering_day=TRUE)
 
 treatment_clusters_positive_filtered <- treatment_clusters_positive_dist %>% 
-  filter(count>3) %>%
+  filter(count>1) %>%
   rename(count_treatment=count) %>% 
   mutate(clustering_treatment=TRUE)
 
 all_clusters_positive_filtered <- all_clusters_positive_dist %>% 
-  filter(count > 5) %>%
+  filter(count > 1) %>%
   rename(count_all=count) %>% 
   mutate(clustering_all=TRUE)
 
 associated_pairs_positive <- all_clusters_positive_filtered %>% 
-  full_join(day_clusters_positive_filtered, by=join_by("genomes"=="genomes","distance"=="distance")) %>% 
+  full_join(
+    day_clusters_positive_filtered, 
+    by=join_by("genomes"=="genomes","distance"=="distance")
+  ) %>% 
   full_join(treatment_clusters_positive_filtered, by=join_by("genomes"=="genomes","distance"=="distance")) %>%
   rowwise() %>% 
   mutate(count=max(count_all,count_day,count_treatment, na.rm=TRUE)) %>%
-  mutate(clustering = case_when(
-    clustering_all == TRUE ~ "all",  # If clustering_all is TRUE
-    clustering_day == TRUE & is.na(clustering_all) & is.na(clustering_treatment) ~ "day", 
-    clustering_treatment == TRUE & is.na(clustering_all) & is.na(clustering_day) ~ "treatment")) %>%
+  mutate(
+    clustering = case_when(
+      clustering_all == TRUE ~ "all",  # If clustering_all is TRUE
+      clustering_day == TRUE & is.na(clustering_all) & is.na(clustering_treatment) ~ "day", 
+      clustering_treatment == TRUE & is.na(clustering_all) & is.na(clustering_day) ~ "treatment"
+    )
+  ) %>%
   select(genomes,count,clustering,distance) %>%
   mutate(clustering=factor(clustering)) %>%
   #add coordinates
@@ -411,7 +417,7 @@ day_clusters_negative_dist <- compute_cluster_distances(day_clusters_negative, g
 
 # Print top pairs
 day_clusters_negative_dist %>% 
-  filter(count>3) %>% 
+  filter(count>1) %>% 
   tt()
 ```
 
@@ -463,17 +469,17 @@ all_clusters_negative_dist %>%
 
 ```{r community_clusters_all_plot2, comment="", message=FALSE, warning=FALSE}
 day_clusters_negative_filtered <- day_clusters_negative_dist %>% 
-  filter(count>3) %>%
+  filter(count > 1) %>%
   rename(count_day=count) %>% 
   mutate(clustering_day=TRUE)
 
 treatment_clusters_negative_filtered <- treatment_clusters_negative_dist %>% 
-  filter(count>3) %>%
+  filter(count > 1) %>%
   rename(count_treatment=count) %>% 
   mutate(clustering_treatment=TRUE)
 
 all_clusters_negative_filtered <- all_clusters_negative_dist %>% 
-  filter(count > 5) %>%
+  filter(count > 1) %>%
   rename(count_all=count) %>% 
   mutate(clustering_all=TRUE)
 
@@ -496,7 +502,7 @@ associated_pairs_negative <- all_clusters_negative_filtered %>%
   rename(x2 = Axis.1, y2 = Axis.2)
 
 associated_pairs_negative %>% 
-  select(genome1,genome2,count,clustering) %>% 
+  select(genome1, genome2, count, clustering) %>% 
   left_join(genome_metadata %>% select(genome,order,species),by=join_by(genome1==genome)) %>% 
   left_join(genome_metadata %>% select(genome,order,species),by=join_by(genome2==genome)) %>% 
   tt()
@@ -530,6 +536,7 @@ weighted_mean <- function(x, w) {
 }
 
 permutation_test <- function(data, n_permutations = 1000) {
+  
   original_diff <- abs(weighted_mean(data$distance[data$type == "positive"], data$count[data$type == "positive"]) -
                          weighted_mean(data$distance[data$type == "negative"], data$count[data$type == "negative"]))
   
@@ -653,6 +660,9 @@ tibble(dist=functional_distances[upper.tri(functional_distances, diag = FALSE)])
 ### Persistent associations
 
 ```{r community_clusters_all_combined_plot, comment="", message=FALSE, warning=FALSE, fig.height=6, fig.width=10, fig.fullwidth=TRUE}
+associated_pairs_positive_bck <- associated_pairs_positive
+associated_pairs_positive <- associated_pairs_positive[associated_pairs_positive$count > 2,]
+associated_pairs_positive[associated_pairs_positive$count > 2,]
 gift_pcoa_vectors %>%
   rownames_to_column(var="genome") %>%
   left_join(genome_metadata, by="genome") %>%
