@@ -86,6 +86,7 @@ library(distillR)
 library(ANCOMBC)
 library(lme4)
 library(Hmsc)
+library(broom) 
 
 # For networks
 library(RCX)

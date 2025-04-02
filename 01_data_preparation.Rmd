@@ -190,3 +190,4 @@ save(read_counts,
 - **genome_metadata**: Taxonomic and quality information of the genomes.
 - **genome_gifts**: Genome-inferred functional traits of the genomes, to be employed in downstream functional analyses.
 - **sample_metadata**: Treatment/population and other relevant metadata of the samples.
+  

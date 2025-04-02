@@ -665,7 +665,6 @@ plot_data <- gift_pcoa_vectors %>%
   mutate(auto=row_number())
 
 
-
 Erysipelotrichales <- genome_metadata %>% filter(order == "o__Erysipelotrichales") %>% pull(genome)
 UBA1381 <- genome_metadata %>% filter(order == "o__UBA1381") %>% pull(genome)
 TANB77 <- genome_metadata %>% filter(order == "o__TANB77") %>% pull(genome)
@@ -675,10 +674,17 @@ RF39 <- genome_metadata %>% filter(order == "o__RF39") %>% pull(genome)
 
 Lachnospirales <- genome_metadata %>% filter(order == "o__Lachnospirales") %>% pull(genome)
 Oscillospirales <- genome_metadata %>% filter(order == "o__Oscillospirales") %>% pull(genome)
+Enterobacterales <- genome_metadata %>% filter(order == "o__Enterobacterales") %>% pull(genome)
+Christensenellales <-  genome_metadata %>% filter(order == "o__Christensenellales") %>% pull(genome)
 
 genomes_of_taxa_of_interest <- c(
-                    Erysipelotrichales, UBA1381, TANB77, Clostridiales, RF39
+  # Oscillospirales
+  # Lachnospirales
+  # Enterobacterales, Christensenellales
+  Erysipelotrichales, UBA1381, TANB77, Clostridiales, RF39
 )
+
+
 genomes_of_interest <- intersect(genomes_of_taxa_of_interest, connected_genomes)
 
 # Make a df just for the needs of the text on the plot with the taxa name of interest
@@ -722,7 +728,8 @@ q1 <- ggplot() +
       aes(x = Axis.1 , y = Axis.2 , label = auto),  # Adjust label position
       size = 3, 
       fill = "white", 
-      alpha = 0.01
+      color = "black",
+      alpha = 0.31
     ) +  
     scale_alpha_identity() +  # Ensures the alpha values are used directly
     scale_color_manual(name = "Order", values = order_colors) +
@@ -739,11 +746,11 @@ q1 <- q1 + annotate(
     )
 
 q1 <- q1 + 
-  scale_x_continuous(expand = expansion(add = c(1.1, 0.1))) +  # Adjust x-axis expansion
+  scale_x_continuous(expand = expansion(add = c(1.1, 0.3))) +  # Adjust x-axis expansion
   scale_y_continuous(expand = expansion(add = c(0.1, 0.1)))    # Adjust y-axis expansion
 
 
-ggsave("~/Desktop/pcoa.svg", q1, dpi = 300, width = 12,  height = 9, units = "in", device = "svg", bg="white") # , bg = "transparent"
+ggsave("~/Desktop/pcoa.svg", q1, dpi = 300, width = 9,  height = 9, units = "in", device = "svg", bg="transparent") # , bg = "transparent"
 
 ```
 
@@ -830,4 +837,142 @@ genome_gifts[selected_genomes, ] %>%
               strip.text.y = element_text(angle = 0)) + 
         labs(y="Traits",x="Samples",fill="GIFT")
 ```
+
+
+
+
+
+
+
+
+```{r Seed scores}
+
+
+compl_scores <- read.table("microbetag_analysis/microbetag_nets/seed_scores.tsv", sep = "\t", header = TRUE)
+
+
+add_taxonomic_level <- function(df, tax_df, tax_level) {
+  df <- df %>%
+    left_join(tax_df %>% select(genome, all_of(tax_level)), by = c("A" = "genome")) %>%
+    rename(!!paste0("A_", tax_level) := all_of(tax_level)) %>%
+    left_join(tax_df %>% select(genome, all_of(tax_level)), by = c("B" = "genome")) %>%
+    rename(!!paste0("B_", tax_level) := all_of(tax_level))
+  return(df)
+}
+
+
+compl_scores_taxonomies <- add_taxonomic_level(compl_scores, genome_taxonomy, "phylum")
+compl_scores_taxonomies <- add_taxonomic_level(compl_scores_taxonomies, genome_taxonomy, "order")
+compl_scores_taxonomies <- add_taxonomic_level(compl_scores_taxonomies, genome_taxonomy, "family")
+compl_scores_taxonomies <- add_taxonomic_level(compl_scores_taxonomies, genome_taxonomy, "genus")
+
+```
+
+
+```{r }
+analyze_taxonomic_level <- function(df, tax_level) {
+  tax_post_hoc <- df %>%
+    group_by(!!sym(paste0("A_", tax_level)), !!sym(paste0("B_", tax_level))) %>%
+    dplyr::tally() %>%  # Counts the number of entries per group
+    left_join(
+      df %>%
+        # Group the dataset by the taxonomic level of interest for both A and B
+        group_by(!!sym(paste0("A_", tax_level)), !!sym(paste0("B_", tax_level))) %>%
+
+        # Apply a linear model (Complementarity ~ Competition) within each group
+        dplyr::do(broom::glance(
+          lm(Complementarity ~ Competition, data = .)
+        )),
+      by = c(paste0("A_", tax_level), paste0("B_", tax_level))
+    ) %>%
+    ungroup() %>%
+    mutate(p.adjusted_bh = p.adjust(p.value, method = "BH")) %>%
+    mutate(p.adjusted_bon = p.adjust(p.value, method = "bonferroni")) %>%
+    mutate(p.adjusted_fdr = p.adjust(p.value, method = "fdr"))
+  
+  filtered_results <- tax_post_hoc %>% filter(adj.r.squared > 0 & nobs > 20)
+  return(filtered_results)
+}
+phyla_post_hoc <- analyze_taxonomic_level(compl_scores_taxonomies, "phylum")
+phyla_filtered_results <- phyla_post_hoc %>% filter(adj.r.squared > 0 & nobs > 20)
+
+order_post_hoc <- analyze_taxonomic_level(compl_scores_taxonomies, "order")
+order_filtered_results <- order_post_hoc %>% filter(adj.r.squared > 0 & nobs > 20)
+```
+
+
+
+```{r}
+create_taxonomic_heatmap <- function(filtered_results, taxonomies, tax_level) {
+  
+  # Count occurrences at the chosen taxonomic level and create labels
+  tax_counts <- taxonomies %>%
+    count(!!sym(tax_level)) %>%
+    mutate(label = paste(!!sym(tax_level), "(", n, ")", sep=""))
+
+  # Merge the labels back to filtered_results
+  filtered_results <- filtered_results %>%
+    left_join(tax_counts %>% select(!!sym(paste0("A_", tax_level)) := !!sym(tax_level), 
+                                    A_label = label), 
+              by = paste0("A_", tax_level)) %>%
+    left_join(tax_counts %>% select(!!sym(paste0("B_", tax_level)) := !!sym(tax_level), 
+                                    B_label = label), 
+              by = paste0("B_", tax_level))
+
+  # Create the heatmap
+  ggplot(
+    filtered_results, 
+    aes(
+      x = A_label,
+      y = B_label,
+      fill = adj.r.squared
+    )
+  ) +
+  geom_tile() +
+  theme_minimal() +
+  labs(
+    x = paste("A", tax_level, sep = "_"),
+    y = paste("B", tax_level, sep = "_"),
+    fill = "adj.r.squared",
+    title = paste("Predicting Complementarity as a function of Competition at", tax_level, "level")
+  ) +
+  scale_fill_gradient2(
+      low = "white",       # Near 0
+      high = "#3D85C6",  # Maximum value
+      mid = "lightblue",       # Midpoint also white to ensure smooth transition
+      midpoint = 0,        # Centered around 0
+      na.value = "grey50",
+      guide = "colourbar",
+      aesthetics = "fill"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  geom_text(
+    aes(label = ifelse(p.adjusted_bh < 0.05, "*", "")), 
+    color = "black"
+  )
+}
+
+heatmap_phylum <- create_taxonomic_heatmap(phyla_filtered_results, taxonomies, "phylum")
+heatmap_order  <- create_taxonomic_heatmap(order_filtered_results, taxonomies, "order")
+
+svg("microbetag_analysis/figs/seed_stats/seed_scores_lm_order2.svg", width = 8, height = 6, bg="transparent")  # Set desired dimensions
+print(heatmap_order)  # Replace with your ggplot object
+dev.off()  # Close the device to save the file
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
