@@ -1,15 +1,29 @@
 # Network analysis
 
+To run this notebook, you need to make sure you have first run:
+1. [`index.Rmd`](./index.Rmd)
+2. [`01_data_preparation.Rmd`](./01_data_preparation.Rmd), and 
+3. from [`02_mag_catalogue.Rmd`](./02_mag_catalogue.Rmd) to have access to the `functional_distances`
+
+Also, you need to load a set of custom functions to parse the `.cx` format networks. 
+`microbetag` returns `.cx2` networks, but we could not find a more straight forward way to parse them in R, so after loading those on Cytoscape, we saved them as `.cx`.
+
+```{r load cx parser}
+source("loadcx.R")
+```
+
+
 ```{r load_overall}
 order_colors <- c(
   "#08D1D1","#BF7022","#2EBC82","#2E91BC","#2E5ABC","#09CE8D","#E0A608","#097265","#AB56D8","#0AA01F","#274945","#4E397A","#B3265B",
-  "#2EBC45","#7F4561","#58BC2E","#BC2EA1","#6A52C6","#AD8D8D", "#CFE71F")
+  "#2EBC45","#7F4561","#CE7E00","#BC2EA1","#6A52C6","#AD8D8D", "#CFE71F")
 
 # order_colors <- c(
 #   "#08D1D1","#BF7022","#2EBC82","#2E91BC","#2E5ABC","#09CE8D","#E0A608","#097265","#AB56D8","#0AA01F","#274945","#4E397A","#B3265B",
 #   "#2EBC45","#7F4561","#58BC2E","#BC2EA1","#6A52C6","#AD8D8D")
 
 ```
+
 
 
 ## Overall 
@@ -21,8 +35,8 @@ overall = process_cxfile(cxFile, "overall", genome_metadata, genome_counts_filt,
 ```
 
 ```{r plots-overall}
-all_days_pos_plot <- plot_graph(overall$graph_pos, overall$clusters_pos, "all_days_pos.png")
-all_days_neg_plot <- plot_graph(overall$graph_neg, overall$clusters_neg, "all_days_neg.png")
+all_days_pos_plot <- plot_graph(overall$graph_pos, overall$clusters_pos, "all_days_pos.svg")
+all_days_neg_plot <- plot_graph(overall$graph_neg, overall$clusters_neg, "all_days_neg.svg")
 ```
 
 
@@ -30,103 +44,71 @@ all_days_neg_plot <- plot_graph(overall$graph_neg, overall$clusters_neg, "all_da
 
 ### Day 7
 
-```{r cor_day7, comment="", message=FALSE, warning=FALSE}
-cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_day_7.cx"
-day7 = process_cxfile(cxFile, day, "day7", genome_metadata, genome_counts_filt, order_colors)
+The `threshold` refers to the minimum absolute flashweave score. By default, we use 0.5 as coming from microbetag's configuration. 
+
+```{r cor_day7, message=FALSE, warning=FALSE, comment=""}
+cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_day_7.cx"
+day7 = process_cxfile(cxFile, day, "day7", genome_metadata, genome_counts_filt, order_colors, threshold = 0.5)
 ```
 
 
 ```{r cor_day7_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-d7_pos_plot <- plot_graph(day7$graph_pos, day7$clusters_pos, "day07_pos.png")
-d7_neg_plot <- plot_graph(day7$graph_neg, day7$clusters_neg, "day07_neg.png")
+d7_pos_plot <- plot_graph(day7$graph_pos, day7$clusters_pos, "day07_pos.svg")
+d7_neg_plot <- plot_graph(day7$graph_neg, day7$clusters_neg, "day07_neg.svg")
 ```
+
+
 
 ### Day 14
 
 ```{r cor_day14, comment="", message=FALSE, warning=FALSE}
-cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_day_14.cx"
+cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_day_14.cx"
 day14 = process_cxfile(cxFile, day, "day14", genome_metadata, genome_counts_filt, order_colors)
 ```
 
 ```{r cor_day14_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-d14_pos_plot <- plot_graph(day14$graph_pos, day14$clusters_pos, "day14_pos.png")
-d14_neg_plot <- plot_graph(day14$graph_neg, day14$clusters_neg, "day14_neg.png")
+d14_pos_plot <- plot_graph(day14$graph_pos, day14$clusters_pos, "day14_pos.svg")
+d14_neg_plot <- plot_graph(day14$graph_neg, day14$clusters_neg, "day14_neg.svg")
 ```
 
 ### Day 21
 
 ```{r cor_day21, comment="", message=FALSE, warning=FALSE}
-cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_day_21.cx"
+cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_day_21.cx"
 day21 = process_cxfile(cxFile, day, "day21", genome_metadata, genome_counts_filt, order_colors)
 ```
 
 
 ```{r cor_day21_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-d21_pos_plot <- plot_graph(day21$graph_pos, day21$clusters_pos, "day21_pos.png")
-d21_neg_plot <- plot_graph(day21$graph_neg, day21$clusters_neg, "day21_neg.png")
+d21_pos_plot <- plot_graph(day21$graph_pos, day21$clusters_pos, "day21_pos.svg")
+d21_neg_plot <- plot_graph(day21$graph_neg, day21$clusters_neg, "day21_neg.svg")
 ```
 
 ### Day 28
 
 ```{r cor_day28, comment="", message=FALSE, warning=FALSE}
-cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_day_28.cx"
+cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_day_28.cx"
 day28 = process_cxfile(cxFile, day, "day28", genome_metadata, genome_counts_filt, order_colors)
 ```
 
 
 ```{r cor_day28_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-d28_pos_plot <- plot_graph(day28$graph_pos, day28$clusters_pos, "day28_pos.png")
-d28_neg_plot <- plot_graph(day28$graph_neg, day28$clusters_neg, "day28_neg.png")
+d28_pos_plot <- plot_graph(day28$graph_pos, day28$clusters_pos, "day28_pos.svg")
+d28_neg_plot <- plot_graph(day28$graph_neg, day28$clusters_neg, "day28_neg.svg")
 ```
 
 ### Day 35
 
 ```{r cor_day35, comment="", message=FALSE, warning=FALSE}
-cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_day_35.cx"
+cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_day_35.cx"
 day35  <- process_cxfile(cxFile, day, "day35", genome_metadata, genome_counts_filt, order_colors)
 ```
 
 
 ```{r cor_day35_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-d35_pos_plot <- plot_graph(day35$graph_pos, day35$clusters_pos, "day35_pos.png")
-d35_neg_plot <- plot_graph(day35$graph_neg, day35$clusters_neg, "day35_neg.png")
+d35_pos_plot <- plot_graph(day35$graph_pos, day35$clusters_pos, "day35_pos.svg")
+d35_neg_plot <- plot_graph(day35$graph_neg, day35$clusters_neg, "day35_neg.svg")
 ```
-
-
-
-```{r as}
-# POSITIVE
-img1 <- readPNG("day07_pos.png")
-img2 <- readPNG("day14_pos.png")
-img3 <- readPNG("day21_pos.png")
-img4 <- readPNG("day28_pos.png")
-img5 <- readPNG("day35_pos.png")
-
-# NEGATIVE
-img6 <- readPNG("day07_neg.png")
-img7 <- readPNG("day14_neg.png")
-img8 <- readPNG("day21_neg.png")
-img9 <- readPNG("day28_neg.png")
-img10 <- readPNG("day35_neg.png")
-
-
-img_list <- list(img1, img2, img3, img4, img5, img6, img7, img8, img9, img10)
-
-png("grid_plot.png", width = 5000, height = 1000, res = 300)  # Adjust size and resolution as needed
-
-
-grid_objects <- lapply(img_list, function(img) {
-  rasterGrob(img, interpolate = TRUE)
-})
-
-grid.arrange(grobs = grid_objects, ncol = 5, nrow = 2)
-grid.text("positive", x = unit(0.03, "npc"), y = unit(0.75, "npc"), rot = 90, gp = gpar(fontsize = 14))
-grid.text("negative", x = unit(0.03, "npc"), y = unit(0.25, "npc"), rot = 90, gp = gpar(fontsize = 14))
-
-dev.off()
-
-```
-
 
 
 
@@ -135,64 +117,67 @@ dev.off()
 ### TG1
 
 ```{r cor_TG1, comment="", message=FALSE, warning=FALSE}
-cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_TG1.cx"
+cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_TG1.cx"
 TG1  <- process_cxfile(cxFile, treatment, "TG1", genome_metadata, genome_counts_filt, order_colors)
 ```
 
 
 ```{r cor_TG1_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-TG1_pos_plot <- plot_graph(TG1$graph_pos, TG1$clusters_pos, "TG1_pos.png")
-TG1_neg_plot <- plot_graph(TG1$graph_neg, TG1$clusters_neg, "TG1_neg.png")
+TG1_pos_plot <- plot_graph(TG1$graph_pos, TG1$clusters_pos, "TG1_pos.svg")
+TG1_neg_plot <- plot_graph(TG1$graph_neg, TG1$clusters_neg, "TG1_neg.svg")
 ```
 
 ### TG2
 
 ```{r cor_TG2, comment="", message=FALSE, warning=FALSE}
-cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_TG2.cx"
+cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_TG2.cx"
 TG2    <- process_cxfile(cxFile, treatment, "TG2", genome_metadata, genome_counts_filt, order_colors)
 ```
 
 ```{r cor_TG2_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-TG2_pos_plot <- plot_graph(TG2$graph_pos, TG2$clusters_pos, "TG2_pos.png")
-TG2_neg_plot <- plot_graph(TG2$graph_neg, TG2$clusters_neg, "TG2_neg.png")
+TG2_pos_plot <- plot_graph(TG2$graph_pos, TG2$clusters_pos, "TG2_pos.svg")
+TG2_neg_plot <- plot_graph(TG2$graph_neg, TG2$clusters_neg, "TG2_neg.svg")
 ```
 
 ### TG3
 
 ```{r cor_TG3, comment="", message=FALSE, warning=FALSE}
-cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_TG3.cx"
+cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_TG3.cx"
 TG3    <- process_cxfile(cxFile, treatment, "TG3", genome_metadata, genome_counts_filt, order_colors)
 ```
 
 ```{r cor_TG3_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-TG3_pos_plot <- plot_graph(TG3$graph_pos, TG3$clusters_pos, "TG3_pos.png")
-TG3_neg_plot <- plot_graph(TG3$graph_neg, TG3$clusters_neg, "TG3_neg.png")
+TG3_pos_plot <- plot_graph(TG3$graph_pos, TG3$clusters_pos, "TG3_pos.svg")
+TG3_neg_plot <- plot_graph(TG3$graph_neg, TG3$clusters_neg, "TG3_neg.svg")
 ```
 
 ### TG4
 
 ```{r cor_TG4, comment="", message=FALSE, warning=FALSE}
-cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_TG4.cx"
+cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_TG4.cx"
 TG4    <- process_cxfile(cxFile, treatment, "TG4", genome_metadata, genome_counts_filt, order_colors)
 ```
 
 
 ```{r cor_TG4_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-TG4_pos_plot <- plot_graph(TG4$graph_pos, TG4$clusters_pos, "TG4_pos.png")
-TG4_neg_plot <- plot_graph(TG4$graph_neg, TG4$clusters_neg, "TG4_neg.png")
+TG4_pos_plot <- plot_graph(TG4$graph_pos, TG4$clusters_pos, "TG4_pos.svg")
+TG4_neg_plot <- plot_graph(TG4$graph_neg, TG4$clusters_neg, "TG4_neg.svg")
 ```
 
 ### TG5
 
 ```{r cor_TG5, comment="", message=FALSE, warning=FALSE}
-cxFile <- "microbetag_analysis/microbetag_nets/microbetag_net_TG5.cx"
+cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_TG5.cx"
 TG5    <- process_cxfile(cxFile, treatment, "TG5", genome_metadata, genome_counts_filt, order_colors)
 ```
 
 ```{r cor_TG5_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-TG5_pos_plot <- plot_graph(TG5$graph_pos, TG5$clusters_pos, "TG5_pos.png")
-TG5_neg_plot <- plot_graph(TG5$graph_neg, TG5$clusters_neg, "TG5_neg.png")
+TG5_pos_plot <- plot_graph(TG5$graph_pos, TG5$clusters_pos, "TG5_pos.svg")
+TG5_neg_plot <- plot_graph(TG5$graph_neg, TG5$clusters_neg, "TG5_neg.svg")
 ```
+
+
+
 
 ## Combined
 
@@ -200,13 +185,18 @@ TG5_neg_plot <- plot_graph(TG5$graph_neg, TG5$clusters_neg, "TG5_neg.png")
 
 How the nodes in the graph tend to cluster together, indicating how tightly correlated groups of genomes are.
 
+- **density**: the number of edges between nodes in a network. It is calculated by dividing the total number of edges in the network by the maximum number of possible edges.
+- **modularity**: measures the strength of division of a network into modules. We use the `igraph::cluster_walktrap()`  to find densely connected subgraphs, also called communities in a graph via random walks. The idea is that short random walks tend to stay in the same community.
+- **centrality:** measure the overall centralisation of a network and refers to the properties of the network structure as a whole
+- 
+
 ```{r network_properties, comment="", message=FALSE, warning=FALSE}
 bind_rows(day7$metrics_pos, 
           day14$metrics_pos, 
           day21$metrics_pos,
           day28$metrics_pos,
           day35$metrics_pos) %>% 
-  tt()
+  tt()  # The tt() function renders a table in different formats 
 
 bind_rows(day7$metrics_neg, 
           day14$metrics_neg, 
@@ -231,65 +221,62 @@ bind_rows(TG1$metrics_neg,
 ```
 
 ```{r transitivity_plots, comment="", message=FALSE, warning=FALSE}
-bind_rows(day7$metrics_pos, 
-          day14$metrics_pos, 
-          day21$metrics_pos, 
-          day28$metrics_pos, 
-          day35$metrics_pos) %>% 
-  mutate(day=factor(day,levels=c("day7","day14","day21","day28","day35"))) %>%
-  pivot_longer(!day, names_to="metric", values_to = "value") %>% 
-  filter(metric != "assortability") %>% 
-  ggplot(aes(x=day, y=value)) + 
-    geom_col() +
-    facet_wrap(. ~ metric, scales="free", nrow = 1) +
-    theme_classic()
+plot_metrics <- function(metrics_list, group_var, group_levels) {
+  bind_rows(metrics_list) %>%
+    mutate(!!group_var := factor(.data[[group_var]], levels = group_levels)) %>%
+    pivot_longer(!.data[[group_var]], names_to = "metric", values_to = "value") %>%
+    filter(metric != "assortability") %>%
+    ggplot(aes(x = .data[[group_var]], y = value)) +
+      geom_col() +
+      facet_wrap(. ~ metric, scales = "free", nrow = 1) +
+      theme_classic() +
+      theme(
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        panel.background = element_rect(fill='transparent'),
+        plot.background = element_rect(fill='transparent', color=NA),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.background = element_rect(fill='transparent'),
+        legend.box.background = element_rect(fill='transparent')
+      )
+}
 
-bind_rows(day7$metrics_neg, 
-          day14$metrics_neg, 
-          day21$metrics_neg, 
-          day28$metrics_neg, 
-          day35$metrics_neg) %>% 
-  mutate(day=factor(day, levels=c("day7","day14","day21","day28","day35"))) %>%
-  pivot_longer(!day, names_to="metric", values_to = "value") %>% 
-  filter(metric != "assortability") %>%  
-  ggplot(aes(x=day, y=value)) + 
-    geom_col() +
-    facet_wrap(. ~ metric, scales="free", nrow = 1) +
-    theme_classic()
+# Plot metrics: TREATMENTS POSITIVE
+metrics_list <- list(TG1$metrics_pos, TG2$metrics_pos, TG3$metrics_pos, TG4$metrics_pos, TG5$metrics_pos)
+treatment_levels <- c("TG1", "TG2", "TG3", "TG4", "TG5")
+s <- plot_metrics(metrics_list, "treatment", treatment_levels)
+ggsave("~/Desktop/metrics_tp.svg", s, dpi = 300, device = "svg", bg = "transparent")
 
-bind_rows(TG1$metrics_pos,
-          TG2$metrics_pos,
-          TG3$metrics_pos,
-          TG4$metrics_pos,
-          TG5$metrics_pos) %>%
-  mutate(treatment=factor(treatment,levels=c("TG1","TG2","TG3","TG4","TG5"))) %>%
-  pivot_longer(!treatment, names_to="metric", values_to = "value") %>%
-  filter(metric != "assortability") %>%
-  ggplot(aes(x=treatment, y=value)) +
-    geom_col() +
-    facet_wrap(. ~ metric, scales="free", nrow = 1) +
-    theme_classic()
 
-bind_rows(TG1$metrics_neg,
-          TG2$metrics_neg,
-          TG3$metrics_neg,
-          TG4$metrics_neg,
-          TG5$metrics_neg) %>%
-  mutate(treatment=factor(treatment,levels=c("TG1","TG2","TG3","TG4","TG5"))) %>%
-  pivot_longer(!treatment, names_to="metric", values_to = "value") %>%
-  filter(metric != "assortability") %>%
-  ggplot(aes(x=treatment, y=value)) +
-    geom_col() +
-    facet_wrap(. ~ metric, scales="free", nrow = 1) +
-    theme_classic()
+# Plot metrics: TREATMENTS NEGATIVE
+metrics_list <- list(TG1$metrics_neg, TG2$metrics_neg, TG3$metrics_neg, TG4$metrics_neg, TG5$metrics_neg)
+treatment_levels <- c("TG1", "TG2", "TG3", "TG4", "TG5")
+r <- plot_metrics(metrics_list, "treatment", treatment_levels)
+ggsave("~/Desktop/metrics_tn.svg", r, dpi = 300, device = "svg", bg = "transparent")
+
+# Plot metrics: DAYS NEGATIVE
+metrics_list <- list(day7$metrics_neg, day14$metrics_neg, day21$metrics_neg, day28$metrics_neg, day35$metrics_neg)
+treatment_levels <- c("day7", "day14", "day21", "day28", "day35")
+q <- plot_metrics(metrics_list, "day", treatment_levels)
+ggsave("~/Desktop/metrics_dn.svg", q, dpi = 300, device = "svg", bg = "transparent")
+
+# Plot metrics: DAYS POSITIVE
+metrics_list <- list(day7$metrics_pos, day14$metrics_pos, day21$metrics_pos, day28$metrics_pos, day35$metrics_pos)
+treatment_levels <- c("day7", "day14", "day21", "day28", "day35")
+p <- plot_metrics(metrics_list, "day", treatment_levels)
+ggsave("~/Desktop/metrics_dp.svg", p, dpi = 300, device = "svg", bg = "transparent")
 ```
+
+
+
+
 
 ### Positive correlations
 
 #### Clusters per day
 
 ```{r community_clusters_day, comment="", message=FALSE, warning=FALSE}
-day_clusters_positive <- c(day7$communities_pos, 
+day_clusters_positive <- c( day7$communities_pos, 
                            day14$communities_pos,
                            day21$communities_pos,
                            day28$communities_pos,
@@ -303,7 +290,7 @@ day_clusters_positive_dist <- compute_cluster_distances(day_clusters_positive, g
 
 # Print top pairs
 day_clusters_positive_dist %>% 
-  filter(count>1) %>% 
+  filter(count>2) %>% 
   tt()
 ```
 
@@ -324,7 +311,7 @@ treatment_clusters_positive_dist <- compute_cluster_distances(treatment_clusters
 
 # Print top pairs
 treatment_clusters_positive_dist %>% 
-  filter(count>1) %>% 
+  filter(count>2) %>% 
   tt()
 ```
 
@@ -383,7 +370,8 @@ associated_pairs_positive <- all_clusters_positive_filtered %>%
   ) %>%
   select(genomes,count,clustering,distance) %>%
   mutate(clustering=factor(clustering)) %>%
-  #add coordinates
+
+  # add coordinates
   separate(genomes, into = c("genome1", "genome2"), sep = " - ") %>%
   left_join(gift_pcoa_vectors %>% rownames_to_column(var = "genome"), by = c("genome1" = "genome")) %>%
   rename(x1 = Axis.1, y1 = Axis.2) %>%
@@ -556,6 +544,9 @@ permutation_test(bind_rows(associated_pairs_positive %>% mutate(type="positive")
 
 ```
 
+In case you have not run previously run the [02_maga_catalogue.Rmd](./02_mag_catalogue.Rmd), you will need to 
+get the `functional_distances` from there.
+
 ```{r association_distance_pos_background_test, comment="", message=FALSE, warning=FALSE}
 
 # Calculate the weighted mean distance for the "positive" group
@@ -660,29 +651,113 @@ tibble(dist=functional_distances[upper.tri(functional_distances, diag = FALSE)])
 ### Persistent associations
 
 ```{r community_clusters_all_combined_plot, comment="", message=FALSE, warning=FALSE, fig.height=6, fig.width=10, fig.fullwidth=TRUE}
-associated_pairs_positive_bck <- associated_pairs_positive
-associated_pairs_positive <- associated_pairs_positive[associated_pairs_positive$count > 2,]
-associated_pairs_positive[associated_pairs_positive$count > 2,]
-gift_pcoa_vectors %>%
+
+connected_genomes <- unique(c(associated_pairs_negative$genome1, associated_pairs_negative$genome2,
+                              associated_pairs_positive$genome1, associated_pairs_positive$genome2))
+
+# reference_orders <- unique( genome_metadata %>% filter(genome %in%  connected_genomes) %>%  pull(order) )   # DEPR
+
+# Add an alpha column: lower opacity for non-connected nodes
+plot_data <- gift_pcoa_vectors %>%
   rownames_to_column(var="genome") %>%
   left_join(genome_metadata, by="genome") %>%
-  ggplot() +
-    geom_segment(data = associated_pairs_negative, 
-               aes(x = x1, y = y1, xend = x2, yend = y2, linetype=clustering),
-               color="#f5a2af",
-               linewidth=1) +
-    geom_segment(data = associated_pairs_positive, 
-               aes(x = x1, y = y1, xend = x2, yend = y2, linetype=clustering),
-               color="#bdf5a2",
-               linewidth=1) +
+  mutate(alpha_value = ifelse(genome %in% connected_genomes, 1, 0.2)) %>%   # Lower opacity for non-connected
+  mutate(auto=row_number())
+
+
+
+Erysipelotrichales <- genome_metadata %>% filter(order == "o__Erysipelotrichales") %>% pull(genome)
+UBA1381 <- genome_metadata %>% filter(order == "o__UBA1381") %>% pull(genome)
+TANB77 <- genome_metadata %>% filter(order == "o__TANB77") %>% pull(genome)
+Clostridiales <- genome_metadata %>% filter(order == "o__Clostridiales") %>% pull(genome)
+RF39 <- genome_metadata %>% filter(order == "o__RF39") %>% pull(genome)
+
+
+Lachnospirales <- genome_metadata %>% filter(order == "o__Lachnospirales") %>% pull(genome)
+Oscillospirales <- genome_metadata %>% filter(order == "o__Oscillospirales") %>% pull(genome)
+
+genomes_of_taxa_of_interest <- c(
+                    Erysipelotrichales, UBA1381, TANB77, Clostridiales, RF39
+)
+genomes_of_interest <- intersect(genomes_of_taxa_of_interest, connected_genomes)
+
+# Make a df just for the needs of the text on the plot with the taxa name of interest
+ps <- plot_data %>% filter(genome %in% genomes_of_interest)
+ps <- ps %>% mutate(species = ifelse(species == "s__", genus, species))
+key_value_text <- paste(ps$auto, ps$species, sep = ": ", collapse = "\n")
+
+# Plot
+q1 <- ggplot() +
+    # Draws a straight line between points (x, y) and (xend, yend)
+
+
+    geom_segment(
+      data = associated_pairs_negative,
+      aes(
+        x = x1, y = y1, xend = x2, yend = y2, linetype=clustering
+      ),
+      color="#f5a2af",
+      linewidth=1
+    ) +
+  
+    geom_segment(
+      data = associated_pairs_positive,
+      aes(
+        x = x1, y = y1, xend = x2, yend = y2, linetype=clustering
+      ),
+      color="#6AA84F",
+      linewidth=1
+    ) +
+  
     scale_linetype_manual(values=c("solid", "dashed", "dotted")) +
-    geom_point(aes(x = Axis.1, y = Axis.2, color = order, size = length), 
-             alpha = 0.9, shape = 16) +
-    scale_color_manual(values = order_colors) +
-    theme_minimal() + 
-    theme(legend.position = "none")
+
+    # Creates scatterplots
+    geom_point(
+      data = plot_data,
+      aes(x = Axis.1, y = Axis.2, color = order, size = length, alpha = alpha_value),
+      shape = 16) +
+
+    geom_label(
+      data = plot_data %>% filter(genome %in% genomes_of_interest),
+      aes(x = Axis.1 , y = Axis.2 , label = auto),  # Adjust label position
+      size = 3, 
+      fill = "white", 
+      alpha = 0.01
+    ) +  
+    scale_alpha_identity() +  # Ensures the alpha values are used directly
+    scale_color_manual(name = "Order", values = order_colors) +
+    theme_minimal() +
+    theme(legend.position = "right")
+
+q1 <- q1 + guides(color = guide_legend(override.aes = list(size = 3)))  # Size of legend dots
+
+
+q1 <- q1 + annotate(
+        "text", x = 1, y = 6, 
+        label = key_value_text,
+        hjust = 0, vjust = 1, size = 3, color = "black"
+    )
+
+q1 <- q1 + 
+  scale_x_continuous(expand = expansion(add = c(1.1, 0.1))) +  # Adjust x-axis expansion
+  scale_y_continuous(expand = expansion(add = c(0.1, 0.1)))    # Adjust y-axis expansion
+
+
+ggsave("~/Desktop/pcoa.svg", q1, dpi = 300, width = 12,  height = 9, units = "in", device = "svg", bg="white") # , bg = "transparent"
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```{r relationship_complementarities1, comment="", message=FALSE, warning=FALSE, fig.height=14, fig.width=10, fig.fullwidth=TRUE}
 selected_genomes <- c("GPB:bin_000009","GPB:bin_000021","GPB:bin_000208","D300452:bin_000016","D300444:bin_000010","GPB:bin_000140")

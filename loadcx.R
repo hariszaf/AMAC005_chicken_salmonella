@@ -1,7 +1,5 @@
-# install.packages("BiocManager")
-# BiocManager::install("RCy3")
-# setwd("github_repos/contribute-to/AMAC005_chicken_salmonella/")
-
+# Functions to load and process networks in .cx format
+# To be used for the 06_network_analysis.Rmd
 
 # Build adj table
 adjacency_matrix_frox_cx2 <- function(cxFile) {
@@ -74,7 +72,7 @@ set_node_attributes <- function(graph_pos, genome_metadata, genome_counts_filt, 
   V(graph_pos)$color <- tibble(
     order = genome_metadata$order %>% unique() %>% sort(),
     color = order_colors
-  ) %>%
+    ) %>%
     right_join(genome_metadata, by = "order") %>%
     filter(genome %in% nodes) %>%
     select(genome, color) %>%
@@ -103,6 +101,8 @@ set_node_attributes <- function(graph_pos, genome_metadata, genome_counts_filt, 
 
   # Set shape for missing nodes (square for missing, circle for others)
   V(graph_pos)$shape <- ifelse(nodes %in% missing_nodes, "square", "circle")  # Or "hexagon"
+
+  V(graph_pos)$taxonomy <- genome_metadata$order[match(V(graph_pos)$name, genome_metadata$genome)]
 
   return(graph_pos)
 }
@@ -151,7 +151,7 @@ graph_metrics <- function(graph, col_name, name){
 
 
 # Process a file
-process_cxfile <- function(cxFile, col_name, net_name, genome_metadata, genome_counts_filt, order_colors, threshold = 0.7) {
+process_cxfile <- function(cxFile, col_name, net_name, genome_metadata, genome_counts_filt, order_colors, threshold = 0.5) {
 
   # --------------
   # POSITIVE EDGES
@@ -224,10 +224,12 @@ process_cxfile <- function(cxFile, col_name, net_name, genome_metadata, genome_c
 # Plot a graph function along with its clusters
 plot_graph <- function(graph, cluster, outputfile, min_community_size = 2, vertex_color = NULL, vertex_size = NULL, edge_width = 1, mark_col = "#f4f4f4") {
 
-  png(outputfile, width = 2600, height = 2400, res  = 300)
+  # png(outputfile, width = 2600, height = 2400, res  = 300)
+  svg(outputfile, width = 10, height = 10,  bg = "transparent")
+
 
   # Create the igraph plot
-  p <- igraph::plot.igraph(
+  igraph::plot.igraph(
     graph,
     vertex.color = vertex_color %||% V(graph)$color,
     vertex.size = vertex_size %||% V(graph)$size,
@@ -241,25 +243,41 @@ plot_graph <- function(graph, cluster, outputfile, min_community_size = 2, verte
   )
 
   dev.off()
+
 }
 
 
 
-#
+#' Compute Distances Between Genomes in Clusters
+#' This function computes the distances between pairs of genomes within clusters based on
+#' their GIFT ( Genome-Inferred Functional Traits ) data. It returns a data frame containing
+#' the count of clusters containing each genome pair, and the corresponding computed distances
+#' between them using Manhattan distance, normalized by the number of features (columns) in GIFT.
 compute_cluster_distances <- function(clusters, genome_gifts) {
+
   table(map_chr(clusters, ~ paste(.x, collapse = " - "))) %>%
+
     as.data.frame(stringsAsFactors = FALSE) %>%
+
     rename(genomes = 1, count = 2) %>%
-    mutate(distance = map_dbl(genomes, function(pair) {
-      genomes <- str_split(pair, " - ", simplify = TRUE) %>% as.vector()
-      genomes <- genomes[genomes %in% rownames(genome_gifts)]  # Keep only valid genomes
 
-      if (length(genomes) < 2) return(NA_real_)  # Avoid errors if less than 2 genomes
+    mutate(distance = map_dbl(
 
-      dist_value <- stats::dist(genome_gifts[genomes, , drop = FALSE], method = "manhattan") /
-        ncol(genome_gifts[genomes, , drop = FALSE])
-      return(as.numeric(dist_value))
-    })) %>%
-    arrange(-count)
+        genomes, function(pair) {
+          genomes <- str_split(pair, " - ", simplify = TRUE) %>% as.vector()
+
+          genomes <- genomes[genomes %in% rownames(genome_gifts)]  # Keep only valid genomes
+
+          if (length(genomes) < 2) return(NA_real_)  # Avoid errors if less than 2 genomes
+
+          dist_value <- stats::dist(
+            genome_gifts[genomes, , drop = FALSE],
+            method = "manhattan"
+          ) / ncol(genome_gifts[genomes, , drop = FALSE])
+
+          return(as.numeric(dist_value))
+        }
+    )
+  )%>%arrange(-count)
 }
 
