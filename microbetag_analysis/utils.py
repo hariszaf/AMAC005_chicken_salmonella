@@ -247,7 +247,7 @@ def process_cooccurrence_and_regression(day_net, day, metabolites, env_set, mode
 
     # Generate the plot
     plot = (
-        ggplot(df, aes(x='neighbors_num', y='seed_compls_num', color='family')) +
+        ggplot(df, aes(x='neighbors_num', y='seed_compls_num', color='order')) +
         geom_point(size=3) +
         geom_line(regression_df, aes(x="neighbors_num", y="compl_ratio"), color="red") +
         theme_minimal() +
