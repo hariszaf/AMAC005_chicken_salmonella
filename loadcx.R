@@ -135,23 +135,38 @@ add_missing_records <- function(nodes, genome_metadata) {
 }
 
 
-# Graph metrics
-graph_metrics <- function(graph, col_name, name){
+# # Graph metrics
+# graph_metrics <- function(graph, col_name, name){
+#   return(
+#     tibble(
+#       !!col_name := name,  # Unquote the symbol to use it as a column name
+#       density=graph.density(graph),
+#       modularity=modularity(cluster_walktrap(graph)),
+#       assortability=assortativity_degree(graph),
+#       connectivity=mean(components(graph)$csize),
+#       centrality=eigen_centrality(graph)$value
+#     )
+#   )
+# }
+graph_metrics <- function(graph, col_name = NULL, name) {
+  # Set a default column name if col_name is NULL
+  col_name <- if (is.null(col_name)) "network" else col_name
+
   return(
     tibble(
-      !!col_name := name,  # Unquote the symbol to use it as a column name
-      density=graph.density(graph),
-      modularity=modularity(cluster_walktrap(graph)),
-      assortability=assortativity_degree(graph),
-      connectivity=mean(components(graph)$csize),
-      centrality=eigen_centrality(graph)$value
+      !!sym(col_name) := name,  # Convert string to symbol for column name
+      density = graph.density(graph),
+      modularity = modularity(cluster_walktrap(graph)),
+      assortability = assortativity_degree(graph),
+      connectivity = mean(components(graph)$csize),
+      centrality = eigen_centrality(graph)$value
     )
   )
 }
 
 
 # Process a file
-process_cxfile <- function(cxFile, col_name, net_name, genome_metadata, genome_counts_filt, order_colors, threshold = 0.5) {
+process_cxfile <- function(cxFile, net_name, genome_metadata, genome_counts_filt, order_colors, threshold = 0.5, col_name = NULL) {
 
   # --------------
   # POSITIVE EDGES
@@ -159,16 +174,29 @@ process_cxfile <- function(cxFile, col_name, net_name, genome_metadata, genome_c
 
   # Load the adjacency matrix (replace with the correct function to read CX files)
   mag_cor <- adjacency_matrix_frox_cx2(cxFile)  # Replace with actual function
+  printf("Adjacency loaded.\n")
 
-  # Apply threshold to correlations (positive correlations only)
+    # Apply threshold to correlations (positive correlations only)
   # NOTE: for the case of overall:
 
-  # if ( endsWith(cxFile, "overall.cx") | endsWith(cxFile, "microbetag_net_TG2.cx")  ) {
+  if (any(endsWith(cxFile, c("overall.cx", "microbetag_net_TG2.cx")))) {
+    # Process differently for overall.cx
+    w <- matrix(unlist(mag_cor), nrow = nrow(mag_cor), ncol = ncol(mag_cor))
+    mag_cor_pos <- ifelse(w > threshold, 1, 0)
+    dimnames(mag_cor_pos) <- dimnames(mag_cor)
+  } else {
+    # Default processing for other cases
+    mag_cor_pos <- ifelse(mag_cor > threshold, 1, 0)
+  }
+
+
   w <- matrix(unlist(mag_cor), nrow = nrow(mag_cor), ncol = ncol(mag_cor))
-  mag_cor_pos<- ifelse(w > threshold, 1, 0)
+  mag_cor_pos <- ifelse(w > threshold, 1, 0)
   dimnames(mag_cor_pos) <- dimnames(mag_cor)
-  # }
-  # mag_cor_pos <- ifelse(mag_cor > threshold, 1, 0)
+
+
+
+  printf("Binary matrix.\n")
 
   # Create an undirected graph from the adjacency matrix
   graph_pos <- igraph::graph_from_adjacency_matrix(mag_cor_pos, mode = "undirected", diag = FALSE)
@@ -181,6 +209,8 @@ process_cxfile <- function(cxFile, col_name, net_name, genome_metadata, genome_c
 
   # Split communities based on clustering and filter for those with more than one member
   communities_pos <- split(V(graph_pos)$name, membership(cluster_pos)) %>% keep(~ length(.x) > 1)
+
+  printf("Positive net done.")
 
   # --------------
   # NEGATIVE EDGES
@@ -201,7 +231,10 @@ process_cxfile <- function(cxFile, col_name, net_name, genome_metadata, genome_c
   # --------------
   # METRICS
   # --------------
-  col_name <- ensym(col_name)
+  if (!is.null(col_name)) {
+    col_name <- ensym(col_name)
+  }
+  printf("hello friend")
   metrics_pos <- graph_metrics(graph_pos, col_name, net_name)
   metrics_neg <- graph_metrics(graph_neg, col_name, net_name)
 

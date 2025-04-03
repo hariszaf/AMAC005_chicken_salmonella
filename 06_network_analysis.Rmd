@@ -10,19 +10,13 @@ Also, you need to load a set of custom functions to parse the `.cx` format netwo
 
 ```{r load cx parser}
 source("loadcx.R")
-```
 
-
-```{r load_overall}
 order_colors <- c(
   "#08D1D1","#BF7022","#2EBC82","#2E91BC","#2E5ABC","#09CE8D","#E0A608","#097265","#AB56D8","#0AA01F","#274945","#4E397A","#B3265B",
   "#2EBC45","#7F4561","#CE7E00","#BC2EA1","#6A52C6","#AD8D8D", "#CFE71F")
 
-# order_colors <- c(
-#   "#08D1D1","#BF7022","#2EBC82","#2E91BC","#2E5ABC","#09CE8D","#E0A608","#097265","#AB56D8","#0AA01F","#274945","#4E397A","#B3265B",
-#   "#2EBC45","#7F4561","#58BC2E","#BC2EA1","#6A52C6","#AD8D8D")
-
 ```
+
 
 
 
@@ -30,13 +24,15 @@ order_colors <- c(
 
 
 ```{r overvall}
-cxFile  <- "microbetag_analysis/microbetag_nets/overall.cx"
+cxFile  <- "microbetag_analysis/microbetag_nets/cx/overall.cx"
+
 overall = process_cxfile(cxFile, "overall", genome_metadata, genome_counts_filt, order_colors)
 ```
 
+
 ```{r plots-overall}
-all_days_pos_plot <- plot_graph(overall$graph_pos, overall$clusters_pos, "all_days_pos.svg")
-all_days_neg_plot <- plot_graph(overall$graph_neg, overall$clusters_neg, "all_days_neg.svg")
+all_days_pos_plot <- plot_graph(overall$graph_pos, overall$clusters_pos, "microbetag_analysis/figs/flashweave_scores/all_days_pos.svg")
+all_days_neg_plot <- plot_graph(overall$graph_neg, overall$clusters_neg, "microbetag_analysis/figs/flashweave_scores/all_days_neg.svg")
 ```
 
 
@@ -48,13 +44,13 @@ The `threshold` refers to the minimum absolute flashweave score. By default, we 
 
 ```{r cor_day7, message=FALSE, warning=FALSE, comment=""}
 cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_day_7.cx"
-day7 = process_cxfile(cxFile, day, "day7", genome_metadata, genome_counts_filt, order_colors, threshold = 0.5)
+day7 = process_cxfile(cxFile, "day7", genome_metadata, genome_counts_filt, order_colors, col_name="day")
 ```
 
 
 ```{r cor_day7_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-d7_pos_plot <- plot_graph(day7$graph_pos, day7$clusters_pos, "day07_pos.svg")
-d7_neg_plot <- plot_graph(day7$graph_neg, day7$clusters_neg, "day07_neg.svg")
+d7_pos_plot <- plot_graph(day7$graph_pos, day7$clusters_pos, "microbetag_analysis/figs/flashweave_scores/day07_pos.svg")
+d7_neg_plot <- plot_graph(day7$graph_neg, day7$clusters_neg, "microbetag_analysis/figs/flashweave_scores/day07_neg.svg")
 ```
 
 
@@ -63,51 +59,51 @@ d7_neg_plot <- plot_graph(day7$graph_neg, day7$clusters_neg, "day07_neg.svg")
 
 ```{r cor_day14, comment="", message=FALSE, warning=FALSE}
 cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_day_14.cx"
-day14 = process_cxfile(cxFile, day, "day14", genome_metadata, genome_counts_filt, order_colors)
+day14 = process_cxfile(cxFile, "day14", genome_metadata, genome_counts_filt, order_colors, col_name = "day")
 ```
 
 ```{r cor_day14_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-d14_pos_plot <- plot_graph(day14$graph_pos, day14$clusters_pos, "day14_pos.svg")
-d14_neg_plot <- plot_graph(day14$graph_neg, day14$clusters_neg, "day14_neg.svg")
+d14_pos_plot <- plot_graph(day14$graph_pos, day14$clusters_pos, "microbetag_analysis/figs/flashweave_scores/day14_pos.svg")
+d14_neg_plot <- plot_graph(day14$graph_neg, day14$clusters_neg, "microbetag_analysis/figs/flashweave_scores/day14_neg.svg")
 ```
 
 ### Day 21
 
 ```{r cor_day21, comment="", message=FALSE, warning=FALSE}
 cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_day_21.cx"
-day21 = process_cxfile(cxFile, day, "day21", genome_metadata, genome_counts_filt, order_colors)
+day21 = process_cxfile(cxFile, "day21", genome_metadata, genome_counts_filt, order_colors, col_name = "day")
 ```
 
 
 ```{r cor_day21_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-d21_pos_plot <- plot_graph(day21$graph_pos, day21$clusters_pos, "day21_pos.svg")
-d21_neg_plot <- plot_graph(day21$graph_neg, day21$clusters_neg, "day21_neg.svg")
+d21_pos_plot <- plot_graph(day21$graph_pos, day21$clusters_pos, "microbetag_analysis/figs/flashweave_scores/day21_pos.svg")
+d21_neg_plot <- plot_graph(day21$graph_neg, day21$clusters_neg, "microbetag_analysis/figs/flashweave_scores/day21_neg.svg")
 ```
 
 ### Day 28
 
 ```{r cor_day28, comment="", message=FALSE, warning=FALSE}
 cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_day_28.cx"
-day28 = process_cxfile(cxFile, day, "day28", genome_metadata, genome_counts_filt, order_colors)
+day28 = process_cxfile(cxFile, "day28", genome_metadata, genome_counts_filt, order_colors, col_name = "day")
 ```
 
 
 ```{r cor_day28_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-d28_pos_plot <- plot_graph(day28$graph_pos, day28$clusters_pos, "day28_pos.svg")
-d28_neg_plot <- plot_graph(day28$graph_neg, day28$clusters_neg, "day28_neg.svg")
+d28_pos_plot <- plot_graph(day28$graph_pos, day28$clusters_pos, "microbetag_analysis/figs/flashweave_scores/day28_pos.svg")
+d28_neg_plot <- plot_graph(day28$graph_neg, day28$clusters_neg, "microbetag_analysis/figs/flashweave_scores/day28_neg.svg")
 ```
 
 ### Day 35
 
 ```{r cor_day35, comment="", message=FALSE, warning=FALSE}
 cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_day_35.cx"
-day35  <- process_cxfile(cxFile, day, "day35", genome_metadata, genome_counts_filt, order_colors)
+day35  <- process_cxfile(cxFile, "day35", genome_metadata, genome_counts_filt, order_colors, col_name = "day")
 ```
 
 
 ```{r cor_day35_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-d35_pos_plot <- plot_graph(day35$graph_pos, day35$clusters_pos, "day35_pos.svg")
-d35_neg_plot <- plot_graph(day35$graph_neg, day35$clusters_neg, "day35_neg.svg")
+d35_pos_plot <- plot_graph(day35$graph_pos, day35$clusters_pos, "microbetag_analysis/figs/flashweave_scores/day35_pos.svg")
+d35_neg_plot <- plot_graph(day35$graph_neg, day35$clusters_neg, "microbetag_analysis/figs/flashweave_scores/day35_neg.svg")
 ```
 
 
@@ -118,32 +114,32 @@ d35_neg_plot <- plot_graph(day35$graph_neg, day35$clusters_neg, "day35_neg.svg")
 
 ```{r cor_TG1, comment="", message=FALSE, warning=FALSE}
 cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_TG1.cx"
-TG1  <- process_cxfile(cxFile, treatment, "TG1", genome_metadata, genome_counts_filt, order_colors)
+TG1  <- process_cxfile(cxFile, "TG1", genome_metadata, genome_counts_filt, order_colors, col_name = "treatment")
 ```
 
 
 ```{r cor_TG1_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-TG1_pos_plot <- plot_graph(TG1$graph_pos, TG1$clusters_pos, "TG1_pos.svg")
-TG1_neg_plot <- plot_graph(TG1$graph_neg, TG1$clusters_neg, "TG1_neg.svg")
+TG1_pos_plot <- plot_graph(TG1$graph_pos, TG1$clusters_pos, "microbetag_analysis/figs/flashweave_scores/TG1_pos.svg")
+TG1_neg_plot <- plot_graph(TG1$graph_neg, TG1$clusters_neg, "microbetag_analysis/figs/flashweave_scores/TG1_neg.svg")
 ```
 
 ### TG2
 
 ```{r cor_TG2, comment="", message=FALSE, warning=FALSE}
 cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_TG2.cx"
-TG2    <- process_cxfile(cxFile, treatment, "TG2", genome_metadata, genome_counts_filt, order_colors)
+TG2    <- process_cxfile(cxFile, "TG2", genome_metadata, genome_counts_filt, order_colors, col_name = "treatment")
 ```
 
 ```{r cor_TG2_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-TG2_pos_plot <- plot_graph(TG2$graph_pos, TG2$clusters_pos, "TG2_pos.svg")
-TG2_neg_plot <- plot_graph(TG2$graph_neg, TG2$clusters_neg, "TG2_neg.svg")
+TG2_pos_plot <- plot_graph(TG2$graph_pos, TG2$clusters_pos, "microbetag_analysis/figs/flashweave_scores/TG2_pos.svg")
+TG2_neg_plot <- plot_graph(TG2$graph_neg, TG2$clusters_neg, "microbetag_analysis/figs/flashweave_scores/TG2_neg.svg")
 ```
 
 ### TG3
 
 ```{r cor_TG3, comment="", message=FALSE, warning=FALSE}
 cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_TG3.cx"
-TG3    <- process_cxfile(cxFile, treatment, "TG3", genome_metadata, genome_counts_filt, order_colors)
+TG3    <- process_cxfile(cxFile, "TG3", genome_metadata, genome_counts_filt, order_colors, col_name = "treatment")
 ```
 
 ```{r cor_TG3_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
@@ -155,7 +151,7 @@ TG3_neg_plot <- plot_graph(TG3$graph_neg, TG3$clusters_neg, "TG3_neg.svg")
 
 ```{r cor_TG4, comment="", message=FALSE, warning=FALSE}
 cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_TG4.cx"
-TG4    <- process_cxfile(cxFile, treatment, "TG4", genome_metadata, genome_counts_filt, order_colors)
+TG4    <- process_cxfile(cxFile, "TG4", genome_metadata, genome_counts_filt, order_colors, col_name = "treatment")
 ```
 
 
@@ -168,12 +164,12 @@ TG4_neg_plot <- plot_graph(TG4$graph_neg, TG4$clusters_neg, "TG4_neg.svg")
 
 ```{r cor_TG5, comment="", message=FALSE, warning=FALSE}
 cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_TG5.cx"
-TG5    <- process_cxfile(cxFile, treatment, "TG5", genome_metadata, genome_counts_filt, order_colors)
+TG5    <- process_cxfile(cxFile, "TG5", genome_metadata, genome_counts_filt, order_colors, col_name = "treatment")
 ```
 
 ```{r cor_TG5_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-TG5_pos_plot <- plot_graph(TG5$graph_pos, TG5$clusters_pos, "TG5_pos.svg")
-TG5_neg_plot <- plot_graph(TG5$graph_neg, TG5$clusters_neg, "TG5_neg.svg")
+TG5_pos_plot <- plot_graph(TG5$graph_pos, TG5$clusters_pos, "microbetag_analysis/figs/flashweave_scores/TG5_pos.svg")
+TG5_neg_plot <- plot_graph(TG5$graph_neg, TG5$clusters_neg, "microbetag_analysis/figs/flashweave_scores/TG5_neg.svg")
 ```
 
 
@@ -245,26 +241,26 @@ plot_metrics <- function(metrics_list, group_var, group_levels) {
 metrics_list <- list(TG1$metrics_pos, TG2$metrics_pos, TG3$metrics_pos, TG4$metrics_pos, TG5$metrics_pos)
 treatment_levels <- c("TG1", "TG2", "TG3", "TG4", "TG5")
 s <- plot_metrics(metrics_list, "treatment", treatment_levels)
-ggsave("~/Desktop/metrics_tp.svg", s, dpi = 300, device = "svg", bg = "transparent")
+ggsave("microbetag_analysis/figs/flashweave_scores/metrics_tp.svg", s, dpi = 300, device = "svg", bg = "transparent")
 
 
 # Plot metrics: TREATMENTS NEGATIVE
 metrics_list <- list(TG1$metrics_neg, TG2$metrics_neg, TG3$metrics_neg, TG4$metrics_neg, TG5$metrics_neg)
 treatment_levels <- c("TG1", "TG2", "TG3", "TG4", "TG5")
 r <- plot_metrics(metrics_list, "treatment", treatment_levels)
-ggsave("~/Desktop/metrics_tn.svg", r, dpi = 300, device = "svg", bg = "transparent")
+ggsave("microbetag_analysis/figs/flashweave_scores/metrics_tn.svg", r, dpi = 300, device = "svg", bg = "transparent")
 
 # Plot metrics: DAYS NEGATIVE
 metrics_list <- list(day7$metrics_neg, day14$metrics_neg, day21$metrics_neg, day28$metrics_neg, day35$metrics_neg)
 treatment_levels <- c("day7", "day14", "day21", "day28", "day35")
 q <- plot_metrics(metrics_list, "day", treatment_levels)
-ggsave("~/Desktop/metrics_dn.svg", q, dpi = 300, device = "svg", bg = "transparent")
+ggsave("microbetag_analysis/figs/flashweave_scores/metrics_dn.svg", q, dpi = 300, device = "svg", bg = "transparent")
 
 # Plot metrics: DAYS POSITIVE
 metrics_list <- list(day7$metrics_pos, day14$metrics_pos, day21$metrics_pos, day28$metrics_pos, day35$metrics_pos)
 treatment_levels <- c("day7", "day14", "day21", "day28", "day35")
 p <- plot_metrics(metrics_list, "day", treatment_levels)
-ggsave("~/Desktop/metrics_dp.svg", p, dpi = 300, device = "svg", bg = "transparent")
+ggsave("microbetag_analysis/figs/flashweave_scores/metrics_dp.svg", p, dpi = 300, device = "svg", bg = "transparent")
 ```
 
 
