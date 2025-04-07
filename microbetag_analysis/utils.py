@@ -4,7 +4,7 @@ from dataclasses import dataclass
 #    pip install ndex2
 from ndex2.cx2 import RawCX2NetworkFactory
 
-import venn
+from venn import venn
 
 import statsmodels.api as sm
 
@@ -427,3 +427,42 @@ def spearman_corr(df, col_x, col_y):
 
     # Compute the Spearman correlation using the ranked values
     return spearmanr(x_rank, y_rank).correlation
+
+
+# ------------
+
+def compute_weight_scores(cx_net, parsed_net):
+    """
+    Computes positive and negative weight scores for a given network.
+
+    Parameters:
+        cx_net: Network object containing edges.
+        parsed_net: Parsed network dictionary with edge types.
+
+    Returns:
+        pos_weight_scores, neg_weight_scores: Dictionaries containing computed scores.
+    """
+
+    # Create a mapping of taxa pairs to edge IDs
+    taxa_pair_2_edge_id = {
+        (edge["s"], edge["t"]): edge_id
+        for edge_id in cx_net.get_edges()
+        if (edge := cx_net.get_edge(edge_id))["v"]["interaction type"] != "completes/competes with"
+    }
+
+    pos_weight_scores, neg_weight_scores = {}, {}
+
+    for edge_id in parsed_net.edge_types["taxon_to_taxon"]["edges"]:
+        edge = cx_net.get_edge(edge_id)
+        if edge["v"]["interaction type"] in ["cooccurrence", "depletion"]:
+            continue
+
+        comp, coop, s, t = edge["v"]["seed::competition"], edge["v"]["seed::cooperation"], edge["s"], edge["t"]
+        eid = taxa_pair_2_edge_id.get((s, t), taxa_pair_2_edge_id.get((t, s)))
+
+        flashweave_score = cx_net.get_edge(eid)["v"]["microbetag::weight"]
+        target = pos_weight_scores if flashweave_score > 0 else neg_weight_scores
+        target[edge_id] = {"cooperation": coop, "competition": comp, "cooccurrence" if flashweave_score > 0 else "depletion": flashweave_score}
+
+    return {"pos": pos_weight_scores, "neg":neg_weight_scores}
+
