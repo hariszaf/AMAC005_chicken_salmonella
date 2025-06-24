@@ -3,3 +3,15 @@
 .RData
 .Ruserdata
 overall.cx
+
+
+# Ignore everything in output/
+microbetag_analysis/mgg_prec/reconstructions/*
+
+# Allow .tar.gz files in output/
+!microbetag_analysis/mgg_prec/reconstructions//*.tar.gz
+
+
+my_bins/
+
+
