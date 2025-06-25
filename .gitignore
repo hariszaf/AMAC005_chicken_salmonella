@@ -2,8 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
-overall.cx
 
+__pycache__/
 
 # Ignore everything in output/
 microbetag_analysis/mgg_prec/reconstructions/*
@@ -13,5 +13,7 @@ microbetag_analysis/mgg_prec/reconstructions/*
 
 
 my_bins/
-
+depr/
+GENREs/
+*.fna
 
