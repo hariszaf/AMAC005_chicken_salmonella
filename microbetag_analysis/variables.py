@@ -1,0 +1,10 @@
+RATIO              = "compl_ratio"
+COMPLEMENTS_NUMBER = "seed_compls_num"
+NEIGHBORS_NUMBER   = "neighbors_num"
+COOCCURENCE        = "co-occurrence"
+COEXCLUSION        = "co-exclusion"
+COMPETITION        = "competition"
+COOPERATION        = "cooperation"
+COMPL_INT_TYPE     = "complementarity"
+SEED_COMP          = "::".join(["seed", COMPETITION])
+SEED_COOP          = "::".join(["seed", COOPERATION])
