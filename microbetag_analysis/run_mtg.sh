@@ -53,6 +53,9 @@ run_microbetag_for_type() {
 
             if compgen -G "mgg_prec/mtag_net_*" > /dev/null; then
                 rm -f mgg_prec/network_output.edgelist
+		if compgen -G "mgg_prec/*.cyjs" > /dev/null; then
+			rm mgg_prec/*.cyjs
+		fi
                 mv mgg_prec/mtag_net_* "microbetag_nets/${CASE}.cx2"
                 echo -e "\n----  microbetag for $TYPE $CASE is complete. ---  \n"
             else

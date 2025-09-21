@@ -3,7 +3,7 @@
 ### Sample metadata
 
 ```{r load_sample_metadata, message=FALSE, eval=FALSE}
-sample_metadata <- read_csv("data/sample_metadata.csv")
+sample_metadata <- read_csv("microbetag_analysis/data/sample_metadata_corrected.csv")
 ```
 
 ### Genome metadata

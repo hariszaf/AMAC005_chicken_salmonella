@@ -253,11 +253,12 @@ gift_pcoa_vectors %>%
                     type = "open", 
                     angle = 25),
                     linewidth = 0.5, 
-                    color = "black") +
+                    color = "black"
+     ) +
      #Primary and secondary scale adjustments
      scale_x_continuous(name = paste0("PCoA1 (",round(gift_pcoa_rel_eigen[1]*100, digits = 2), " %)"),
                       sec.axis = sec_axis(~ . / scale, name = "Loadings on PCoA1")
-            ) +
+     ) +
      scale_y_continuous(name = paste0("PCoA2 (",round(gift_pcoa_rel_eigen[2]*100, digits = 2), " %)"),
                       sec.axis = sec_axis(~ . / scale, name = "Loadings on PCoA2")
             ) +

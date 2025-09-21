@@ -31,8 +31,8 @@ overall = process_cxfile(cxFile, "overall", genome_metadata, genome_counts_filt,
 
 
 ```{r plots-overall}
-all_days_pos_plot <- plot_graph(overall$graph_pos, overall$clusters_pos, "microbetag_analysis/figs/flashweave_scores/all_days_pos.svg")
-all_days_neg_plot <- plot_graph(overall$graph_neg, overall$clusters_neg, "microbetag_analysis/figs/flashweave_scores/all_days_neg.svg")
+all_days_pos_plot <- plot_graph(overall$graph_pos, overall$clusters_pos, "microbetag_analysis/figs/flashweave_scores/overall_pos.svg")
+all_days_neg_plot <- plot_graph(overall$graph_neg, overall$clusters_neg, "microbetag_analysis/figs/flashweave_scores/overall_neg.svg")
 ```
 
 
@@ -113,7 +113,8 @@ d35_neg_plot <- plot_graph(day35$graph_neg, day35$clusters_neg, "microbetag_anal
 ### TG1
 
 ```{r cor_TG1, comment="", message=FALSE, warning=FALSE}
-cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_TG1.cx"
+# cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_TG1.cx"
+cxFile <- "microbetag_analysis/microbetag_nets/cx/TG1.cx"
 TG1  <- process_cxfile(cxFile, "TG1", genome_metadata, genome_counts_filt, order_colors, col_name = "treatment")
 ```
 
@@ -171,6 +172,64 @@ TG5    <- process_cxfile(cxFile, "TG5", genome_metadata, genome_counts_filt, ord
 TG5_pos_plot <- plot_graph(TG5$graph_pos, TG5$clusters_pos, "microbetag_analysis/figs/flashweave_scores/TG5_pos.svg")
 TG5_neg_plot <- plot_graph(TG5$graph_neg, TG5$clusters_neg, "microbetag_analysis/figs/flashweave_scores/TG5_neg.svg")
 ```
+
+
+
+
+```{r}
+plot_graph <- function(graph, cluster, min_community_size = 2, vertex_color = NULL, vertex_size = NULL, edge_width = 1, mark_col = "#f4f4f4") {
+  igraph::plot.igraph(
+    graph,
+    vertex.color = vertex_color %||% V(graph)$color,
+    vertex.size = vertex_size %||% V(graph)$size,
+    vertex.label = NA,
+    vertex.frame.color = NA,
+    edge.width = edge_width,
+    mark.groups = communities(cluster) %>% keep(~ length(.x) >= min_community_size),
+    mark.col = mark_col,
+    mark.border = NA,
+    layout = layout_with_fr
+  )
+}
+
+
+# library(patchwork)
+# 
+# plots <- list(
+#   TG1_neg_plot, TG1_pos_plot, TG2_neg_plot, TG2_pos_plot, TG3_neg_plot, TG3_pos_plot, TG4_neg_plot, TG4_pos_plot, TG5_neg_plot, TG5_pos_plot,
+#   d7_neg_plot, d7_pos_plot, d14_neg_plot, d14_pos_plot, d21_neg_plot, d21_pos_plot, d28_neg_plot, d28_pos_plot, d35_neg_plot, d35_pos_plot
+# )
+# 
+# grid_plot <- wrap_plots(plots, ncol = 5)
+graphs <- list(
+  TG1$graph_neg, TG1$graph_pos, TG2$graph_neg, TG2$graph_pos, TG3$graph_neg, TG3$graph_pos, TG4$graph_neg, TG4$graph_pos, TG5$graph_neg, TG5$graph_pos,
+  day7$graph_neg, day7$graph_pos, day14$graph_neg, day14$graph_pos, day21$graph_neg, day21$graph_pos, day28$graph_neg, day28$graph_pos, day35$graph_neg, day35$graph_pos
+)
+
+names <- list(
+  TG1$clusters_neg, TG1$clusters_pos, TG2$clusters_neg, TG2$clusters_pos, TG3$clusters_neg, TG3$clusters_pos, TG4$clusters_neg, TG4$clusters_pos, TG5$clusters_neg, TG5$clusters_pos,
+  day7$clusters_neg, day7$clusters_pos, day14$clusters_neg, day14$clusters_pos, day21$clusters_neg, day21$clusters_pos, day28$clusters_neg, day28$clusters_pos, day35$clusters_neg, day35$clusters_pos
+)
+
+# Open a plotting device (PDF or PNG if saving)
+pdf("4x5_graph_grid.pdf", width = 20, height = 20)
+
+# Set up 5x5 plot layout
+par(mfrow = c(4, 5), mar = c(0, 0, 0, 0))  # no margins
+
+# Call plot_graph for each of the 25 cases
+for (i in 1:20) {
+  plot_graph(graphs[[i]], names[[i]])  # assuming lists of 25 graphs & clusters
+}
+
+dev.off()
+
+```
+
+
+
+
+
 
 
 
@@ -241,26 +300,26 @@ plot_metrics <- function(metrics_list, group_var, group_levels) {
 metrics_list <- list(TG1$metrics_pos, TG2$metrics_pos, TG3$metrics_pos, TG4$metrics_pos, TG5$metrics_pos)
 treatment_levels <- c("TG1", "TG2", "TG3", "TG4", "TG5")
 s <- plot_metrics(metrics_list, "treatment", treatment_levels)
-ggsave("microbetag_analysis/figs/flashweave_scores/metrics_tp.svg", s, dpi = 300, device = "svg", bg = "transparent")
+# ggsave("microbetag_analysis/figs/flashweave_scores/metrics_tp.svg", s, dpi = 300, device = "svg", bg = "transparent")
 
 
 # Plot metrics: TREATMENTS NEGATIVE
 metrics_list <- list(TG1$metrics_neg, TG2$metrics_neg, TG3$metrics_neg, TG4$metrics_neg, TG5$metrics_neg)
 treatment_levels <- c("TG1", "TG2", "TG3", "TG4", "TG5")
 r <- plot_metrics(metrics_list, "treatment", treatment_levels)
-ggsave("microbetag_analysis/figs/flashweave_scores/metrics_tn.svg", r, dpi = 300, device = "svg", bg = "transparent")
+# ggsave("microbetag_analysis/figs/flashweave_scores/metrics_tn.svg", r, dpi = 300, device = "svg", bg = "transparent")
 
 # Plot metrics: DAYS NEGATIVE
 metrics_list <- list(day7$metrics_neg, day14$metrics_neg, day21$metrics_neg, day28$metrics_neg, day35$metrics_neg)
 treatment_levels <- c("day7", "day14", "day21", "day28", "day35")
 q <- plot_metrics(metrics_list, "day", treatment_levels)
-ggsave("microbetag_analysis/figs/flashweave_scores/metrics_dn.svg", q, dpi = 300, device = "svg", bg = "transparent")
+# ggsave("microbetag_analysis/figs/flashweave_scores/metrics_dn.svg", q, dpi = 300, device = "svg", bg = "transparent")
 
 # Plot metrics: DAYS POSITIVE
 metrics_list <- list(day7$metrics_pos, day14$metrics_pos, day21$metrics_pos, day28$metrics_pos, day35$metrics_pos)
 treatment_levels <- c("day7", "day14", "day21", "day28", "day35")
 p <- plot_metrics(metrics_list, "day", treatment_levels)
-ggsave("microbetag_analysis/figs/flashweave_scores/metrics_dp.svg", p, dpi = 300, device = "svg", bg = "transparent")
+# ggsave("microbetag_analysis/figs/flashweave_scores/metrics_dp.svg", p, dpi = 300, device = "svg", bg = "transparent")
 ```
 
 
@@ -272,7 +331,7 @@ ggsave("microbetag_analysis/figs/flashweave_scores/metrics_dp.svg", p, dpi = 300
 #### Clusters per day
 
 ```{r community_clusters_day, comment="", message=FALSE, warning=FALSE}
-day_clusters_positive <- c( day7$communities_pos, 
+day_clusters_positive <- c(day7$communities_pos, 
                            day14$communities_pos,
                            day21$communities_pos,
                            day28$communities_pos,
