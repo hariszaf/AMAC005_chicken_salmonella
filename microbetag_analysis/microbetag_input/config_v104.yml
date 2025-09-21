@@ -91,7 +91,7 @@ threads:
 precalulations_only:
   value: false
   description: >
-    If True, only precalculations will be performed.
+    If true, only precalculations will be performed.
     Neither an abundance table nor an existing network will be considered—only the list of bins/MAGs provided 
     in the bins_fasta parameter.
 
@@ -119,7 +119,7 @@ phenotrex_traits:
   type: bool
 
 # -----
-# Pathway complementarity: if the pathway_complementarity parameter is set as False, 
+# Pathway complementarity: if the pathway_complementarity parameter is set as false, 
 # the rest of the parameters will not be considered. 
 # -----
 pathway_complementarity:
@@ -189,7 +189,7 @@ seed_complementarity:
   value: true
   description: >
     This is the most time-consuming and challengint step of the workflow. 
-    You may perform microbetag with or without it by setting this argument as True or False correspondinly.
+    You may perform microbetag with or without it by setting this argument as true or false correspondinly.
   required: false
   type: bool
 
@@ -263,7 +263,7 @@ gene_predictor:
     - prodigal
     - RAST
   required: 
-    value: False
+    value: false
     when: orfs_per_bin is None
   description: "RAST annotation is required/strongly suggested* if modelseedpy is going to be used as genre_reconstruction_with.
   Otherwise, the user may choose among fragGeneScan or prodigal; in the latter, the .faa returned by DiTing will be used."
@@ -275,17 +275,17 @@ genre_reconstruction_with:
     - modelseedpy
     - carveme
   required: 
-    value: True
-    when: seed_complementarity == True
+    value: true
+    when: seed_complementarity == true
 
 gapfill_model:
-  value: True
-  description: "If True, modelseedpy will gapfill the reconstruction."
+  value: true
+  description: "If true, modelseedpy will gapfill the reconstruction."
   type: bool
 
 gapfill_media: 
-  value: True
-  description: If True, modelseedpy will 
+  value: true
+  description: If true, modelseedpy will 
   type: bool
 
 
@@ -304,10 +304,10 @@ min_proba:
 # manta 
 # -----
 network_clustering:
-  value: False
+  value: true
   description:
   type: bool
-  required: False
+  required: false
 
 
 prev_clustered_network:
@@ -333,7 +333,7 @@ metadata_file:
 
 flashweave_args:
     heterogeneous:
-      value: False
+      value: false
       description: >
         Enable heterogeneous mode for multi-habitat or -protocol data with at least thousands of samples (FlashWeaveHE).
       required: true
@@ -341,7 +341,7 @@ flashweave_args:
       type: bool
     
     sensitive:
-      value: True
+      value: true
       description: >
         Enable fine-grained associations (FlashWeave-S, FlashWeaveHE-S), sensitive=false results in the fast modes 
         FlashWeave-F or FlashWeaveHE-F.
@@ -407,7 +407,7 @@ flashweave_args:
     n_obs_min:
       value:  
       desription: >
-        Don't compute associations between variables having less reliable samples (i.e. non-zero if heterogeneous=True) 
+        Don't compute associations between variables having less reliable samples (i.e. non-zero if heterogeneous=true) 
         than this number. 
         -1  automatically choose a threshold.
       required: false
