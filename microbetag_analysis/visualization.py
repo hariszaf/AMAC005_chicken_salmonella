@@ -29,7 +29,8 @@ def plot_neighbors_per_seed_compl(df, condition, model="WLS"):
         regression_df, r_squared, p_value = ols(df)
 
     else:
-        regression_df, r_squared, p_value =
+        print("Model not recognized. Please use 'WLS' or 'OLS'.")
+        # regression_df, r_squared, p_value =
 
     # Generate the plot
     plot = (

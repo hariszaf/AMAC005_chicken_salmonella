@@ -2,3 +2,8 @@ ndex2
 venn
 statsmodels
 plotnine
+tabulate
+PyYAML
+kaleido
+plotly
+patchworklib
