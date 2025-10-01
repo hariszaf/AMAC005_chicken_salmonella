@@ -25,8 +25,7 @@ order_colors <- c(
 
 ```{r overvall}
 cxFile  <- "microbetag_analysis/microbetag_nets/cx/overall.cx"
-
-overall = process_cxfile(cxFile, "overall", genome_metadata, genome_counts_filt, order_colors)
+overall <- process_cxfile(cxFile, "overall", genome_metadata, genome_counts_filt, order_colors)
 ```
 
 
@@ -44,7 +43,7 @@ The `threshold` refers to the minimum absolute flashweave score. By default, we 
 
 ```{r cor_day7, message=FALSE, warning=FALSE, comment=""}
 cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_day_7.cx"
-day7 = process_cxfile(cxFile, "day7", genome_metadata, genome_counts_filt, order_colors, col_name="day")
+day7   <- process_cxfile(cxFile, "day7", genome_metadata, genome_counts_filt, order_colors, col_name="day")
 ```
 
 
@@ -59,7 +58,7 @@ d7_neg_plot <- plot_graph(day7$graph_neg, day7$clusters_neg, "microbetag_analysi
 
 ```{r cor_day14, comment="", message=FALSE, warning=FALSE}
 cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_day_14.cx"
-day14 = process_cxfile(cxFile, "day14", genome_metadata, genome_counts_filt, order_colors, col_name = "day")
+day14  <- process_cxfile(cxFile, "day14", genome_metadata, genome_counts_filt, order_colors, col_name = "day")
 ```
 
 ```{r cor_day14_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
@@ -71,7 +70,7 @@ d14_neg_plot <- plot_graph(day14$graph_neg, day14$clusters_neg, "microbetag_anal
 
 ```{r cor_day21, comment="", message=FALSE, warning=FALSE}
 cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_day_21.cx"
-day21 = process_cxfile(cxFile, "day21", genome_metadata, genome_counts_filt, order_colors, col_name = "day")
+day21  <- process_cxfile(cxFile, "day21", genome_metadata, genome_counts_filt, order_colors, col_name = "day")
 ```
 
 
@@ -84,7 +83,7 @@ d21_neg_plot <- plot_graph(day21$graph_neg, day21$clusters_neg, "microbetag_anal
 
 ```{r cor_day28, comment="", message=FALSE, warning=FALSE}
 cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_day_28.cx"
-day28 = process_cxfile(cxFile, "day28", genome_metadata, genome_counts_filt, order_colors, col_name = "day")
+day28  <- process_cxfile(cxFile, "day28", genome_metadata, genome_counts_filt, order_colors, col_name = "day")
 ```
 
 
@@ -113,8 +112,7 @@ d35_neg_plot <- plot_graph(day35$graph_neg, day35$clusters_neg, "microbetag_anal
 ### TG1
 
 ```{r cor_TG1, comment="", message=FALSE, warning=FALSE}
-# cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_TG1.cx"
-cxFile <- "microbetag_analysis/microbetag_nets/cx/TG1.cx"
+cxFile <- "microbetag_analysis/microbetag_nets/cx/microbetag_net_TG1.cx"
 TG1  <- process_cxfile(cxFile, "TG1", genome_metadata, genome_counts_filt, order_colors, col_name = "treatment")
 ```
 
@@ -144,8 +142,8 @@ TG3    <- process_cxfile(cxFile, "TG3", genome_metadata, genome_counts_filt, ord
 ```
 
 ```{r cor_TG3_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-TG3_pos_plot <- plot_graph(TG3$graph_pos, TG3$clusters_pos, "TG3_pos.svg")
-TG3_neg_plot <- plot_graph(TG3$graph_neg, TG3$clusters_neg, "TG3_neg.svg")
+TG3_pos_plot <- plot_graph(TG3$graph_pos, TG3$clusters_pos, "microbetag_analysis/figs/flashweave_scores/TG3_pos.svg")
+TG3_neg_plot <- plot_graph(TG3$graph_neg, TG3$clusters_neg, "microbetag_analysis/figs/flashweave_scores/TG3_neg.svg")
 ```
 
 ### TG4
@@ -157,8 +155,8 @@ TG4    <- process_cxfile(cxFile, "TG4", genome_metadata, genome_counts_filt, ord
 
 
 ```{r cor_TG4_clusters, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-TG4_pos_plot <- plot_graph(TG4$graph_pos, TG4$clusters_pos, "TG4_pos.svg")
-TG4_neg_plot <- plot_graph(TG4$graph_neg, TG4$clusters_neg, "TG4_neg.svg")
+TG4_pos_plot <- plot_graph(TG4$graph_pos, TG4$clusters_pos, "microbetag_analysis/figs/flashweave_scores/TG4_pos.svg")
+TG4_neg_plot <- plot_graph(TG4$graph_neg, TG4$clusters_neg, "microbetag_analysis/figs/flashweave_scores/TG4_neg.svg")
 ```
 
 ### TG5
@@ -212,7 +210,7 @@ names <- list(
 )
 
 # Open a plotting device (PDF or PNG if saving)
-pdf("4x5_graph_grid.pdf", width = 20, height = 20)
+pdf("microbetag_analysis/figs/flashweave_scores/4x5_graph_grid.pdf", width = 20, height = 20)
 
 # Set up 5x5 plot layout
 par(mfrow = c(4, 5), mar = c(0, 0, 0, 0))  # no margins
@@ -225,13 +223,6 @@ for (i in 1:20) {
 dev.off()
 
 ```
-
-
-
-
-
-
-
 
 
 ## Combined
@@ -300,26 +291,26 @@ plot_metrics <- function(metrics_list, group_var, group_levels) {
 metrics_list <- list(TG1$metrics_pos, TG2$metrics_pos, TG3$metrics_pos, TG4$metrics_pos, TG5$metrics_pos)
 treatment_levels <- c("TG1", "TG2", "TG3", "TG4", "TG5")
 s <- plot_metrics(metrics_list, "treatment", treatment_levels)
-# ggsave("microbetag_analysis/figs/flashweave_scores/metrics_tp.svg", s, dpi = 300, device = "svg", bg = "transparent")
+ggsave("microbetag_analysis/figs/flashweave_scores/metrics_tp.svg", s, dpi = 300, device = "svg", bg = "transparent")
 
 
 # Plot metrics: TREATMENTS NEGATIVE
 metrics_list <- list(TG1$metrics_neg, TG2$metrics_neg, TG3$metrics_neg, TG4$metrics_neg, TG5$metrics_neg)
 treatment_levels <- c("TG1", "TG2", "TG3", "TG4", "TG5")
 r <- plot_metrics(metrics_list, "treatment", treatment_levels)
-# ggsave("microbetag_analysis/figs/flashweave_scores/metrics_tn.svg", r, dpi = 300, device = "svg", bg = "transparent")
+ggsave("microbetag_analysis/figs/flashweave_scores/metrics_tn.svg", r, dpi = 300, device = "svg", bg = "transparent")
 
 # Plot metrics: DAYS NEGATIVE
 metrics_list <- list(day7$metrics_neg, day14$metrics_neg, day21$metrics_neg, day28$metrics_neg, day35$metrics_neg)
 treatment_levels <- c("day7", "day14", "day21", "day28", "day35")
 q <- plot_metrics(metrics_list, "day", treatment_levels)
-# ggsave("microbetag_analysis/figs/flashweave_scores/metrics_dn.svg", q, dpi = 300, device = "svg", bg = "transparent")
+ggsave("microbetag_analysis/figs/flashweave_scores/metrics_dn.svg", q, dpi = 300, device = "svg", bg = "transparent")
 
 # Plot metrics: DAYS POSITIVE
 metrics_list <- list(day7$metrics_pos, day14$metrics_pos, day21$metrics_pos, day28$metrics_pos, day35$metrics_pos)
 treatment_levels <- c("day7", "day14", "day21", "day28", "day35")
 p <- plot_metrics(metrics_list, "day", treatment_levels)
-# ggsave("microbetag_analysis/figs/flashweave_scores/metrics_dp.svg", p, dpi = 300, device = "svg", bg = "transparent")
+ggsave("microbetag_analysis/figs/flashweave_scores/metrics_dp.svg", p, dpi = 300, device = "svg", bg = "transparent")
 ```
 
 
@@ -331,11 +322,13 @@ p <- plot_metrics(metrics_list, "day", treatment_levels)
 #### Clusters per day
 
 ```{r community_clusters_day, comment="", message=FALSE, warning=FALSE}
-day_clusters_positive <- c(day7$communities_pos, 
-                           day14$communities_pos,
-                           day21$communities_pos,
-                           day28$communities_pos,
-                           day35$communities_pos) %>%
+day_clusters_positive <- c(
+  day7$communities_pos, 
+  day14$communities_pos,
+  day21$communities_pos,
+  day28$communities_pos,
+  day35$communities_pos
+  ) %>%
   purrr::map(~ combn(.x, 2, simplify = FALSE)) %>%
   unlist(recursive = FALSE) %>% 
   purrr::map(~ sort(.x))
@@ -352,11 +345,13 @@ day_clusters_positive_dist %>%
 #### Clusters per treatment
 
 ```{r community_clusters_treatment, comment="", message=FALSE, warning=FALSE}
-treatment_clusters_positive <- c(TG1$communities_pos, 
-                        TG2$communities_pos, 
-                        TG3$communities_pos, 
-                        TG4$communities_pos, 
-                        TG5$communities_pos) %>%
+treatment_clusters_positive <- c(
+  TG1$communities_pos, 
+  TG2$communities_pos, 
+  TG3$communities_pos, 
+  TG4$communities_pos, 
+  TG5$communities_pos
+  ) %>%
   purrr::map(~ combn(.x, 2, simplify = FALSE)) %>%
   unlist(recursive = FALSE) %>% 
   purrr::map(~ sort(.x))
@@ -373,12 +368,13 @@ treatment_clusters_positive_dist %>%
 #### Cluster combined
 
 ```{r community_clusters_all, comment="", message=FALSE, warning=FALSE}
-all_clusters_positive <- c(day7$communities_pos, 
-                           day14$communities_pos,
-                           day21$communities_pos,
-                           day28$communities_pos,
-                           day35$communities_pos
-                        ) %>%
+all_clusters_positive <- c(
+  day7$communities_pos, 
+  day14$communities_pos,
+  day21$communities_pos,
+  day28$communities_pos,
+  day35$communities_pos
+  ) %>%
   purrr::map(~ combn(.x, 2, simplify = FALSE)) %>%
   unlist(recursive = FALSE) %>% 
   purrr::map(~ sort(.x))
@@ -446,11 +442,13 @@ associated_pairs_positive %>%
 #### Clusters per day
 
 ```{r community_clusters_day_negative, comment="", message=FALSE, warning=FALSE}
-day_clusters_negative <- c(day7$communities_neg, 
-                           day14$communities_neg,
-                           day21$communities_neg,
-                           day28$communities_neg,
-                           day35$communities_neg) %>%
+day_clusters_negative <- c(
+  day7$communities_neg, 
+  day14$communities_neg,
+  day21$communities_neg,
+  day28$communities_neg,
+  day35$communities_neg
+  ) %>%
   purrr::map(~ combn(.x, 2, simplify = FALSE)) %>%
   unlist(recursive = FALSE) %>% 
   purrr::map(~ sort(.x))
@@ -467,11 +465,13 @@ day_clusters_negative_dist %>%
 #### Clusters per treatment
 
 ```{r community_clusters_treatment_negative, comment="", message=FALSE, warning=FALSE}
-treatment_clusters_negative <- c(TG1$communities_neg,
-                                 TG2$communities_neg,
-                                 TG3$communities_neg,
-                                 TG4$communities_neg,
-                                 TG5$communities_neg) %>%
+treatment_clusters_negative <- c(
+  TG1$communities_neg,
+  TG2$communities_neg,
+  TG3$communities_neg,
+  TG4$communities_neg,
+  TG5$communities_neg
+  ) %>%
   purrr::map(~ combn(.x, 2, simplify = FALSE)) %>%
   unlist(recursive = FALSE) %>% 
   purrr::map(~ sort(.x))
@@ -487,16 +487,18 @@ treatment_clusters_negative_dist %>%
 #### Cluster combined
 
 ```{r community_clusters_all_negative, comment="", message=FALSE, warning=FALSE}
-all_clusters_negative <- c(day7$communities_neg,
-                           day14$communities_neg,
-                           day21$communities_neg,
-                           day28$communities_neg,
-                           day35$communities_neg,
-                           TG1$communities_neg,
-                           TG2$communities_neg,
-                           TG3$communities_neg,
-                           TG4$communities_neg,
-                           TG5$communities_neg) %>%
+all_clusters_negative <- c(
+  day7$communities_neg,
+  day14$communities_neg,
+  day21$communities_neg,
+  day28$communities_neg,
+  day35$communities_neg,
+  TG1$communities_neg,
+  TG2$communities_neg,
+  TG3$communities_neg,
+  TG4$communities_neg,
+  TG5$communities_neg
+  ) %>%
   purrr::map(~ combn(.x, 2, simplify = FALSE)) %>%
   unlist(recursive = FALSE) %>% 
   purrr::map(~ sort(.x))
@@ -561,14 +563,17 @@ weighted_sd <- function(x, w) {
 }
 
 # Summary statistics
-distance_stats <- bind_rows(associated_pairs_positive %>% mutate(type="positive"),
-          associated_pairs_negative %>% mutate(type="negative")) %>% 
-          left_join(genome_metadata %>% select(genome,genus),by=join_by(genome1==genome)) %>% 
-          left_join(genome_metadata %>% select(genome,genus),by=join_by(genome2==genome)) %>%
-          filter(genus.x!=genus.y) %>% #remove relationships with same genus due to crossmaping error probability
-          group_by(type) %>% 
-          summarise(weighted_mean = sum(distance * count) / sum(count),
-                    weighed_sd = weighted_sd(distance, count))
+distance_stats <- bind_rows(
+  associated_pairs_positive %>% mutate(type="positive"),
+  associated_pairs_negative %>% mutate(type="negative")) %>% 
+  left_join(genome_metadata %>% select(genome,genus),by=join_by(genome1==genome)) %>% 
+  left_join(genome_metadata %>% select(genome,genus),by=join_by(genome2==genome)) %>%
+  filter(genus.x!=genus.y) %>% #remove relationships with same genus due to crossmaping error probability
+  group_by(type) %>% 
+  summarise(
+    weighted_mean = sum(distance * count) / sum(count),
+    weighed_sd = weighted_sd(distance, count)
+  )
 
 distance_stats %>% 
   tt()
@@ -580,13 +585,23 @@ weighted_mean <- function(x, w) {
 
 permutation_test <- function(data, n_permutations = 1000) {
   
-  original_diff <- abs(weighted_mean(data$distance[data$type == "positive"], data$count[data$type == "positive"]) -
-                         weighted_mean(data$distance[data$type == "negative"], data$count[data$type == "negative"]))
+  original_diff <- abs(
+    weighted_mean(
+      data$distance[data$type == "positive"], data$count[data$type == "positive"]
+    ) - weighted_mean(
+      data$distance[data$type == "negative"], data$count[data$type == "negative"]
+    )
+  )
   
   perm_diff <- replicate(n_permutations, {
     shuffled_type <- sample(data$type)
-    abs(weighted_mean(data$distance[shuffled_type == "positive"], data$count[shuffled_type == "positive"]) -
-          weighted_mean(data$distance[shuffled_type == "negative"], data$count[shuffled_type == "negative"]))
+    abs(
+      weighted_mean(
+        data$distance[shuffled_type == "positive"], data$count[shuffled_type == "positive"]
+      ) - weighted_mean(
+        data$distance[shuffled_type == "negative"], data$count[shuffled_type == "negative"]
+        )
+    )
   })
   
   p_value <- mean(perm_diff >= original_diff)
@@ -644,8 +659,6 @@ perm_diff <- replicate(n_permutations, {
 # Calculate p-value (two-tailed test)
 p_value <- mean(abs(perm_diff) >= abs(observed_diff))
 p_value
-
-
 ```
 
 ```{r association_distance_neg_background_test, comment="", message=FALSE, warning=FALSE}
@@ -721,15 +734,15 @@ plot_data <- gift_pcoa_vectors %>%
 
 
 Erysipelotrichales <- genome_metadata %>% filter(order == "o__Erysipelotrichales") %>% pull(genome)
-UBA1381 <- genome_metadata %>% filter(order == "o__UBA1381") %>% pull(genome)
-TANB77 <- genome_metadata %>% filter(order == "o__TANB77") %>% pull(genome)
-Clostridiales <- genome_metadata %>% filter(order == "o__Clostridiales") %>% pull(genome)
-RF39 <- genome_metadata %>% filter(order == "o__RF39") %>% pull(genome)
+UBA1381            <- genome_metadata %>% filter(order == "o__UBA1381") %>% pull(genome)
+TANB77             <- genome_metadata %>% filter(order == "o__TANB77") %>% pull(genome)
+Clostridiales      <- genome_metadata %>% filter(order == "o__Clostridiales") %>% pull(genome)
+RF39               <- genome_metadata %>% filter(order == "o__RF39") %>% pull(genome)
 
 
-Lachnospirales <- genome_metadata %>% filter(order == "o__Lachnospirales") %>% pull(genome)
-Oscillospirales <- genome_metadata %>% filter(order == "o__Oscillospirales") %>% pull(genome)
-Enterobacterales <- genome_metadata %>% filter(order == "o__Enterobacterales") %>% pull(genome)
+Lachnospirales     <- genome_metadata %>% filter(order == "o__Lachnospirales") %>% pull(genome)
+Oscillospirales    <- genome_metadata %>% filter(order == "o__Oscillospirales") %>% pull(genome)
+Enterobacterales   <- genome_metadata %>% filter(order == "o__Enterobacterales") %>% pull(genome)
 Christensenellales <-  genome_metadata %>% filter(order == "o__Christensenellales") %>% pull(genome)
 
 genomes_of_taxa_of_interest <- c(
@@ -805,19 +818,74 @@ q1 <- q1 +
   scale_y_continuous(expand = expansion(add = c(0.1, 0.1)))    # Adjust y-axis expansion
 
 
-ggsave("~/Desktop/pcoa.svg", q1, dpi = 300, width = 9,  height = 9, units = "in", device = "svg", bg="transparent") # , bg = "transparent"
+ggsave(
+  "microbetag_analysis/figs/pcoa/pcoa.svg", q1, 
+  dpi = 300, width = 9,  height = 9, units = "in", device = "svg", bg = "transparent"
+) 
 
+
+
+
+genomes_sets <- list(
+  oscillospirales = Oscillospirales,
+  lachnospirales = Lachnospirales,
+  entero_christensenellales = c(Enterobacterales, Christensenellales),
+  small = c(Erysipelotrichales, UBA1381, TANB77, Clostridiales, RF39)
+)
+
+
+for (set_name in names(genomes_sets)) {
+  
+  taxa <- genomes_sets[[set_name]]
+  genomes_of_interest <- intersect(taxa, connected_genomes)
+  
+  ps <- plot_data %>% filter(genome %in% genomes_of_interest)
+  ps <- ps %>% mutate(species = ifelse(species == "s__", genus, species))
+  key_value_text <- paste(ps$auto, ps$species, sep = ": ", collapse = "\n")
+  
+  q1 <- ggplot() +
+    geom_segment(
+      data = associated_pairs_negative,
+      aes(x = x1, y = y1, xend = x2, yend = y2, linetype=clustering),
+      color="#f5a2af", linewidth=1
+    ) +
+    geom_segment(
+      data = associated_pairs_positive,
+      aes(x = x1, y = y1, xend = x2, yend = y2, linetype=clustering),
+      color="#6AA84F", linewidth=1
+    ) +
+    scale_linetype_manual(values=c("solid", "dashed", "dotted")) +
+    geom_point(
+      data = plot_data,
+      aes(x = Axis.1, y = Axis.2, color = order, size = length, alpha = alpha_value),
+      shape = 16
+    ) +
+    geom_label(
+      data = plot_data %>% filter(genome %in% genomes_of_interest),
+      aes(x = Axis.1 , y = Axis.2 , label = auto),
+      size = 3, fill = "white", color = "black", alpha = 0.31
+    ) +
+    scale_alpha_identity() +
+    scale_color_manual(name = "Order", values = order_colors) +
+    theme_minimal() +
+    theme(legend.position = "right") +
+    guides(color = guide_legend(override.aes = list(size = 3))) +
+    annotate(
+      "text", x = 1, y = 6, 
+      label = key_value_text,
+      hjust = 0, vjust = 1, size = 3, color = "black"
+    ) +
+    scale_x_continuous(expand = expansion(add = c(1.1, 0.3))) +
+    scale_y_continuous(expand = expansion(add = c(0.1, 0.1)))
+  
+  ggsave(
+    filename = paste0("microbetag_analysis/figs/pcoa/pcoa_", set_name, ".svg"),
+    plot = q1,
+    dpi = 300, width = 9, height = 9, units = "in",
+    device = "svg", bg = "transparent"
+  )
+}
 ```
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -903,8 +971,8 @@ genome_gifts[selected_genomes, ] %>%
 ```{r Seed scores}
 
 
-compl_scores <- read.table("microbetag_analysis/microbetag_nets/seed_scores.tsv", sep = "\t", header = TRUE)
-
+# compl_scores <- read.table("microbetag_analysis/microbetag_nets/seed_scores.tsv", sep = "\t", header = TRUE)
+compl_scores <- read.table("microbetag_analysis/mgg_prec/seeds_complementarity/phylomint_scores.tsv", sep = "\t", header = TRUE)
 
 add_taxonomic_level <- function(df, tax_df, tax_level) {
   df <- df %>%
@@ -1007,10 +1075,12 @@ create_taxonomic_heatmap <- function(filtered_results, taxonomies, tax_level) {
   )
 }
 
-heatmap_phylum <- create_taxonomic_heatmap(phyla_filtered_results, taxonomies, "phylum")
-heatmap_order  <- create_taxonomic_heatmap(order_filtered_results, taxonomies, "order")
+heatmap_phylum <- create_taxonomic_heatmap(phyla_filtered_results, genome_taxonomy, "phylum")
+heatmap_order  <- create_taxonomic_heatmap(order_filtered_results, genome_taxonomy, "order")
 
-svg("microbetag_analysis/figs/seed_stats/seed_scores_lm_order2.svg", width = 8, height = 6, bg="transparent")  # Set desired dimensions
+# Set desired dimensions
+svg("microbetag_analysis/figs/seed_stats/seed_scores_lm_order2.svg", width = 8, height = 6, bg="transparent")  
+
 print(heatmap_order)  # Replace with your ggplot object
 dev.off()  # Close the device to save the file
 ```

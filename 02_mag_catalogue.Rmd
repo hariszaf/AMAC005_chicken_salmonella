@@ -281,7 +281,6 @@ gift_pcoa_vectors %>%
 ```
 
 ```{r function_ordination_pcoa_D02_curve, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-
 genome_gifts %>%
     to.elements(., GIFT_db) %>% 
     to.functions(., GIFT_db) %>% 
@@ -296,7 +295,6 @@ genome_gifts %>%
 ```
 
 ```{r function_ordination_pcoa_D01_curve, message=FALSE, fig.height=8, fig.width=10, fig.fullwidth=TRUE}
-
 genome_gifts %>%
     to.elements(., GIFT_db) %>% 
     to.functions(., GIFT_db) %>% 
