@@ -215,19 +215,23 @@ sc_input_type:
   required: true
 
 
-prev_calc_seed_sets:
-  dir_path: 
-  required: false 
-  description: >
-    Path to directory with SeedSetDic.json and nonSeedSetDic.json files if previously calculated for the genomes under study
-    Leave empty if no previously calculated dictionaries.
-  type: string
-  to-do: ../test_data/test_phylomint/output_files/ 
+# prev_calc_seed_sets:
+#   dir_path: mgg_prec/seeds_complementarity/
+#   required: false 
+#   description: >
+#     Path to directory with SeedSetDic.json and nonSeedSetDic.json files if previously calculated for the genomes under study
+#     Leave empty if no previously calculated dictionaries.
+#   type: string
+#   to-do: ../test_data/test_phylomint/output_files/ 
+
+
+prev_calc_path_compl:
+  file_path: mgg_prec/pathway_complementarity/pathCompls.json
+
 
 
 prev_conf: 
-
-  file_path:
+  file_path: mgg_prec/seeds_complementarity/confidenceDic.json
   description: >
 
   required:
@@ -236,7 +240,7 @@ prev_conf:
 
 prev_nonseeds:
 
-  file_path:
+  file_path: mgg_prec/seeds_complementarity/nonSeedSetDic.json
   description: >
     
   required:

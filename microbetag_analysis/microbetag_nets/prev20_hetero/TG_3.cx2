@@ -1,0 +1,1020 @@
+[
+    {
+        "CXVersion": "2.0",
+        "hasFragments": false
+    },
+    {
+        "metaData": [
+            {
+                "elementCount": 1,
+                "name": "attributeDeclarations"
+            },
+            {
+                "elementCount": 1,
+                "name": "networkAttributes"
+            },
+            {
+                "elementCount": 25,
+                "name": "nodes"
+            },
+            {
+                "elementCount": 19,
+                "name": "edges"
+            }
+        ]
+    },
+    {
+        "attributeDeclarations": [
+            {
+                "nodes": {
+                    "microbetag::ncbi-tax-level": {
+                        "d": "string"
+                    },
+                    "microbetag::taxon": {
+                        "d": "string"
+                    },
+                    "microbetag::taxonomy": {
+                        "d": "string"
+                    },
+                    "name": {
+                        "d": "string"
+                    },
+                    "phendb::AOB": {
+                        "d": "boolean"
+                    },
+                    "phendb::NOB": {
+                        "d": "boolean"
+                    },
+                    "phendb::T3SS": {
+                        "d": "boolean"
+                    },
+                    "phendb::T6SS": {
+                        "d": "boolean"
+                    },
+                    "phendb::a_saccharolytic": {
+                        "d": "boolean"
+                    },
+                    "phendb::ac": {
+                        "d": "boolean"
+                    },
+                    "phendb::anaerobe": {
+                        "d": "boolean"
+                    },
+                    "phendb::auto_co2": {
+                        "d": "boolean"
+                    },
+                    "phendb::butanol": {
+                        "d": "boolean"
+                    },
+                    "phendb::butyric_acid": {
+                        "d": "boolean"
+                    },
+                    "phendb::d_lactic_acid": {
+                        "d": "boolean"
+                    },
+                    "phendb::ethanol": {
+                        "d": "boolean"
+                    },
+                    "phendb::fermentative": {
+                        "d": "boolean"
+                    },
+                    "phendb::fixing_n2": {
+                        "d": "boolean"
+                    },
+                    "phendb::formic_acid": {
+                        "d": "boolean"
+                    },
+                    "phendb::halophilic": {
+                        "d": "boolean"
+                    },
+                    "phendb::hydrogen": {
+                        "d": "boolean"
+                    },
+                    "phendb::indole": {
+                        "d": "boolean"
+                    },
+                    "phendb::isobut": {
+                        "d": "boolean"
+                    },
+                    "phendb::isovaleric_acid": {
+                        "d": "boolean"
+                    },
+                    "phendb::methanotroph": {
+                        "d": "boolean"
+                    },
+                    "phendb::non_fermentative": {
+                        "d": "boolean"
+                    },
+                    "phendb::phototrophy": {
+                        "d": "boolean"
+                    },
+                    "phendb::psychrophilic": {
+                        "d": "boolean"
+                    },
+                    "phendb::r_acetoin": {
+                        "d": "boolean"
+                    },
+                    "phendb::saccharolytic": {
+                        "d": "boolean"
+                    },
+                    "phendb::succinic_acid": {
+                        "d": "boolean"
+                    },
+                    "phendb::sulfate_reducer": {
+                        "d": "boolean"
+                    },
+                    "phendb::symbiont": {
+                        "d": "boolean"
+                    },
+                    "phendb::thermophylic": {
+                        "d": "boolean"
+                    },
+                    "phendbScore::AOB": {
+                        "d": "double"
+                    },
+                    "phendbScore::NOB": {
+                        "d": "double"
+                    },
+                    "phendbScore::T3SS": {
+                        "d": "double"
+                    },
+                    "phendbScore::T6SS": {
+                        "d": "double"
+                    },
+                    "phendbScore::a_saccharolytic": {
+                        "d": "double"
+                    },
+                    "phendbScore::ac": {
+                        "d": "double"
+                    },
+                    "phendbScore::anaerobe": {
+                        "d": "double"
+                    },
+                    "phendbScore::auto_co2": {
+                        "d": "double"
+                    },
+                    "phendbScore::butanol": {
+                        "d": "double"
+                    },
+                    "phendbScore::butyric_acid": {
+                        "d": "double"
+                    },
+                    "phendbScore::d_lactic_acid": {
+                        "d": "double"
+                    },
+                    "phendbScore::ethanol": {
+                        "d": "double"
+                    },
+                    "phendbScore::fermentative": {
+                        "d": "double"
+                    },
+                    "phendbScore::fixing_n2": {
+                        "d": "double"
+                    },
+                    "phendbScore::formic_acid": {
+                        "d": "double"
+                    },
+                    "phendbScore::halophilic": {
+                        "d": "double"
+                    },
+                    "phendbScore::hydrogen": {
+                        "d": "double"
+                    },
+                    "phendbScore::indole": {
+                        "d": "double"
+                    },
+                    "phendbScore::isobut": {
+                        "d": "double"
+                    },
+                    "phendbScore::isovaleric_acid": {
+                        "d": "double"
+                    },
+                    "phendbScore::methanotroph": {
+                        "d": "double"
+                    },
+                    "phendbScore::non_fermentative": {
+                        "d": "double"
+                    },
+                    "phendbScore::phototrophy": {
+                        "d": "double"
+                    },
+                    "phendbScore::psychrophilic": {
+                        "d": "double"
+                    },
+                    "phendbScore::r_acetoin": {
+                        "d": "double"
+                    },
+                    "phendbScore::saccharolytic": {
+                        "d": "double"
+                    },
+                    "phendbScore::succinic_acid": {
+                        "d": "double"
+                    },
+                    "phendbScore::sulfate_reducer": {
+                        "d": "double"
+                    },
+                    "phendbScore::symbiont": {
+                        "d": "double"
+                    },
+                    "phendbScore::thermophylic": {
+                        "d": "double"
+                    },
+                    "taxonomy::class": {
+                        "d": "string"
+                    },
+                    "taxonomy::domain": {
+                        "d": "string"
+                    },
+                    "taxonomy::family": {
+                        "d": "string"
+                    },
+                    "taxonomy::genus": {
+                        "d": "string"
+                    },
+                    "taxonomy::order": {
+                        "d": "string"
+                    },
+                    "taxonomy::phylum": {
+                        "d": "string"
+                    },
+                    "taxonomy::species": {
+                        "d": "string"
+                    },
+                    "phendb::d_glucose": {
+                        "d": "boolean"
+                    },
+                    "phendbScore::d_glucose": {
+                        "d": "double"
+                    },
+                    "phendb::aerobe": {
+                        "d": "boolean"
+                    },
+                    "phendbScore::aerobe": {
+                        "d": "double"
+                    }
+                },
+                "edges": {
+                    "interaction": {
+                        "d": "string"
+                    },
+                    "interaction type": {
+                        "d": "string"
+                    },
+                    "microbetag::weight": {
+                        "d": "double"
+                    },
+                    "shared name": {
+                        "d": "string"
+                    }
+                },
+                "networkAttributes": {
+                    "name": {
+                        "d": "string"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "networkAttributes": [
+            {
+                "name": "microbetag network @ 2025-10-27_16-40"
+            }
+        ]
+    },
+    {
+        "nodes": [
+            {
+                "id": 0,
+                "v": {
+                    "microbetag::ncbi-tax-level": "species",
+                    "microbetag::taxon": "s__Agathobaculum stercoravium",
+                    "microbetag::taxonomy": "d__Bacteria;p__Bacillota_A;c__Clostridia;o__Oscillospirales;f__Butyricicoccaceae;g__Agathobaculum;s__Agathobaculum stercoravium",
+                    "name": "D300506:bin_000004",
+                    "phendb::AOB": false,
+                    "phendb::NOB": false,
+                    "phendb::T3SS": false,
+                    "phendb::T6SS": false,
+                    "phendb::a_saccharolytic": false,
+                    "phendb::ac": true,
+                    "phendb::anaerobe": true,
+                    "phendb::auto_co2": true,
+                    "phendb::butanol": false,
+                    "phendb::butyric_acid": true,
+                    "phendb::d_lactic_acid": false,
+                    "phendb::ethanol": false,
+                    "phendb::fermentative": true,
+                    "phendb::fixing_n2": false,
+                    "phendb::formic_acid": false,
+                    "phendb::halophilic": false,
+                    "phendb::hydrogen": false,
+                    "phendb::indole": false,
+                    "phendb::isobut": false,
+                    "phendb::isovaleric_acid": false,
+                    "phendb::methanotroph": false,
+                    "phendb::non_fermentative": false,
+                    "phendb::phototrophy": false,
+                    "phendb::psychrophilic": false,
+                    "phendb::r_acetoin": false,
+                    "phendb::saccharolytic": true,
+                    "phendb::succinic_acid": false,
+                    "phendb::sulfate_reducer": false,
+                    "phendb::symbiont": false,
+                    "phendb::thermophylic": false,
+                    "phendbScore::AOB": 0.7714,
+                    "phendbScore::NOB": 0.7816,
+                    "phendbScore::T3SS": 0.8659,
+                    "phendbScore::T6SS": 0.7986,
+                    "phendbScore::a_saccharolytic": 0.8703,
+                    "phendbScore::ac": 0.7498,
+                    "phendbScore::anaerobe": 0.8817,
+                    "phendbScore::auto_co2": 0.6431,
+                    "phendbScore::butanol": 0.767,
+                    "phendbScore::butyric_acid": 0.7833,
+                    "phendbScore::d_lactic_acid": 0.6483,
+                    "phendbScore::ethanol": 0.8039,
+                    "phendbScore::fermentative": 0.848,
+                    "phendbScore::fixing_n2": 0.6356,
+                    "phendbScore::formic_acid": 0.6005,
+                    "phendbScore::halophilic": 0.7389,
+                    "phendbScore::hydrogen": 0.7457,
+                    "phendbScore::indole": 0.7678,
+                    "phendbScore::isobut": 0.7943,
+                    "phendbScore::isovaleric_acid": 0.7337,
+                    "phendbScore::methanotroph": 0.8569,
+                    "phendbScore::non_fermentative": 0.8792,
+                    "phendbScore::phototrophy": 0.7978,
+                    "phendbScore::psychrophilic": 0.867,
+                    "phendbScore::r_acetoin": 0.846,
+                    "phendbScore::saccharolytic": 0.7878,
+                    "phendbScore::succinic_acid": 0.6792,
+                    "phendbScore::sulfate_reducer": 0.8511,
+                    "phendbScore::symbiont": 0.8361,
+                    "phendbScore::thermophylic": 0.7889,
+                    "taxonomy::class": "c__Clostridia",
+                    "taxonomy::domain": "d__Bacteria",
+                    "taxonomy::family": "f__Butyricicoccaceae",
+                    "taxonomy::genus": "g__Agathobaculum",
+                    "taxonomy::order": "o__Oscillospirales",
+                    "taxonomy::phylum": "p__Bacillota_A",
+                    "taxonomy::species": "s__Agathobaculum stercoravium"
+                }
+            },
+            {
+                "id": 1,
+                "v": {
+                    "microbetag::ncbi-tax-level": "species",
+                    "microbetag::taxon": "s__Mediterraneibacter pullicola",
+                    "microbetag::taxonomy": "d__Bacteria;p__Bacillota_A;c__Clostridia;o__Lachnospirales;f__Lachnospiraceae;g__Mediterraneibacter;s__Mediterraneibacter pullicola",
+                    "name": "GPB:bin_000049",
+                    "phendb::AOB": false,
+                    "phendb::NOB": false,
+                    "phendb::T3SS": false,
+                    "phendb::T6SS": false,
+                    "phendb::a_saccharolytic": false,
+                    "phendb::ac": true,
+                    "phendb::anaerobe": true,
+                    "phendb::butanol": false,
+                    "phendb::d_glucose": false,
+                    "phendb::d_lactic_acid": false,
+                    "phendb::fermentative": true,
+                    "phendb::fixing_n2": false,
+                    "phendb::formic_acid": true,
+                    "phendb::halophilic": false,
+                    "phendb::indole": false,
+                    "phendb::isobut": false,
+                    "phendb::isovaleric_acid": false,
+                    "phendb::methanotroph": false,
+                    "phendb::non_fermentative": false,
+                    "phendb::phototrophy": false,
+                    "phendb::psychrophilic": false,
+                    "phendb::r_acetoin": false,
+                    "phendb::saccharolytic": true,
+                    "phendb::sulfate_reducer": false,
+                    "phendb::symbiont": false,
+                    "phendb::thermophylic": false,
+                    "phendbScore::AOB": 0.725,
+                    "phendbScore::NOB": 0.7438,
+                    "phendbScore::T3SS": 0.8449,
+                    "phendbScore::T6SS": 0.7747,
+                    "phendbScore::a_saccharolytic": 0.8832,
+                    "phendbScore::ac": 0.7684,
+                    "phendbScore::anaerobe": 0.8751,
+                    "phendbScore::butanol": 0.8254,
+                    "phendbScore::d_glucose": 0.6738,
+                    "phendbScore::d_lactic_acid": 0.7086,
+                    "phendbScore::fermentative": 0.8509,
+                    "phendbScore::fixing_n2": 0.7611,
+                    "phendbScore::formic_acid": 0.6505,
+                    "phendbScore::halophilic": 0.7101,
+                    "phendbScore::indole": 0.7852,
+                    "phendbScore::isobut": 0.8159,
+                    "phendbScore::isovaleric_acid": 0.7964,
+                    "phendbScore::methanotroph": 0.7868,
+                    "phendbScore::non_fermentative": 0.8865,
+                    "phendbScore::phototrophy": 0.8477,
+                    "phendbScore::psychrophilic": 0.869,
+                    "phendbScore::r_acetoin": 0.8558,
+                    "phendbScore::saccharolytic": 0.8452,
+                    "phendbScore::sulfate_reducer": 0.8538,
+                    "phendbScore::symbiont": 0.8073,
+                    "phendbScore::thermophylic": 0.81,
+                    "taxonomy::class": "c__Clostridia",
+                    "taxonomy::domain": "d__Bacteria",
+                    "taxonomy::family": "f__Lachnospiraceae",
+                    "taxonomy::genus": "g__Mediterraneibacter",
+                    "taxonomy::order": "o__Lachnospirales",
+                    "taxonomy::phylum": "p__Bacillota_A",
+                    "taxonomy::species": "s__Mediterraneibacter pullicola"
+                }
+            },
+            {
+                "id": 2,
+                "v": {
+                    "microbetag::ncbi-tax-level": "species",
+                    "microbetag::taxon": "s__Ruthenibacterium lactatiformans",
+                    "microbetag::taxonomy": "d__Bacteria;p__Bacillota_A;c__Clostridia;o__Oscillospirales;f__Ruminococcaceae;g__Ruthenibacterium;s__Ruthenibacterium lactatiformans",
+                    "name": "GPB:bin_000215",
+                    "phendb::AOB": false,
+                    "phendb::NOB": false,
+                    "phendb::T3SS": false,
+                    "phendb::T6SS": false,
+                    "phendb::a_saccharolytic": false,
+                    "phendb::ac": true,
+                    "phendb::anaerobe": true,
+                    "phendb::butanol": false,
+                    "phendb::butyric_acid": false,
+                    "phendb::d_lactic_acid": false,
+                    "phendb::ethanol": false,
+                    "phendb::fermentative": true,
+                    "phendb::halophilic": false,
+                    "phendb::hydrogen": true,
+                    "phendb::indole": false,
+                    "phendb::isobut": false,
+                    "phendb::isovaleric_acid": false,
+                    "phendb::methanotroph": false,
+                    "phendb::non_fermentative": false,
+                    "phendb::phototrophy": false,
+                    "phendb::psychrophilic": false,
+                    "phendb::r_acetoin": false,
+                    "phendb::saccharolytic": true,
+                    "phendb::succinic_acid": false,
+                    "phendb::sulfate_reducer": false,
+                    "phendb::symbiont": false,
+                    "phendb::thermophylic": false,
+                    "phendbScore::AOB": 0.6997,
+                    "phendbScore::NOB": 0.8065,
+                    "phendbScore::T3SS": 0.8496,
+                    "phendbScore::T6SS": 0.8194,
+                    "phendbScore::a_saccharolytic": 0.8728,
+                    "phendbScore::ac": 0.8389,
+                    "phendbScore::anaerobe": 0.8669,
+                    "phendbScore::butanol": 0.7526,
+                    "phendbScore::butyric_acid": 0.6339,
+                    "phendbScore::d_lactic_acid": 0.735,
+                    "phendbScore::ethanol": 0.7049,
+                    "phendbScore::fermentative": 0.8565,
+                    "phendbScore::halophilic": 0.6786,
+                    "phendbScore::hydrogen": 0.6053,
+                    "phendbScore::indole": 0.7098,
+                    "phendbScore::isobut": 0.8231,
+                    "phendbScore::isovaleric_acid": 0.7803,
+                    "phendbScore::methanotroph": 0.857,
+                    "phendbScore::non_fermentative": 0.8865,
+                    "phendbScore::phototrophy": 0.8597,
+                    "phendbScore::psychrophilic": 0.8827,
+                    "phendbScore::r_acetoin": 0.7965,
+                    "phendbScore::saccharolytic": 0.821,
+                    "phendbScore::succinic_acid": 0.6759,
+                    "phendbScore::sulfate_reducer": 0.8485,
+                    "phendbScore::symbiont": 0.8158,
+                    "phendbScore::thermophylic": 0.8452,
+                    "taxonomy::class": "c__Clostridia",
+                    "taxonomy::domain": "d__Bacteria",
+                    "taxonomy::family": "f__Ruminococcaceae",
+                    "taxonomy::genus": "g__Ruthenibacterium",
+                    "taxonomy::order": "o__Oscillospirales",
+                    "taxonomy::phylum": "p__Bacillota_A",
+                    "taxonomy::species": "s__Ruthenibacterium lactatiformans"
+                }
+            },
+            {
+                "id": 3,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "Guanosine"
+                }
+            },
+            {
+                "id": 4,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Alanine"
+                }
+            },
+            {
+                "id": 5,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Asparagine"
+                }
+            },
+            {
+                "id": 6,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Aspartic Acid"
+                }
+            },
+            {
+                "id": 7,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Histidine"
+                }
+            },
+            {
+                "id": 8,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Isoleucine"
+                }
+            },
+            {
+                "id": 9,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Leucine"
+                }
+            },
+            {
+                "id": 10,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Lysine"
+                }
+            },
+            {
+                "id": 11,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Methionine"
+                }
+            },
+            {
+                "id": 12,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Phenylalanine"
+                }
+            },
+            {
+                "id": 13,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Serine"
+                }
+            },
+            {
+                "id": 14,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Threonine"
+                }
+            },
+            {
+                "id": 15,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Tyrosine"
+                }
+            },
+            {
+                "id": 16,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Valine"
+                }
+            },
+            {
+                "id": 17,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "Sulfoacetic acid"
+                }
+            },
+            {
+                "id": 18,
+                "v": {
+                    "microbetag::ncbi-tax-level": "species",
+                    "microbetag::taxon": "s__CAG-269 sp904419495",
+                    "microbetag::taxonomy": "d__Bacteria;p__Bacillota_A;c__Clostridia;o__TANB77;f__CAG-508;g__CAG-269;s__CAG-269 sp904419495",
+                    "name": "TG3_07:bin_000004",
+                    "phendb::NOB": false,
+                    "phendb::T3SS": false,
+                    "phendb::T6SS": false,
+                    "phendb::a_saccharolytic": false,
+                    "phendb::anaerobe": true,
+                    "phendb::butanol": false,
+                    "phendb::butyric_acid": false,
+                    "phendb::d_glucose": false,
+                    "phendb::d_lactic_acid": false,
+                    "phendb::ethanol": false,
+                    "phendb::fermentative": true,
+                    "phendb::fixing_n2": false,
+                    "phendb::formic_acid": false,
+                    "phendb::halophilic": false,
+                    "phendb::hydrogen": false,
+                    "phendb::indole": false,
+                    "phendb::isobut": false,
+                    "phendb::isovaleric_acid": false,
+                    "phendb::methanotroph": false,
+                    "phendb::non_fermentative": false,
+                    "phendb::phototrophy": false,
+                    "phendb::psychrophilic": false,
+                    "phendb::r_acetoin": false,
+                    "phendb::sulfate_reducer": false,
+                    "phendb::symbiont": true,
+                    "phendb::thermophylic": false,
+                    "phendbScore::NOB": 0.679,
+                    "phendbScore::T3SS": 0.8572,
+                    "phendbScore::T6SS": 0.8241,
+                    "phendbScore::a_saccharolytic": 0.6753,
+                    "phendbScore::anaerobe": 0.8775,
+                    "phendbScore::butanol": 0.7129,
+                    "phendbScore::butyric_acid": 0.6207,
+                    "phendbScore::d_glucose": 0.6237,
+                    "phendbScore::d_lactic_acid": 0.6616,
+                    "phendbScore::ethanol": 0.6442,
+                    "phendbScore::fermentative": 0.7409,
+                    "phendbScore::fixing_n2": 0.807,
+                    "phendbScore::formic_acid": 0.6085,
+                    "phendbScore::halophilic": 0.7595,
+                    "phendbScore::hydrogen": 0.7138,
+                    "phendbScore::indole": 0.7558,
+                    "phendbScore::isobut": 0.7923,
+                    "phendbScore::isovaleric_acid": 0.7251,
+                    "phendbScore::methanotroph": 0.7429,
+                    "phendbScore::non_fermentative": 0.8865,
+                    "phendbScore::phototrophy": 0.7997,
+                    "phendbScore::psychrophilic": 0.8841,
+                    "phendbScore::r_acetoin": 0.738,
+                    "phendbScore::sulfate_reducer": 0.8516,
+                    "phendbScore::symbiont": 0.8004,
+                    "phendbScore::thermophylic": 0.823,
+                    "taxonomy::class": "c__Clostridia",
+                    "taxonomy::domain": "d__Bacteria",
+                    "taxonomy::family": "f__CAG-508",
+                    "taxonomy::genus": "g__CAG-269",
+                    "taxonomy::order": "o__TANB77",
+                    "taxonomy::phylum": "p__Bacillota_A",
+                    "taxonomy::species": "s__CAG-269 sp904419495"
+                }
+            },
+            {
+                "id": 19,
+                "v": {
+                    "microbetag::ncbi-tax-level": "species",
+                    "microbetag::taxon": "s__Thomasclavelia spiroformis",
+                    "microbetag::taxonomy": "d__Bacteria;p__Bacillota;c__Bacilli;o__Erysipelotrichales;f__Coprobacillaceae;g__Thomasclavelia;s__Thomasclavelia spiroformis",
+                    "name": "TG5_28:bin_000003",
+                    "phendb::AOB": false,
+                    "phendb::NOB": false,
+                    "phendb::T3SS": false,
+                    "phendb::T6SS": false,
+                    "phendb::a_saccharolytic": false,
+                    "phendb::ac": true,
+                    "phendb::aerobe": true,
+                    "phendb::anaerobe": true,
+                    "phendb::auto_co2": true,
+                    "phendb::butanol": false,
+                    "phendb::d_lactic_acid": false,
+                    "phendb::fermentative": true,
+                    "phendb::fixing_n2": false,
+                    "phendb::halophilic": false,
+                    "phendb::indole": false,
+                    "phendb::isobut": false,
+                    "phendb::isovaleric_acid": false,
+                    "phendb::methanotroph": false,
+                    "phendb::non_fermentative": false,
+                    "phendb::phototrophy": false,
+                    "phendb::psychrophilic": false,
+                    "phendb::r_acetoin": false,
+                    "phendb::saccharolytic": true,
+                    "phendb::succinic_acid": false,
+                    "phendb::sulfate_reducer": false,
+                    "phendb::symbiont": false,
+                    "phendb::thermophylic": false,
+                    "phendbScore::AOB": 0.6193,
+                    "phendbScore::NOB": 0.7921,
+                    "phendbScore::T3SS": 0.8085,
+                    "phendbScore::T6SS": 0.8146,
+                    "phendbScore::a_saccharolytic": 0.8064,
+                    "phendbScore::ac": 0.8515,
+                    "phendbScore::aerobe": 0.6936,
+                    "phendbScore::anaerobe": 0.8782,
+                    "phendbScore::auto_co2": 0.6143,
+                    "phendbScore::butanol": 0.7655,
+                    "phendbScore::d_lactic_acid": 0.7175,
+                    "phendbScore::fermentative": 0.8234,
+                    "phendbScore::fixing_n2": 0.6248,
+                    "phendbScore::halophilic": 0.7719,
+                    "phendbScore::indole": 0.8092,
+                    "phendbScore::isobut": 0.8487,
+                    "phendbScore::isovaleric_acid": 0.8167,
+                    "phendbScore::methanotroph": 0.8401,
+                    "phendbScore::non_fermentative": 0.8818,
+                    "phendbScore::phototrophy": 0.847,
+                    "phendbScore::psychrophilic": 0.8787,
+                    "phendbScore::r_acetoin": 0.8202,
+                    "phendbScore::saccharolytic": 0.7728,
+                    "phendbScore::succinic_acid": 0.7051,
+                    "phendbScore::sulfate_reducer": 0.8593,
+                    "phendbScore::symbiont": 0.8615,
+                    "phendbScore::thermophylic": 0.7096,
+                    "taxonomy::class": "c__Bacilli",
+                    "taxonomy::domain": "d__Bacteria",
+                    "taxonomy::family": "f__Coprobacillaceae",
+                    "taxonomy::genus": "g__Thomasclavelia",
+                    "taxonomy::order": "o__Erysipelotrichales",
+                    "taxonomy::phylum": "p__Bacillota",
+                    "taxonomy::species": "s__Thomasclavelia spiroformis"
+                }
+            },
+            {
+                "id": 20,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "Thiamine"
+                }
+            },
+            {
+                "id": 21,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "animal_G039"
+                }
+            },
+            {
+                "id": 22,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "animal_G051"
+                }
+            },
+            {
+                "id": 23,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "animal_G054"
+                }
+            },
+            {
+                "id": 24,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "day"
+                }
+            }
+        ]
+    },
+    {
+        "edges": [
+            {
+                "id": 0,
+                "s": 19,
+                "t": 19,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.9995707254452066,
+                    "shared name": "TG5_28:bin_000003 (cooccurs with) TG5_28:bin_000003"
+                }
+            },
+            {
+                "id": 1,
+                "s": 0,
+                "t": 21,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-exclusion",
+                    "microbetag::weight": -0.8831680991949779,
+                    "shared name": "D300506:bin_000004 (negatively correlated with) animal_G039"
+                }
+            },
+            {
+                "id": 2,
+                "s": 2,
+                "t": 24,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.7860078181050525,
+                    "shared name": "GPB:bin_000215 (cooccurs with) day"
+                }
+            },
+            {
+                "id": 3,
+                "s": 15,
+                "t": 12,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.9041635269570614,
+                    "shared name": "L-Tyrosine (cooccurs with) L-Phenylalanine"
+                }
+            },
+            {
+                "id": 4,
+                "s": 18,
+                "t": 9,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-exclusion",
+                    "microbetag::weight": -0.7444397384035748,
+                    "shared name": "TG3_07:bin_000004 (negatively correlated with) L-Leucine"
+                }
+            },
+            {
+                "id": 5,
+                "s": 1,
+                "t": 7,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-exclusion",
+                    "microbetag::weight": -0.8222894126914905,
+                    "shared name": "GPB:bin_000049 (negatively correlated with) L-Histidine"
+                }
+            },
+            {
+                "id": 6,
+                "s": 22,
+                "t": 7,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.59814,
+                    "shared name": "animal_G051 (cooccurs with) L-Histidine"
+                }
+            },
+            {
+                "id": 7,
+                "s": 9,
+                "t": 11,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.7776764248192081,
+                    "shared name": "L-Leucine (cooccurs with) L-Methionine"
+                }
+            },
+            {
+                "id": 8,
+                "s": 12,
+                "t": 14,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.67439,
+                    "shared name": "L-Phenylalanine (cooccurs with) L-Threonine"
+                }
+            },
+            {
+                "id": 9,
+                "s": 23,
+                "t": 20,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.8825610037973496,
+                    "shared name": "animal_G054 (cooccurs with) Thiamine"
+                }
+            },
+            {
+                "id": 10,
+                "s": 22,
+                "t": 16,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.9306926727294922,
+                    "shared name": "animal_G051 (cooccurs with) L-Valine"
+                }
+            },
+            {
+                "id": 11,
+                "s": 9,
+                "t": 4,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.7935949191756261,
+                    "shared name": "L-Leucine (cooccurs with) L-Alanine"
+                }
+            },
+            {
+                "id": 12,
+                "s": 14,
+                "t": 4,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.546867007993094,
+                    "shared name": "L-Threonine (cooccurs with) L-Alanine"
+                }
+            },
+            {
+                "id": 13,
+                "s": 6,
+                "t": 5,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.7730551692081021,
+                    "shared name": "L-Aspartic Acid (cooccurs with) L-Asparagine"
+                }
+            },
+            {
+                "id": 14,
+                "s": 3,
+                "t": 5,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.6994812905635066,
+                    "shared name": "Guanosine (cooccurs with) L-Asparagine"
+                }
+            },
+            {
+                "id": 15,
+                "s": 10,
+                "t": 8,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.7235216740149617,
+                    "shared name": "L-Lysine (cooccurs with) L-Isoleucine"
+                }
+            },
+            {
+                "id": 16,
+                "s": 16,
+                "t": 13,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.7898769383892974,
+                    "shared name": "L-Valine (cooccurs with) L-Serine"
+                }
+            },
+            {
+                "id": 17,
+                "s": 22,
+                "t": 17,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-exclusion",
+                    "microbetag::weight": -0.7922169062475788,
+                    "shared name": "animal_G051 (negatively correlated with) Sulfoacetic acid"
+                }
+            },
+            {
+                "id": 18,
+                "s": 19,
+                "t": 19,
+                "v": {
+                    "interaction type": "complementarity",
+                    "shared name": "TG5_28:bin_000003 (completed by) TG5_28:bin_000003"
+                }
+            }
+        ]
+    },
+    {
+        "status": [
+            {
+                "error": "",
+                "success": true
+            }
+        ]
+    }
+]

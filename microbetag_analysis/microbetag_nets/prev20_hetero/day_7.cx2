@@ -1,0 +1,540 @@
+[
+    {
+        "CXVersion": "2.0",
+        "hasFragments": false
+    },
+    {
+        "metaData": [
+            {
+                "elementCount": 1,
+                "name": "attributeDeclarations"
+            },
+            {
+                "elementCount": 1,
+                "name": "networkAttributes"
+            },
+            {
+                "elementCount": 23,
+                "name": "nodes"
+            },
+            {
+                "elementCount": 17,
+                "name": "edges"
+            }
+        ]
+    },
+    {
+        "attributeDeclarations": [
+            {
+                "nodes": {
+                    "manta::assignment": {
+                        "d": "string"
+                    },
+                    "manta::cluster": {
+                        "d": "integer"
+                    },
+                    "microbetag::taxon": {
+                        "d": "string"
+                    },
+                    "microbetag::taxonomy": {
+                        "d": "string"
+                    },
+                    "name": {
+                        "d": "string"
+                    },
+                    "x": {
+                        "d": "double"
+                    },
+                    "y": {
+                        "d": "double"
+                    }
+                },
+                "edges": {
+                    "interaction": {
+                        "d": "string"
+                    },
+                    "interaction type": {
+                        "d": "string"
+                    },
+                    "microbetag::weight": {
+                        "d": "double"
+                    },
+                    "shared name": {
+                        "d": "string"
+                    }
+                },
+                "networkAttributes": {
+                    "name": {
+                        "d": "string"
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "networkAttributes": [
+            {
+                "name": "microbetag network @ 2025-10-27_16-35"
+            }
+        ]
+    },
+    {
+        "nodes": [
+            {
+                "id": 0,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "Adenine",
+                    "x": 270.9266662948505,
+                    "y": 284.54530044651614
+                }
+            },
+            {
+                "id": 1,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "Guanosine",
+                    "x": 93.01649344427348,
+                    "y": -564.9950375252189
+                }
+            },
+            {
+                "id": 2,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Alanine",
+                    "x": 22.7958920190889,
+                    "y": 29.27856400985699
+                }
+            },
+            {
+                "id": 3,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Arginine",
+                    "x": -147.38543649723118,
+                    "y": 499.63703734704933
+                }
+            },
+            {
+                "id": 4,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Asparagine",
+                    "x": -223.0411639438841,
+                    "y": 555.8957138978473
+                }
+            },
+            {
+                "id": 5,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Aspartic Acid",
+                    "x": 93.88113418165823,
+                    "y": -44.025047472835546
+                }
+            },
+            {
+                "id": 6,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Glutamic acid",
+                    "x": -534.0877652629335,
+                    "y": -1098.4665610030024
+                }
+            },
+            {
+                "id": 7,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Glutamine",
+                    "x": -268.15174889885805,
+                    "y": -596.9446130010988
+                }
+            },
+            {
+                "id": 8,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Histidine",
+                    "x": 170.5231794507191,
+                    "y": -114.44486267817162
+                }
+            },
+            {
+                "id": 9,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Isoleucine",
+                    "x": -67.98196684943541,
+                    "y": -722.8226081532833
+                }
+            },
+            {
+                "id": 10,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Leucine",
+                    "x": -40.08651078465596,
+                    "y": -781.2254647250647
+                }
+            },
+            {
+                "id": 11,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Methionine",
+                    "x": -27.71781973161517,
+                    "y": -711.1691041234802
+                }
+            },
+            {
+                "id": 12,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Phenylalanine",
+                    "x": 456.67613771790167,
+                    "y": 27.894916291536966
+                }
+            },
+            {
+                "id": 13,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Proline",
+                    "x": 334.51212065223694,
+                    "y": 256.7465145317629
+                }
+            },
+            {
+                "id": 14,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Threonine",
+                    "x": -175.4355408801549,
+                    "y": -680.9184150653537
+                }
+            },
+            {
+                "id": 15,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Tyrosine",
+                    "x": 382.8067143409628,
+                    "y": -43.833853442168866
+                }
+            },
+            {
+                "id": 16,
+                "v": {
+                    "manta::assignment": "weak",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "L-Valine",
+                    "x": 31.415616530231738,
+                    "y": -669.6982595674946
+                }
+            },
+            {
+                "id": 17,
+                "v": {
+                    "manta::assignment": "strong",
+                    "manta::cluster": 0,
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "Sulfoacetic acid",
+                    "x": 82.08366495560263,
+                    "y": -138.72809952259047
+                }
+            },
+            {
+                "id": 18,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "animal_G080"
+                }
+            },
+            {
+                "id": 19,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "animal_G081"
+                }
+            },
+            {
+                "id": 20,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "animal_G084"
+                }
+            },
+            {
+                "id": 21,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "animal_G106"
+                }
+            },
+            {
+                "id": 22,
+                "v": {
+                    "microbetag::taxon": "Unknown",
+                    "microbetag::taxonomy": "Unknown",
+                    "name": "treatment_TG1"
+                }
+            }
+        ]
+    },
+    {
+        "edges": [
+            {
+                "id": 0,
+                "s": 19,
+                "t": 12,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.8248094544096911,
+                    "shared name": "animal_G081 (cooccurs with) L-Phenylalanine"
+                }
+            },
+            {
+                "id": 1,
+                "s": 15,
+                "t": 12,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.9278754537347488,
+                    "shared name": "L-Tyrosine (cooccurs with) L-Phenylalanine"
+                }
+            },
+            {
+                "id": 2,
+                "s": 5,
+                "t": 3,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.7891324124143875,
+                    "shared name": "L-Aspartic Acid (cooccurs with) L-Arginine"
+                }
+            },
+            {
+                "id": 3,
+                "s": 5,
+                "t": 6,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.8444648385047913,
+                    "shared name": "L-Aspartic Acid (cooccurs with) L-Glutamic acid"
+                }
+            },
+            {
+                "id": 4,
+                "s": 20,
+                "t": 7,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.8966199867875254,
+                    "shared name": "animal_G084 (cooccurs with) L-Glutamine"
+                }
+            },
+            {
+                "id": 5,
+                "s": 18,
+                "t": 8,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.9880492239744906,
+                    "shared name": "animal_G080 (cooccurs with) L-Histidine"
+                }
+            },
+            {
+                "id": 6,
+                "s": 10,
+                "t": 11,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.7698509107852611,
+                    "shared name": "L-Leucine (cooccurs with) L-Methionine"
+                }
+            },
+            {
+                "id": 7,
+                "s": 22,
+                "t": 13,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.8073796795797579,
+                    "shared name": "treatment_TG1 (cooccurs with) L-Proline"
+                }
+            },
+            {
+                "id": 8,
+                "s": 20,
+                "t": 1,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.9743154698469032,
+                    "shared name": "animal_G084 (cooccurs with) Guanosine"
+                }
+            },
+            {
+                "id": 9,
+                "s": 8,
+                "t": 16,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.9385471940040588,
+                    "shared name": "L-Histidine (cooccurs with) L-Valine"
+                }
+            },
+            {
+                "id": 10,
+                "s": 0,
+                "t": 16,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.8626745939254761,
+                    "shared name": "Adenine (cooccurs with) L-Valine"
+                }
+            },
+            {
+                "id": 11,
+                "s": 14,
+                "t": 2,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.9368110835927472,
+                    "shared name": "L-Threonine (cooccurs with) L-Alanine"
+                }
+            },
+            {
+                "id": 12,
+                "s": 5,
+                "t": 4,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.8392469882965088,
+                    "shared name": "L-Aspartic Acid (cooccurs with) L-Asparagine"
+                }
+            },
+            {
+                "id": 13,
+                "s": 7,
+                "t": 4,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.674144983291626,
+                    "shared name": "L-Glutamine (cooccurs with) L-Asparagine"
+                }
+            },
+            {
+                "id": 14,
+                "s": 21,
+                "t": 9,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.7757877542275138,
+                    "shared name": "animal_G106 (cooccurs with) L-Isoleucine"
+                }
+            },
+            {
+                "id": 15,
+                "s": 10,
+                "t": 9,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-occurrence",
+                    "microbetag::weight": 0.8116549567634332,
+                    "shared name": "L-Leucine (cooccurs with) L-Isoleucine"
+                }
+            },
+            {
+                "id": 16,
+                "s": 0,
+                "t": 17,
+                "v": {
+                    "interaction": "co-occurrence/co-exclusion",
+                    "interaction type": "co-exclusion",
+                    "microbetag::weight": -0.8544321957108862,
+                    "shared name": "Adenine (negatively correlated with) Sulfoacetic acid"
+                }
+            }
+        ]
+    },
+    {
+        "status": [
+            {
+                "error": "",
+                "success": true
+            }
+        ]
+    }
+]
