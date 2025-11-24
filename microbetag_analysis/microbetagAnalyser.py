@@ -5,7 +5,7 @@ import pandas as pd
 # pip install ndex2
 from ndex2.cx2 import RawCX2NetworkFactory
 
-COOCCURENCE        = "co-occurrence"
+COOCCURRENCE        = "co-occurrence"
 COEXCLUSION        = "co-exclusion"
 COMPETITION        = "competition"
 COOPERATION        = "cooperation"
@@ -86,40 +86,44 @@ class MicrobetagNetsAnalysis:
                     edge, self.comp_threshold, self.coop_threshold
                 )
 
-                if interaction is not None:
-                    s_node = cx2.get_node(edge["s"])
-                    t_node = cx2.get_node(edge["t"])
-                    s_type, s_taxa = MicrobetagNetsAnalysis.get_higher_taxonomic_level(s_node, self.taxonomic_level)
-                    t_type, t_taxa = MicrobetagNetsAnalysis.get_higher_taxonomic_level(t_node, self.taxonomic_level)
+                s_node = cx2.get_node(edge["s"])
+                t_node = cx2.get_node(edge["t"])
+                s_type, s_taxa = MicrobetagNetsAnalysis.get_higher_taxonomic_level(s_node, self.taxonomic_level)
+                t_type, t_taxa = MicrobetagNetsAnalysis.get_higher_taxonomic_level(t_node, self.taxonomic_level)
 
-                    # TOP INTERACTORS
-                    for type, taxon in [(s_type, s_taxa), (t_type, t_taxa)]:
+                # TOP INTERACTORS
+                for type, taxon in [(s_type, s_taxa), (t_type, t_taxa)]:
 
-                        if taxon not in per_net_interactors:
+                    if taxon not in per_net_interactors:
 
-                            per_net_interactors = MicrobetagNetsAnalysis.init_node_counts(
-                                per_net_interactors, taxon, type
-                            )
+                        MicrobetagNetsAnalysis.init_node_counts(per_net_interactors, taxon, type)
 
-                        per_net_interactors[taxon]["total_edges"] += 1
+                    if interaction is not None:
 
                         if isinstance(interaction, tuple):
                             for inter in interaction:
                                 per_net_interactors[taxon][inter] += 1
+                                per_net_interactors[taxon]["total_edges"] += 1
                         else:
                             per_net_interactors[taxon][interaction] += 1
+                            per_net_interactors[taxon]["total_edges"] += 1
+                    # else:
+                    #     per_net_interactors[taxon]["total_edges"] += 1
 
-                    # INTERSECTIONS
-                    key     = f"{s_taxa}-{t_taxa}"
-                    antikey = f"{t_taxa}-{s_taxa}"
-                    if key not in intersections:
-                        if antikey in intersections:
-                            key = antikey
-                        else:
-                            intersections = MicrobetagNetsAnalysis.init_edge_counts(intersections, key)
-                    if interaction == COOCCURENCE or interaction == COEXCLUSION:
-                        intersections[key]["occurrences_across_networks"] += 1
-                    curr = intersections[key]["interaction_types"]
+                # INTERSECTIONS
+                key     = f"{s_taxa}-{t_taxa}"
+                antikey = f"{t_taxa}-{s_taxa}"
+                if key not in intersections:
+                    if antikey in intersections:
+                        key = antikey
+                    else:
+                        MicrobetagNetsAnalysis.init_edge_counts(intersections, key)
+
+                if interaction == COOCCURRENCE or interaction == COEXCLUSION:
+                    intersections[key]["occurrences_across_networks"] += 1
+                curr = intersections[key]["interaction_types"]
+
+                if interaction is not None:
                     if isinstance(interaction, tuple):
                         curr.update(interaction)
                     else:
@@ -162,7 +166,7 @@ class MicrobetagNetsAnalysis:
         dict[new_key] = {
             "type"       : type,
             "total_edges": 0,
-            COOCCURENCE  : 0,
+            COOCCURRENCE  : 0,
             COEXCLUSION  : 0,
             COMPETITION  : 0,
             COOPERATION  : 0
@@ -191,8 +195,8 @@ class MicrobetagNetsAnalysis:
 
         interaction = edge["v"]['interaction type']
 
-        if interaction == COOCCURENCE:
-            return COOCCURENCE
+        if interaction == COOCCURRENCE:
+            return COOCCURRENCE
         elif interaction == COEXCLUSION:
             return COEXCLUSION
         else:
@@ -222,6 +226,10 @@ class MicrobetagNetsAnalysis:
         levels = ['superkingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species',]
 
         if 'microbetag::ncbi-tax-level' not in node["v"]:
+            metavar = node["v"]["name"]
+            return "metavar", metavar
+
+        elif node["v"]['microbetag::ncbi-tax-level'] not in levels:
             metavar = node["v"]["name"]
             return "metavar", metavar
 
