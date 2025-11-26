@@ -46,7 +46,17 @@ OTHER = [
 ]
 
 class SplitDataset:
-    def __init__(self, abundance_file, genome_info, metadata_file, metabolites_file, categories, threshold=0.2, outdir=None):
+    def __init__(
+        self,
+        abundance_file,
+        genome_info,
+        metadata_file,
+        metabolites_file,
+        categories,
+        threshold = 0.2,
+        outdir    = None,
+        skip  = []
+    ):
 
         self.threshold  = threshold
         self.categories = categories
@@ -138,7 +148,9 @@ class SplitDataset:
         metadata_final.columns = sample_names
 
         metadata_f = metadata_final[ordered_samples]
-        metadata_f = metadata_f.drop(index=["batch", "tissue", "animal_m", "animal_y", "sample"], errors="ignore")
+        # metadata_f = metadata_f.drop(index=["batch", "tissue", "animal_m", "animal_y", "sample"], errors="ignore")
+        skip_rows = ["batch", "tissue", "animal_m", "animal_y", "sample"] + skip
+        metadata_f = metadata_f.drop(index=skip_rows, errors="ignore")
 
         # Assign outputs
         self.metadata  = metadata_f
@@ -162,25 +174,7 @@ class SplitDataset:
                 # Get same samples from the abundance table
                 tr_abd = self.abundance[["genome"] + tr_metadata.columns.tolist() + ["classification"]]
 
-                # Pecentage of nonzero abundance of each genome
-                float_cols       = tr_abd.select_dtypes(include='float').columns
-                nonzero_fraction = (tr_abd[float_cols] != 0).sum(axis=1) / len(float_cols)
-
-                # Split kept and removed rows
-                df_filtered = tr_abd[nonzero_fraction >= self.threshold]
-                df_removed  = tr_abd[nonzero_fraction < self.threshold]
-
-                # sum of filtered species kept
-                sum_row = df_removed[float_cols].sum()
-                new_row = {col: 0 for col in tr_abd.columns}
-
-                new_row.update(sum_row.to_dict())
-
-                new_row['classification'] = 'Removed_sum'
-                new_row['genome']         = 'Total_removed_abd'
-
-                # Append to filtered DataFrame
-                df_filtered = pd.concat([df_filtered, pd.DataFrame([new_row])], ignore_index=True)
+                df_filtered = SplitDataset.apply_prevalence(tr_abd, self.threshold)
 
                 # Export those subset of the dataframes to files
                 abd_outfile  = "_".join(["abd_prev", str(self.threshold), str(type), str(case)])
@@ -193,6 +187,50 @@ class SplitDataset:
                 df_filtered.to_csv(Path(self.outdir) / abd_outfile, index=False)
                 tr_metadata.to_csv(Path(self.outdir) / meta_outfile, index_label="sample", sep="\t")
 
+    def overall(self):
+
+        # Export those subset of the dataframes to files
+        abd_outfile  = "_".join(["abd_prev", str(self.threshold), "overall"])
+        abd_outfile += ".tsv"
+        meta_outfile = "_".join(["metadata_prev", str(self.threshold), "overall"])
+        meta_outfile += ".tsv"
+
+        df_filtered = SplitDataset.apply_prevalence(self.abundance, self.threshold)
+
+        if self.outdir:
+            os.makedirs(self.outdir, exist_ok=True)
+        df_filtered.to_csv(Path(self.outdir) / abd_outfile, index=False)
+        self.metadata.to_csv(Path(self.outdir) / meta_outfile, index_label="sample", sep="\t")
+
+    @staticmethod
+    def apply_prevalence(df, threshold):
+
+        if threshold == 0:
+            print("Prevalence threshold was set to 0, thus no filtering will be applied.")
+            return df
+
+        # Pecentage of nonzero abundance of each genome
+        float_cols       = df.select_dtypes(include='float').columns
+        nonzero_fraction = (df[float_cols] != 0).sum(axis=1) / len(float_cols)
+
+        # Split kept and removed rows
+        df_filtered = df[nonzero_fraction >= threshold]
+        df_removed  = df[nonzero_fraction < threshold]
+
+        # Sum of filtered species kept
+        sum_row = df_removed[float_cols].sum()
+        new_row = {col: 0 for col in df.columns}
+
+        new_row.update(sum_row.to_dict())
+
+        new_row['classification'] = 'Removed_sum'
+        new_row['genome']         = 'Total_removed_abd'
+
+        # Append to filtered DataFrame
+        df_filtered = pd.concat([df_filtered, pd.DataFrame([new_row])], ignore_index=True)
+
+        return df_filtered
+
 
 if __name__ == "__main__":
     import argparse
@@ -204,6 +242,7 @@ if __name__ == "__main__":
     parser.add_argument("--metadata_file", type=str, required=True, help="Path to the metadata file.")
     parser.add_argument("--outdir", type=str, required=False, default=None, help="Path to save output files.")
     parser.add_argument("--prevalence_threshold", type=float, required=False, default=0.2, help="Prevalence threshold (between 0 and 1).")
+    parser.add_argument("--metadata-to-skip", type=lambda s: s.split(","), required=False, help="List of metadata columns to be removed from the metadata files to be built.")
 
     args = parser.parse_args()
 
@@ -214,7 +253,10 @@ if __name__ == "__main__":
         metabolites_file = args.metabolites_file,
         categories       = args.categories,
         threshold        = args.prevalence_threshold,
-        outdir           = args.outdir
+        outdir           = args.outdir,
+        skip = args.metadata_to_skip
     )
 
-    splitter.split()
+    # splitter.split()
+
+    splitter.overall()
