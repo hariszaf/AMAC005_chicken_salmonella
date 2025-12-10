@@ -1,0 +1,550 @@
+,occurrences_across_networks,interaction_types,networks_with_the_edge
+Mediterraneibacter-treatment_TG3,6,"{'co-exclusion', 'co-occurrence'}","{'day21', 'day28', 'day14', 'day07', 'day35'}"
+L-Isoleucine-L-Leucine,5,{'co-occurrence'},"{'day21', 'day28', 'day14', 'day07', 'day35'}"
+Acutalibacter-Merdivicinus,5,"{'competition', 'co-occurrence'}","{'day14', 'day21', 'day28'}"
+Dysosmobacter-Borkfalkia,5,"{'cooperation', 'competition', 'co-occurrence'}","{'day35', 'day28'}"
+Merdivicinus-treatment_TG2,5,"{'co-exclusion', 'co-occurrence'}","{'day35', 'day21', 'day28'}"
+Merdisoma-Mediterraneibacter,5,"{'competition', 'co-exclusion', 'co-occurrence'}","{'day35', 'day21', 'day28'}"
+Lawsonibacter-Lawsonibacter,4,"{'competition', 'co-occurrence'}","{'day14', 'day07', 'day21'}"
+Onthovicinus-Mediterraneibacter,4,"{'cooperation', 'co-exclusion', 'competition', 'co-occurrence'}","{'day14', 'day35', 'day28'}"
+Mediterraneibacter-Mediterraneibacter,4,"{'competition', 'co-occurrence'}","{'day21', 'day28'}"
+Intestinimonas-Copromonas,4,"{'cooperation', 'competition', 'co-exclusion', 'co-occurrence'}","{'day14', 'day21', 'day28'}"
+Acutalibacter-Mediterraneibacter,4,"{'cooperation', 'competition', 'co-exclusion', 'co-occurrence'}","{'day14', 'day35', 'day07'}"
+Eisenbergiella-Eisenbergiella,4,"{'competition', 'co-occurrence'}","{'day07', 'day35', 'day21', 'day28'}"
+Agathobaculum-Massilimicrobiota,4,"{'cooperation', 'co-exclusion', 'competition', 'co-occurrence'}","{'day35', 'day21', 'day28'}"
+L-Phenylalanine-L-Tyrosine,4,{'co-occurrence'},"{'day14', 'day35', 'day21', 'day28'}"
+Lawsonibacter-Acutalibacter,3,"{'competition', 'co-occurrence'}","{'day35', 'day21', 'day28'}"
+An181-treatment_TG3,3,{'co-occurrence'},"{'day14', 'day07', 'day21'}"
+Mediterraneibacter-Merdimonas,3,"{'competition', 'co-occurrence'}","{'day21', 'day28'}"
+Fournierella-Mediterraneibacter,3,"{'cooperation', 'competition', 'co-occurrence'}","{'day35', 'day21', 'day07'}"
+Onthovicinus-treatment_TG1,3,{'co-occurrence'},"{'day35', 'day21', 'day28'}"
+Gallacutalibacter-Choladocola,3,"{'competition', 'co-exclusion'}","{'day14', 'day21', 'day28'}"
+Intestinimonas-Mediterraneibacter,3,"{'cooperation', 'competition', 'co-exclusion', 'co-occurrence'}","{'day35', 'day28'}"
+Acutalibacter-Eisenbergiella,3,"{'competition', 'co-exclusion', 'co-occurrence'}","{'day21', 'day28'}"
+Mediterraneibacter-Pullilachnospira,3,"{'competition', 'co-occurrence'}","{'day14', 'day35', 'day21'}"
+Flavonifractor-Merdisoma,3,"{'cooperation', 'competition', 'co-occurrence'}","{'day14', 'day35', 'day28'}"
+Negativibacillus-Mediterraneibacter,3,"{'cooperation', 'competition', 'co-exclusion'}","{'day35', 'day21', 'day28'}"
+Flavonifractor-Mediterraneibacter,3,"{'cooperation', 'competition', 'co-exclusion', 'co-occurrence'}","{'day21', 'day28'}"
+Mediterraneibacter-Massilimicrobiota,3,"{'competition', 'co-occurrence'}","{'day21', 'day28'}"
+L-Alanine-L-Glutamine,3,{'co-occurrence'},"{'day14', 'day35', 'day21'}"
+Lawsonibacter-Enterocloster,3,"{'competition', 'co-occurrence'}","{'day35', 'day28'}"
+Mediterraneibacter-Borkfalkia,3,"{'co-exclusion', 'competition', 'co-occurrence'}","{'day14', 'day21', 'day28'}"
+Eisenbergiella-Lactobacillus,3,"{'cooperation', 'competition', 'co-occurrence'}","{'day35', 'day21', 'day28'}"
+Choladocola-Mediterraneibacter,3,"{'competition', 'co-occurrence'}","{'day14', 'day35', 'day28'}"
+Gallacutalibacter-L-Arginine,2,{'co-exclusion'},"{'day21', 'day28'}"
+UMGS1370-Mediterraneibacter,2,"{'competition', 'co-exclusion', 'co-occurrence'}","{'day35', 'day21'}"
+Acutalibacter-Coprocola,2,"{'competition', 'co-exclusion'}","{'day14', 'day28'}"
+Heritagella-Blautia,2,"{'competition', 'co-occurrence'}","{'day35', 'day28'}"
+L-Leucine-L-Methionine,2,{'co-occurrence'},"{'day14', 'day21'}"
+Fimenecus-Lachnoclostridium_A,2,"{'cooperation', 'competition', 'co-occurrence'}","{'day35', 'day28'}"
+Dysosmobacter-Copromonas,2,"{'cooperation', 'competition', 'co-occurrence'}","{'day35', 'day28'}"
+L-Alanine-L-Serine,2,{'co-occurrence'},"{'day21', 'day28'}"
+L-Threonine-L-Glutamine,2,{'co-occurrence'},"{'day21', 'day28'}"
+Merdisoma-Lachnoclostridium_A,2,"{'competition', 'co-occurrence'}","{'day35', 'day28'}"
+Lawsonibacter-Mediterraneibacter,2,"{'cooperation', 'competition', 'co-exclusion'}","{'day35', 'day28'}"
+Choladocola-Blautia_A,2,"{'competition', 'co-exclusion', 'co-occurrence'}","{'day21', 'day28'}"
+Anaerotignum-Enterocloster,2,"{'cooperation', 'competition', 'co-occurrence'}","{'day14', 'day35'}"
+Faeciplasma-Heteroclostridium,2,"{'cooperation', 'competition', 'co-occurrence'}","{'day35', 'day21'}"
+Lawsonibacter-Blautia_A,2,"{'competition', 'co-exclusion', 'co-occurrence'}","{'day21', 'day28'}"
+L-Arginine-L-Tryptophan,2,{'co-occurrence'},"{'day21', 'day28'}"
+Coproplasma-Massilimicrobiota,2,"{'cooperation', 'competition', 'co-exclusion'}","{'day35', 'day28'}"
+Gemmiger-treatment_TG4,2,{'co-occurrence'},"{'day35', 'day21'}"
+Lachnoclostridium_A-treatment_TG5,2,{'co-exclusion'},"{'day35', 'day28'}"
+Mediterraneibacter-Enterocloster,2,"{'competition', 'co-exclusion'}",{'day21'}
+Lawsonibacter-treatment_TG2,2,"{'co-exclusion', 'co-occurrence'}","{'day35', 'day21'}"
+Agathobaculum-L-Serine,2,"{'co-exclusion', 'co-occurrence'}","{'day14', 'day35'}"
+L-Alanine-L-Threonine,2,{'co-occurrence'},"{'day14', 'day35'}"
+Merdisoma-Anaerobutyricum,2,"{'competition', 'co-exclusion'}","{'day14', 'day21'}"
+CAJFUH01-Ligilactobacillus,2,"{'cooperation', 'competition', 'co-occurrence'}","{'day35', 'day28'}"
+Choladocola-Limosilactobacillus,2,"{'competition', 'co-occurrence'}","{'day35', 'day28'}"
+Lawsonibacter-Lactobacillus,2,"{'cooperation', 'co-exclusion', 'competition', 'co-occurrence'}","{'day35', 'day07'}"
+Acutalibacter-Anaerotignum,2,"{'cooperation', 'competition', 'co-exclusion', 'co-occurrence'}","{'day14', 'day21'}"
+Heritagella-Merdibacter,2,"{'co-exclusion', 'competition', 'co-occurrence'}","{'day35', 'day21'}"
+Agathobaculum-Intestinimonas,2,"{'competition', 'co-exclusion'}","{'day21', 'day28'}"
+Lawsonibacter-Borkfalkia,2,"{'cooperation', 'competition', 'co-exclusion', 'co-occurrence'}",{'day35'}
+Intestinimonas-Lactobacillus,2,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Lawsonibacter-Egerieicola,2,"{'cooperation', 'competition', 'co-exclusion', 'co-occurrence'}",{'day21'}
+Flavonifractor-Dysosmobacter,2,"{'competition', 'co-exclusion'}","{'day21', 'day28'}"
+Lawsonibacter-UBA1417,2,"{'competition', 'co-exclusion'}","{'day07', 'day28'}"
+Negativibacillus-treatment_TG3,2,{'co-exclusion'},"{'day14', 'day21'}"
+Intestinimonas-Faecousia,2,"{'cooperation', 'competition', 'co-occurrence'}","{'day14', 'day21'}"
+Lawsonibacter-Pelethomonas,2,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Onthovicinus-Gallimonas,2,"{'competition', 'co-exclusion'}","{'day35', 'day28'}"
+Clostridium_Q-Ligilactobacillus,2,"{'competition', 'co-exclusion'}","{'day14', 'day07'}"
+Mediterraneibacter-Nicotinic acid,2,{'co-occurrence'},{'day21'}
+Niacinamide-Nicotinic acid,2,"{'co-exclusion', 'co-occurrence'}","{'day14', 'day21'}"
+Onthovicinus-Borkfalkia,2,"{'cooperation', 'competition', 'co-exclusion', 'co-occurrence'}",{'day35'}
+Flavonifractor-Clostridium_Q,2,"{'cooperation', 'competition', 'co-exclusion', 'co-occurrence'}",{'day35'}
+Fimenecus-treatment_TG5,2,{'co-occurrence'},"{'day35', 'day28'}"
+Eisenbergiella-Mediterraneibacter,2,"{'competition', 'co-occurrence'}","{'day35', 'day21'}"
+Anaeromassilibacillus-Eisenbergiella,2,"{'cooperation', 'competition', 'co-occurrence'}","{'day21', 'day28'}"
+Pseudobutyricicoccus-Merdivicinus,2,"{'cooperation', 'competition', 'co-exclusion', 'co-occurrence'}","{'day35', 'day21'}"
+Lawsonibacter-Scatosoma,2,"{'cooperation', 'competition', 'co-occurrence'}","{'day21', 'day28'}"
+Choladocola-An181,2,"{'competition', 'co-occurrence'}","{'day21', 'day28'}"
+Heritagella-Borkfalkia,2,"{'competition', 'co-occurrence'}","{'day21', 'day28'}"
+Alistipes-Mediterraneibacter,2,"{'cooperation', 'competition', 'co-exclusion', 'co-occurrence'}","{'day35', 'day28'}"
+UBA1417-Clostridium_Q,2,"{'cooperation', 'competition', 'co-occurrence'}","{'day21', 'day28'}"
+UBA1417-Lachnoclostridium_A,2,"{'competition', 'co-exclusion'}","{'day21', 'day28'}"
+Pseudobutyricicoccus-treatment_TG2,2,{'co-occurrence'},"{'day07', 'day28'}"
+Dysosmobacter-treatment_TG3,2,{'co-exclusion'},"{'day14', 'day28'}"
+Onthovicinus-Anaerostipes,2,"{'competition', 'co-occurrence'}","{'day21', 'day28'}"
+Alistipes-treatment_TG1,2,{'co-occurrence'},"{'day21', 'day28'}"
+Merdisoma-Merdibacter,2,"{'cooperation', 'competition', 'co-occurrence'}","{'day21', 'day28'}"
+Enterocloster-Clostridium_Q,2,"{'competition', 'co-occurrence'}","{'day21', 'day28'}"
+Pseudobutyricicoccus-Blautia_A,2,"{'cooperation', 'competition', 'co-occurrence'}","{'day35', 'day21'}"
+Agathobaculum-Lawsonibacter,2,"{'cooperation', 'co-exclusion', 'competition', 'co-occurrence'}","{'day35', 'day28'}"
+Choladocola-Scatosoma,2,"{'competition', 'co-exclusion', 'co-occurrence'}","{'day21', 'day28'}"
+Anaerotignum-treatment_TG5,2,{'co-occurrence'},"{'day21', 'day28'}"
+Ornithomonoglobus-Anaerotignum,2,"{'cooperation', 'competition', 'co-occurrence'}","{'day14', 'day35'}"
+Choladocola-Enterocloster,2,"{'competition', 'co-occurrence'}","{'day35', 'day28'}"
+Alistipes-Onthovicinus,2,"{'cooperation', 'co-exclusion', 'competition', 'co-occurrence'}","{'day35', 'day21'}"
+Pararuminococcus-Enterocloster,2,"{'competition', 'co-occurrence'}","{'day35', 'day28'}"
+Eubacterium_R-Gemmiger,2,"{'competition', 'co-occurrence'}",{'day35'}
+Intestinimonas-Coproplasma,2,"{'cooperation', 'competition', 'co-exclusion', 'co-occurrence'}",{'day28'}
+Borkfalkia-Gallimonas,2,"{'competition', 'co-occurrence'}","{'day21', 'day28'}"
+Merdivicinus-Enterocloster,2,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Faecousia-Gallacutalibacter,2,"{'cooperation', 'competition', 'co-occurrence'}","{'day35', 'day28'}"
+Intestinimonas-Lachnoclostridium_B,2,"{'competition', 'co-exclusion', 'co-occurrence'}",{'day35'}
+Gordonibacter-Mediterraneibacter,2,"{'competition', 'co-occurrence'}","{'day35', 'day28'}"
+Coprocola-Mediterraneibacter,2,"{'cooperation', 'competition', 'co-occurrence'}","{'day35', 'day28'}"
+Flavonifractor-Enterocloster,2,"{'cooperation', 'co-exclusion', 'competition', 'co-occurrence'}","{'day21', 'day28'}"
+Gemmiger-Neoanaerotignum_A,2,"{'competition', 'co-exclusion'}","{'day35', 'day28'}"
+Borkfalkia-treatment_TG4,2,{'co-occurrence'},"{'day21', 'day28'}"
+Acutalibacter-Roslinia,1,"{'competition', 'co-exclusion'}",{'day21'}
+Lawsonibacter-Anaerotignum,1,"{'competition', 'co-occurrence'}",{'day21'}
+Flavonifractor-Roslinia,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day21'}
+Anaerobutyricum-Pantothenic acid,1,{'co-occurrence'},{'day28'}
+Agathobaculum-Roslinia,1,"{'competition', 'co-occurrence'}",{'day21'}
+Acutalibacter-Anaerotruncus,1,"{'competition', 'co-occurrence'}",{'day21'}
+Onthovicinus-Massilimicrobiota,1,"{'competition', 'co-exclusion'}",{'day28'}
+Dysosmobacter-Negativibacillus,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Intestinimonas-Negativibacillus,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Merdivicinus-Gemmiger,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Acutalibacter-Gemmiger,1,"{'competition', 'co-occurrence'}",{'day21'}
+Pelethomonas-Gemmiger,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day21'}
+Fimenecus-Thomasclavelia,1,"{'competition', 'co-occurrence'}",{'day28'}
+Scatosoma-Massilimicrobiota,1,"{'competition', 'co-occurrence'}",{'day28'}
+Choladocola-Merdisoma,1,"{'competition', 'co-exclusion'}",{'day21'}
+Heteroclostridium-Thomasclavelia,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day28'}
+Caccousia-Choladocola,1,"{'competition', 'co-occurrence'}",{'day21'}
+CAJFPI01-Alangreenwoodia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Roslinia-Romboutsia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Caccousia-Enterocloster,1,"{'competition', 'co-occurrence'}",{'day21'}
+Gemmiger-Merdisoma,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Anaeromassilibacillus-Lachnoclostridium_B,1,"{'competition', 'co-exclusion'}",{'day21'}
+Flavonifractor-Blautia,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day21'}
+Gallacutalibacter-Eisenbergiella,1,"{'competition', 'co-occurrence'}",{'day21'}
+UBA1417-Mediterraneibacter,1,"{'competition', 'co-occurrence'}",{'day21'}
+Acutalibacter-Harrysmithimonas,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Coprocola-Harrysmithimonas,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Ornithomonoglobus-Eisenbergiella,1,"{'competition', 'co-occurrence'}",{'day21'}
+Pararuminococcus-Thomasclavelia,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day28'}
+Coprocola-Eisenbergiella,1,"{'competition', 'co-exclusion'}",{'day21'}
+unclassified_CAG-508-Thomasclavelia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Gemmiger-Choladocola,1,"{'competition', 'co-occurrence'}",{'day21'}
+Gemmiger-Merdibacter,1,"{'competition', 'co-occurrence'}",{'day28'}
+Dysosmobacter-Acutalibacter,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Lachnoclostridium_B-Lactobacillus,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day28'}
+Mediterraneibacter-Lactobacillus,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+L-Arginine-L-Tyrosine,1,{'co-occurrence'},{'day28'}
+L-Glutamic acid-L-Arginine,1,{'co-occurrence'},{'day28'}
+Thomasclavelia-L-Arginine,1,{'co-occurrence'},{'day28'}
+Gallispira-Pyridoxamine,1,{'co-occurrence'},{'day28'}
+Ornithomonoglobus-L-Methionine,1,{'co-occurrence'},{'day28'}
+Borkfalkia-treatment_TG3,1,{'co-occurrence'},{'day28'}
+Eisenbergiella-L-Aspartic Acid,1,{'co-occurrence'},{'day28'}
+L-Valine-L-Leucine,1,{'co-occurrence'},{'day28'}
+Eisenbergiella-L-Isoleucine,1,{'co-occurrence'},{'day28'}
+Merdisoma-treatment_TG4,1,{'co-occurrence'},{'day28'}
+Blautia-treatment_TG4,1,{'co-occurrence'},{'day28'}
+Evtepia-L-Isoleucine,1,{'co-occurrence'},{'day28'}
+Gallacutalibacter-UMGS1370,1,"{'competition', 'co-occurrence'}",{'day21'}
+Caccovicinus-L-Valine,1,{'co-exclusion'},{'day28'}
+Caccovicinus-treatment_TG5,1,{'co-occurrence'},{'day28'}
+Lachnoclostridium_A-L-Proline,1,{'co-occurrence'},{'day28'}
+Mediterraneibacter-L-Proline,1,{'co-exclusion'},{'day28'}
+Lawsonibacter-L-Proline,1,{'co-occurrence'},{'day28'}
+Lachnoclostridium_A-L-Asparagine,1,{'co-occurrence'},{'day28'}
+L-Threonine-L-Tryptophan,1,{'co-occurrence'},{'day28'}
+L-Methionine-L-Tryptophan,1,{'co-occurrence'},{'day28'}
+L-Alanine-Thiamine,1,{'co-occurrence'},{'day28'}
+Lactobacillus-Limosilactobacillus,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Pelethomonas-Faeciplasma,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Onthovicinus-Fournierella,1,"{'competition', 'co-occurrence'}",{'day21'}
+Negativibacillus-Limosilactobacillus,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day28'}
+Flavonifractor-Onthovicinus,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Anaerostipes-Limosilactobacillus,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Borkfalkia-Limosilactobacillus,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Intestinimonas-unclassified_Acutalibacteraceae,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day21'}
+Rubneribacter-Gallacutalibacter,1,"{'competition', 'co-occurrence'}",{'day21'}
+Alistipes-Dysosmobacter,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Heteroclostridium-treatment_TG2,1,{'co-occurrence'},{'day28'}
+Metalachnospira-treatment_TG1,1,{'co-exclusion'},{'day28'}
+Massilimicrobiota-treatment_TG1,1,{'co-exclusion'},{'day28'}
+Klebsiella-Lawsonibacter,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Klebsiella-Intestinimonas,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Agathobaculum-Flavonifractor,1,"{'competition', 'co-occurrence'}",{'day21'}
+Escherichia-Gordonibacter,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day21'}
+Pantothenic acid-a-Tocopheryl acetate,1,{'co-exclusion'},{'day28'}
+Pararuminococcus-treatment_TG2,1,{'co-occurrence'},{'day28'}
+Gordonibacter-Pseudobutyricicoccus,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Egerieicola-Coproplasma,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Onthovicinus-Clostridium_Q,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Intestinimonas-treatment_TG2,1,{'co-occurrence'},{'day14'}
+treatment_TG1-Nicotinic acid,1,{'co-occurrence'},{'day14'}
+Merdisoma-Nicotinic acid,1,{'co-occurrence'},{'day14'}
+Proteus-Niacinamide,1,{'co-occurrence'},{'day14'}
+Lawsonibacter-L-Valine,1,{'co-exclusion'},{'day14'}
+L-Glutamic acid-L-Serine,1,{'co-occurrence'},{'day14'}
+treatment_TG4-L-Glutamic acid,1,{'co-occurrence'},{'day14'}
+Mediterraneibacter-L-Asparagine,1,{'co-occurrence'},{'day14'}
+Eisenbergiella-treatment_TG5,1,{'co-occurrence'},{'day14'}
+Tyzzerella-treatment_TG5,1,{'co-occurrence'},{'day14'}
+Mediterraneibacter-treatment_TG4,1,{'co-occurrence'},{'day14'}
+UMGS1370-treatment_TG3,1,{'co-occurrence'},{'day14'}
+Rubneribacter-treatment_TG3,1,{'co-occurrence'},{'day14'}
+Hungatella_B-treatment_TG2,1,{'co-occurrence'},{'day14'}
+Ligilactobacillus-treatment_TG1,1,{'co-occurrence'},{'day14'}
+Pullilachnospira-L-Aspartic Acid,1,{'co-occurrence'},{'day14'}
+Clostridium_Q-Total_removed_abd,1,{'co-exclusion'},{'day14'}
+Eisenbergiella-Total_removed_abd,1,{'co-exclusion'},{'day14'}
+Escherichia-Total_removed_abd,1,{'co-exclusion'},{'day14'}
+Copromonas-Thomasclavelia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day14'}
+Mediterraneibacter-Romboutsia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day14'}
+UMGS1370-Borkfalkia,1,"{'competition', 'co-exclusion'}",{'day14'}
+Gallacutalibacter-Anaerobutyricum,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day14'}
+Merdivicinus-Hungatella_B,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day14'}
+Klebsiella-Enterocloster,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day14'}
+Intestinimonas-Sellimonas,1,"{'competition', 'co-occurrence'}",{'day14'}
+Clostridium_Q-Lachnoclostridium_A,1,"{'competition', 'co-exclusion'}",{'day14'}
+Escherichia-UMGS1370,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day14'}
+Flavonifractor-Eisenbergiella,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day14'}
+Anaeromassilibacillus-L-Aspartic Acid,1,{'co-exclusion'},{'day14'}
+L-Asparagine-L-Aspartic Acid,1,{'co-occurrence'},{'day14'}
+Ornithomonoglobus-Tyzzerella,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day14'}
+Anaerotruncus-Sellimonas,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day07'}
+L-Asparagine-L-Valine,1,{'co-occurrence'},{'day07'}
+Pullilachnospira-treatment_TG4,1,{'co-occurrence'},{'day07'}
+Flavonifractor-treatment_TG4,1,{'co-occurrence'},{'day07'}
+Bifidobacterium-treatment_TG4,1,{'co-occurrence'},{'day07'}
+Anaerotignum-treatment_TG3,1,{'co-exclusion'},{'day07'}
+Fimicola-treatment_TG3,1,{'co-occurrence'},{'day07'}
+Mediterraneibacter-treatment_TG2,1,{'co-occurrence'},{'day07'}
+Flavonifractor-treatment_TG1,1,{'co-occurrence'},{'day07'}
+Anaeromassilibacillus-Ligilactobacillus,1,"{'competition', 'co-exclusion'}",{'day07'}
+Anaerotignum-Thomasclavelia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day07'}
+Flavonifractor-Hungatella_B,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day07'}
+Blautia-Enterocloster,1,"{'competition', 'co-occurrence'}",{'day07'}
+Acutalibacter-Copromonas,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day07'}
+Negativibacillus-Sellimonas,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day07'}
+L-Glutamic acid-L-Aspartic Acid,1,{'co-occurrence'},{'day14'}
+Fimicola-UMGS1370,1,"{'competition', 'co-occurrence'}",{'day07'}
+UBA1417-Eisenbergiella,1,"{'competition', 'co-exclusion'}",{'day07'}
+Pseudobutyricicoccus-Fournierella,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day07'}
+UBA1417-Anaeromassilibacillus,1,"{'competition', 'co-occurrence'}",{'day07'}
+Proteus-Flavonifractor,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day07'}
+UBA1417-a-Tocopheryl acetate,1,{'co-exclusion'},{'day14'}
+L-Proline-Riboflavin,1,{'co-occurrence'},{'day14'}
+Eisenbergiella-Riboflavin,1,{'co-occurrence'},{'day14'}
+Total_removed_abd-L-Tryptophan,1,{'co-exclusion'},{'day14'}
+L-Aspartic Acid-L-Arginine,1,{'co-occurrence'},{'day14'}
+L-Valine-L-Histidine,1,{'co-occurrence'},{'day14'}
+Dysosmobacter-L-Methionine,1,{'co-exclusion'},{'day14'}
+L-Asparagine-L-Glutamine,1,{'co-occurrence'},{'day14'}
+Klebsiella-Eisenbergiella,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day14'}
+Agathobaculum-Ornithomonoglobus,1,"{'competition', 'co-exclusion'}",{'day14'}
+UBA4716-An181,1,"{'competition', 'co-occurrence'}",{'day21'}
+Acutalibacter-Borkfalkia,1,"{'competition', 'co-occurrence'}",{'day21'}
+Mediterraneibacter-Clostridium_AQ,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day21'}
+Gemmiger-Massilimicrobiota,1,"{'competition', 'co-occurrence'}",{'day21'}
+Roslinia-Harrysmithimonas,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Agathobaculum-Harrysmithimonas,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day21'}
+Coprocola-Romboutsia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Lawsonibacter-Romboutsia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Coproplasma-Spyradocola,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Enterocloster-Spyradocola,1,"{'competition', 'co-occurrence'}",{'day21'}
+Merdivicinus-Spyradocola,1,"{'competition', 'co-occurrence'}",{'day21'}
+Lawsonibacter-Spyradocola,1,"{'competition', 'co-occurrence'}",{'day28'}
+Faeciplasma-Coproplasma,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Heteroclostridium-Borkfalkia,1,"{'competition', 'co-occurrence'}",{'day21'}
+Gemmiger-Borkfalkia,1,"{'competition', 'co-occurrence'}",{'day21'}
+unclassified_Acutalibacteraceae-Borkfalkia,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day21'}
+Choladocola-Lactobacillus,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Pseudobutyricicoccus-Heteroclostridium,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Dysosmobacter-Anaerostipes,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day21'}
+Blautia-Anaerobutyricum,1,"{'competition', 'co-occurrence'}",{'day21'}
+Flavonifractor-Anaerobutyricum,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day21'}
+Acutalibacter-Hungatella_B,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day21'}
+Lawsonibacter-Hungatella_B,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+unclassified_Acutalibacteraceae-Mediterraneibacter,1,"{'competition', 'co-occurrence'}",{'day21'}
+Choladocola-Pullilachnospira,1,"{'competition', 'co-exclusion'}",{'day21'}
+Enterocloster-Enterocloster,1,"{'competition', 'co-occurrence'}",{'day21'}
+Gemmiger-Mediterraneibacter,1,"{'competition', 'co-occurrence'}",{'day21'}
+Lawsonibacter-Copromonas,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Acutalibacter-Lachnoclostridium_A,1,"{'competition', 'co-exclusion'}",{'day21'}
+Mediterraneibacter-An181,1,"{'competition', 'co-occurrence'}",{'day21'}
+Borkfalkia-Merdibacter,1,"{'competition', 'co-occurrence'}",{'day21'}
+Anaerostipes-Lactobacillus,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Gallacutalibacter-Negativibacillus,1,"{'competition', 'co-exclusion'}",{'day14'}
+Acutalibacter-Niacinamide,1,{'co-occurrence'},{'day21'}
+Flavonifractor-Acutalibacter,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day14'}
+Onthovicinus-Thiamine,1,{'co-occurrence'},{'day21'}
+L-Leucine-L-Tryptophan,1,{'co-occurrence'},{'day21'}
+Mediterraneibacter-L-Tyrosine,1,{'co-exclusion'},{'day21'}
+Eisenbergiella-L-Tyrosine,1,{'co-occurrence'},{'day21'}
+Mediterraneibacter-Pyridoxamine,1,{'co-occurrence'},{'day21'}
+L-Lysine-L-Phenylalanine,1,{'co-occurrence'},{'day21'}
+Mediterraneibacter-L-Histidine,1,{'co-occurrence'},{'day21'}
+Lachnoclostridium_B-L-Methionine,1,{'co-exclusion'},{'day21'}
+L-Glutamic acid-L-Lysine,1,{'co-occurrence'},{'day21'}
+Alistipes-L-Glutamine,1,{'co-exclusion'},{'day21'}
+Ornithomonoglobus-L-Aspartic Acid,1,{'co-occurrence'},{'day21'}
+L-Serine-L-Isoleucine,1,{'co-occurrence'},{'day21'}
+L-Valine-L-Threonine,1,{'co-occurrence'},{'day21'}
+UBA1417-Ligilactobacillus,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day21'}
+Merdisoma-L-Valine,1,{'co-occurrence'},{'day21'}
+Onthovicinus-L-Valine,1,{'co-occurrence'},{'day21'}
+Anaerobutyricum-L-Proline,1,{'co-occurrence'},{'day21'}
+Ornithomonoglobus-Pantothenic acid,1,{'co-occurrence'},{'day21'}
+Escherichia-L-Asparagine,1,{'co-exclusion'},{'day21'}
+Thomasclavelia-treatment_TG5,1,{'co-occurrence'},{'day21'}
+Ornithomonoglobus-treatment_TG5,1,{'co-occurrence'},{'day21'}
+Ruthenibacterium-treatment_TG5,1,{'co-occurrence'},{'day21'}
+Lachnoclostridium_B-treatment_TG4,1,{'co-occurrence'},{'day21'}
+Pullilachnospira-treatment_TG3,1,{'co-occurrence'},{'day21'}
+Coproplasma-treatment_TG2,1,{'co-occurrence'},{'day21'}
+Egerieicola-Total_removed_abd,1,{'co-exclusion'},{'day21'}
+Fournierella-Ligilactobacillus,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day21'}
+Merdisoma-Spyradocola,1,"{'competition', 'co-occurrence'}",{'day28'}
+unclassified_CAG-508-Mediterraneibacter,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Akkermansia-Spyradocola,1,"{'competition', 'co-occurrence'}",{'day28'}
+Gemmiger-Scatosoma,1,"{'competition', 'co-occurrence'}",{'day35'}
+Eisenbergiella-Borkfalkia,1,"{'competition', 'co-occurrence'}",{'day35'}
+Clostridium_Q-Borkfalkia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+UBA1417-Borkfalkia,1,"{'competition', 'co-occurrence'}",{'day35'}
+Blautia_A-Borkfalkia,1,"{'competition', 'co-occurrence'}",{'day35'}
+Choladocola-Borkfalkia,1,"{'competition', 'co-exclusion'}",{'day35'}
+UBA4716-Borkfalkia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Angelakisella-Heteroclostridium,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Gemmiger-Heteroclostridium,1,{'co-exclusion'},{'day35'}
+Merdivicinus-Heteroclostridium,1,"{'competition', 'co-occurrence'}",{'day35'}
+Lawsonibacter-Heteroclostridium,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Neoanaerotignum_A-Anaerostipes,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Faecalibacterium-Anaerostipes,1,"{'competition', 'co-occurrence'}",{'day35'}
+Pullilachnospira-Anaerostipes,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Anaerobutyricum-Anaerobutyricum,1,"{'competition', 'co-exclusion'}",{'day35'}
+Faecousia-Anaerobutyricum,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Mediterraneibacter-Fimimorpha,1,"{'competition', 'co-occurrence'}",{'day35'}
+Mediterraneibacter-Anaerobutyricum,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Evtepia-Anaerobutyricum,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+CAG-273-Lachnoclostridium_A,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Scatomorpha-Mediterraneibacter,1,"{'competition', 'co-occurrence'}",{'day35'}
+Fimenecus-Caccovicinus,1,"{'competition', 'co-occurrence'}",{'day35'}
+Copromonas-Pullilachnospira,1,"{'competition', 'co-exclusion'}",{'day35'}
+UBA4716-Pullilachnospira,1,"{'competition', 'co-occurrence'}",{'day35'}
+Evtepia-Merdimonas,1,{'co-occurrence'},{'day35'}
+Gordonibacter-Merdimonas,1,"{'competition', 'co-occurrence'}",{'day35'}
+Anaerostipes-Borkfalkia,1,"{'competition', 'co-exclusion'}",{'day35'}
+Fimimorpha-Scatosoma,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Agathobaculum-Copromonas,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Rubneribacter-Gallimonas,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Blautia-Merdibacter,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Heteroclostridium-Merdibacter,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+CAG-269-Merdibacter,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Faeciplasma-Merdibacter,1,"{'competition', 'co-occurrence'}",{'day35'}
+Akkermansia-Merdibacter,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Coproplasma-Clostridium_AQ,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Heritagella-Clostridium_AQ,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Blautia-Thomasclavelia,1,"{'competition', 'co-exclusion'}",{'day35'}
+Mediterraneibacter-Thomasclavelia,1,"{'competition', 'co-exclusion'}",{'day35'}
+Mediterraneibacter-Harrysmithimonas,1,"{'competition', 'co-exclusion'}",{'day35'}
+Faecivivens-Harrysmithimonas,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Coproplasma-Romboutsia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Ornithomonoglobus-Pullichristensenella,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Fimenecus-Pullichristensenella,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Heteroclostridium-Spyradocola,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+CAG-273-Spyradocola,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Pararuminococcus-UMGS775,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Caccousia-UMGS775,1,"{'competition', 'co-occurrence'}",{'day35'}
+Eisenbergiella-Coproplasma,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Choladocola-Coproplasma,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Lachnoclostridium_A-Coproplasma,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Blautia-Coproplasma,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Neoanaerotignum_A-Coproplasma,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+CAG-273-Coproplasma,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Lachnoclostridium_A-Gallimonas,1,"{'competition', 'co-occurrence'}",{'day35'}
+Dysosmobacter-Enterocloster,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+unclassified_Oscillospiraceae-Mediterraneibacter,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Mediterraneibacter-Holdemania,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Egerieicola-CAG-269,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Anaeromassilibacillus-Ornithomonoglobus,1,"{'competition', 'co-occurrence'}",{'day35'}
+Pelethomonas-Ornithomonoglobus,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Enterenecus-UBA4716,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Angelakisella-Ornithomonoglobus_A,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Gemmiger-Angelakisella,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Acutalibacter-Angelakisella,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Heritagella-Gemmiger,1,"{'competition', 'co-occurrence'}",{'day35'}
+Lawsonibacter-Negativibacillus,1,"{'competition', 'co-exclusion'}",{'day35'}
+Eubacterium_R-Merdivicinus,1,"{'competition', 'co-occurrence'}",{'day35'}
+Caccousia-Faeciplasma,1,"{'competition', 'co-occurrence'}",{'day35'}
+Gallacutalibacter-Ruthenibacterium,1,"{'competition', 'co-occurrence'}",{'day35'}
+Caccousia-Eubacterium_R,1,"{'competition', 'co-occurrence'}",{'day35'}
+Galloscillospira_A-Eubacterium_R,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+unclassified_Oscillospiraceae-Onthovicinus,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Flavonifractor-CAJFUH01,1,"{'competition', 'co-exclusion'}",{'day35'}
+Lawsonibacter-Scatavimonas,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Gordonibacter-Gallacutalibacter,1,"{'competition', 'co-exclusion'}",{'day35'}
+Pseudobutyricicoccus-Acutalibacter,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Lawsonibacter-Scatomorpha,1,"{'competition', 'co-occurrence'}",{'day35'}
+HGM12998-Lawsonibacter,1,"{'competition', 'co-occurrence'}",{'day35'}
+Flavonifractor-Lawsonibacter,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Alistipes-unclassified_Oscillospiraceae,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Intestinimonas-Intestinimonas,1,"{'competition', 'co-exclusion'}",{'day35'}
+Flavonifractor-Intestinimonas,1,"{'competition', 'co-exclusion'}",{'day35'}
+Escherichia-Flavonifractor,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Faecousia-Roslinia,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Eubacterium_R-CAG-273,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Gemmiger-Lachnoclostridium_A,1,"{'competition', 'co-exclusion'}",{'day35'}
+Akkermansia-Gallispira,1,{'co-occurrence'},{'day35'}
+Onthovicinus-Lachnoclostridium_A,1,"{'competition', 'co-occurrence'}",{'day35'}
+Lawsonibacter-Lachnoclostridium_A,1,"{'competition', 'co-occurrence'}",{'day35'}
+Mediterraneibacter-Blautia_A,1,"{'competition', 'co-occurrence'}",{'day35'}
+Ruthenibacterium-UMGS1370,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Roslinia-Caccovicinus,1,"{'competition', 'co-exclusion'}",{'day35'}
+Dysosmobacter-Caccovicinus,1,"{'competition', 'co-occurrence'}",{'day35'}
+Eisenbergiella-Blautia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Faeciplasma-Enterocloster,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+UBA1417-Enterocloster,1,"{'competition', 'co-exclusion'}",{'day35'}
+CAG-273-Merdisoma,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Eubacterium_R-Merdisoma,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Agathobaculum-Lachnoclostridium_B,1,"{'competition', 'co-exclusion'}",{'day35'}
+Dysosmobacter-Blautia,1,{'co-occurrence'},{'day35'}
+Faecivivens-Mediterraneibacter,1,"{'competition', 'co-exclusion'}",{'day35'}
+Ruminococcus_G-Mediterraneibacter,1,"{'competition', 'co-occurrence'}",{'day35'}
+Merdivicinus-Ruminococcus_G,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Dysosmobacter-Eisenbergiella,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Agathobaculum-Eisenbergiella,1,"{'competition', 'co-occurrence'}",{'day35'}
+Lawsonibacter-Choladocola,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Intestinimonas-Choladocola,1,"{'competition', 'co-occurrence'}",{'day35'}
+Pararuminococcus-Choladocola,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Acutalibacter-Choladocola,1,"{'competition', 'co-occurrence'}",{'day35'}
+Galloscillospira_A-Choladocola,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Anaerotruncus-Anaerotignum,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Pelethomonas-Anaerotignum,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+CAG-273-Holdemania,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+UMGS775-Holdemania,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+unclassified_CAG-508-UMGS775,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Pseudobutyricicoccus-Flavonifractor,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Anaerotignum-Caccovicinus,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Avimicrobium-Enterocloster,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Akkermansia-Enterocloster,1,"{'competition', 'co-exclusion'}",{'day28'}
+Gallacutalibacter-Blautia,1,"{'competition', 'co-occurrence'}",{'day28'}
+Anaerotignum-Mediterraneibacter,1,"{'competition', 'co-occurrence'}",{'day28'}
+Gallacutalibacter-Mediterraneibacter,1,"{'competition', 'co-occurrence'}",{'day28'}
+Metalachnospira-Mediterraneibacter,1,"{'competition', 'co-exclusion'}",{'day28'}
+Timburyella-Mediterraneibacter,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Salmonella-Mediterraneibacter,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Merdisoma-Blautia_A,1,"{'competition', 'co-occurrence'}",{'day28'}
+Merdivicinus-Merdisoma,1,"{'competition', 'co-occurrence'}",{'day28'}
+Acutalibacter-Merdisoma,1,"{'competition', 'co-exclusion'}",{'day28'}
+Anaeromassilibacillus-Choladocola,1,"{'competition', 'co-occurrence'}",{'day28'}
+Dysosmobacter-Choladocola,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Agathobaculum-Anaerotignum,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Escherichia-Anaerotignum,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Rubneribacter-Gallispira,1,{'co-exclusion'},{'day28'}
+Gordonibacter-Roslinia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Anaerotruncus-Ornithomonoglobus,1,"{'competition', 'co-exclusion'}",{'day28'}
+Faeciplasma-Avimicrobium,1,"{'competition', 'co-exclusion'}",{'day28'}
+Lawsonibacter-Gemmiger,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Pseudobutyricicoccus-Gemmiger,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Heritagella-Faecalibacterium,1,"{'competition', 'co-occurrence'}",{'day28'}
+Faecousia-Faecalibacterium,1,"{'competition', 'co-exclusion'}",{'day28'}
+Escherichia-Merdivicinus,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Flavonifractor-UMGS1370,1,"{'competition', 'co-exclusion'}",{'day28'}
+Acutalibacter-Clostridium_Q,1,"{'competition', 'co-occurrence'}",{'day28'}
+Acutalibacter-Faeciplasma,1,"{'competition', 'co-occurrence'}",{'day28'}
+Mediterraneibacter-Clostridium_Q,1,"{'competition', 'co-occurrence'}",{'day28'}
+Mediterraneibacter-Coproplasma,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Acutalibacter-Coproplasma,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Eisenbergiella-Scatosoma,1,"{'competition', 'co-occurrence'}",{'day28'}
+Borkfalkia-Borkfalkia,1,"{'competition', 'co-occurrence'}",{'day28'}
+Pullilachnospira-Borkfalkia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Lachnoclostridium_A-Borkfalkia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+An181-Borkfalkia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Negativibacillus-Borkfalkia,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day28'}
+Pararuminococcus-Heteroclostridium,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Caccousia-Heteroclostridium,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Lachnoclostridium_B-Anaerobutyricum,1,"{'competition', 'co-exclusion'}",{'day28'}
+Blautia_A-Hungatella_B,1,"{'competition', 'co-occurrence'}",{'day28'}
+Ornithomonoglobus-Lachnoclostridium_A,1,"{'competition', 'co-occurrence'}",{'day28'}
+Fimenecus-Mediterraneibacter,1,"{'competition', 'co-occurrence'}",{'day28'}
+Choladocola-Caccovicinus,1,"{'competition', 'co-occurrence'}",{'day28'}
+Onthovicinus-Pullilachnospira,1,"{'competition', 'co-occurrence'}",{'day28'}
+Caccovicinus-Enterocloster,1,"{'competition', 'co-occurrence'}",{'day28'}
+Choladocola-Copromonas,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Faecousia-Copromonas,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day28'}
+Lachnoclostridium_B-Mediterraneibacter,1,"{'competition', 'co-occurrence'}",{'day28'}
+Avimicrobium-Lachnoclostridium_A,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day28'}
+Rubneribacter-Sellimonas,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Neoanaerotignum_A-Blautia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Gemmiger-Blautia,1,"{'competition', 'co-occurrence'}",{'day28'}
+Fournierella-Lachnoclostridium_A,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Lawsonibacter-Merdivicinus,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day28'}
+Lawsonibacter-Faeciplasma,1,"{'competition', 'co-occurrence'}",{'day28'}
+Fimenecus-Streptococcus,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Limosilactobacillus-Niacinamide,1,{'co-occurrence'},{'day35'}
+Ornithomonoglobus-L-Proline,1,{'co-occurrence'},{'day35'}
+Mediterraneibacter-Pantothenic acid,1,{'co-occurrence'},{'day35'}
+Coprocola-L-Glutamic acid,1,{'co-occurrence'},{'day35'}
+Gordonibacter-L-Glutamic acid,1,{'co-occurrence'},{'day35'}
+Acutalibacter-L-Asparagine,1,{'co-exclusion'},{'day35'}
+Pullichristensenella-treatment_TG5,1,{'co-occurrence'},{'day35'}
+Scatomorpha-treatment_TG5,1,{'co-occurrence'},{'day35'}
+Coproplasma-treatment_TG4,1,{'co-occurrence'},{'day35'}
+Gallacutalibacter-treatment_TG4,1,{'co-exclusion'},{'day35'}
+Anaerostipes-treatment_TG3,1,{'co-occurrence'},{'day35'}
+Eisenbergiella-treatment_TG3,1,{'co-occurrence'},{'day35'}
+Spyradocola-treatment_TG2,1,{'co-exclusion'},{'day35'}
+Choladocola-treatment_TG2,1,{'co-exclusion'},{'day35'}
+Galloscillospira_A-treatment_TG2,1,{'co-occurrence'},{'day35'}
+Borkfalkia-treatment_TG1,1,{'co-occurrence'},{'day35'}
+Mediterraneibacter-treatment_TG1,1,{'co-occurrence'},{'day35'}
+Blautia_A-treatment_TG1,1,{'co-exclusion'},{'day35'}
+Avimicrobium-treatment_TG1,1,{'co-occurrence'},{'day35'}
+unclassified_Oscillospiraceae-treatment_TG1,1,{'co-occurrence'},{'day35'}
+Mediterraneibacter-Total_removed_abd,1,{'co-occurrence'},{'day35'}
+Anaerotignum-Total_removed_abd,1,{'co-occurrence'},{'day35'}
+Mediterraneibacter-Ligilactobacillus,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Acutalibacter-Ligilactobacillus,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day35'}
+Lawsonibacter-Ligilactobacillus,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day35'}
+Ornithomonoglobus-Limosilactobacillus,1,"{'competition', 'co-occurrence'}",{'day35'}
+L-Asparagine-L-Threonine,1,{'co-occurrence'},{'day35'}
+L-Valine-L-Isoleucine,1,{'co-occurrence'},{'day35'}
+Pseudobutyricicoccus-Faeciplasma,1,"{'competition', 'co-occurrence'}",{'day28'}
+Anaerostipes-L-Leucine,1,{'co-occurrence'},{'day35'}
+Gordonibacter-Ruthenibacterium,1,"{'cooperation', 'competition', 'co-exclusion'}",{'day28'}
+CAJFUH01-Fournierella,1,"{'competition', 'co-occurrence'}",{'day28'}
+Lawsonibacter-Fournierella,1,"{'competition', 'co-exclusion'}",{'day28'}
+UBA1417-CAJFUH01,1,"{'competition', 'co-exclusion'}",{'day28'}
+Dysosmobacter-unclassified_Acutalibacteraceae,1,"{'competition', 'co-exclusion'}",{'day28'}
+Agathobaculum-Scatavimonas,1,"{'competition', 'co-exclusion'}",{'day28'}
+Acutalibacter-Caccousia,1,"{'competition', 'co-occurrence'}",{'day28'}
+Agathobaculum-Anaeromassilibacillus,1,"{'competition', 'co-occurrence'}",{'day28'}
+Pelethomonas-UBA1417,1,"{'competition', 'co-exclusion'}",{'day28'}
+Escherichia-Faecousia,1,"{'cooperation', 'competition', 'co-occurrence'}",{'day28'}
+Flavonifractor-Pelethomonas,1,"{'competition', 'co-exclusion'}",{'day28'}
+Intestinimonas-Lawsonibacter,1,"{'competition', 'co-occurrence'}",{'day28'}
+Flavonifractor-Flavonifractor,1,"{'competition', 'co-exclusion'}",{'day28'}
+L-Glutamine-Thiamine,1,{'co-occurrence'},{'day35'}
+L-Phenylalanine-L-Tryptophan,1,{'co-occurrence'},{'day35'}
+Anaerostipes-L-Tyrosine,1,{'co-exclusion'},{'day35'}
+L-Lysine-L-Arginine,1,{'co-occurrence'},{'day35'}
+Enterocloster-L-Arginine,1,{'co-exclusion'},{'day35'}
+Pyridoxamine-Pyridoxine,1,{'co-occurrence'},{'day35'}
+L-Glutamic acid-Pyridoxine,1,{'co-exclusion'},{'day35'}
+Avimicrobium-Pyridoxine,1,{'co-occurrence'},{'day35'}
+Faecalibacterium-L-Phenylalanine,1,{'co-occurrence'},{'day35'}
+Pullilachnospira-L-Histidine,1,{'co-occurrence'},{'day35'}
+Lactobacillus-L-Aspartic Acid,1,{'co-occurrence'},{'day35'}
+Acutalibacter-L-Aspartic Acid,1,{'co-exclusion'},{'day35'}
+L-Asparagine-L-Histidine,1,{'co-occurrence'},{'day07'}

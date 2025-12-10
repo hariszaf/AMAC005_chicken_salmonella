@@ -1,0 +1,206 @@
+,type,total_edges,co-occurrence,co-exclusion,competition,cooperation
+Copromonas faecavium,taxon,62,12,4,28,18
+Flavonifractor plautii,taxon,62,16,1,28,17
+Negativibacillus faecipullorum,taxon,56,12,2,26,16
+Proteus mirabilis,taxon,47,8,6,17,16
+Eisenbergiella intestinigallinarum,taxon,45,11,3,24,7
+Coproplasma stercorigallinarum,taxon,45,7,5,21,12
+Gallacutalibacter pullicola,taxon,44,12,4,27,1
+Acutalibacter sp900755895,taxon,44,11,2,23,8
+Thomasclavelia spiroformis,taxon,40,10,3,21,6
+Enterocloster excrementigallinarum,taxon,39,15,2,16,6
+Lawsonibacter sp900545895,taxon,38,12,0,22,4
+Faecousia gallistercoris,taxon,37,6,6,19,6
+Anaeromassilibacillus stercoravium,taxon,37,11,3,22,1
+Eisenbergiella sp904392525,taxon,36,6,6,20,4
+Thomasclavelia ramosa,taxon,36,12,1,17,6
+Flavonifractor avicola,taxon,35,8,3,18,6
+Pelethomonas intestinigallinarum,taxon,33,8,1,17,7
+Acutalibacter stercoravium,taxon,33,10,3,18,2
+Klebsiella pneumoniae,taxon,33,8,3,12,10
+Dysosmobacter pullicola,taxon,32,8,2,15,7
+unclassified_Lawsonibacter,taxon,31,5,4,15,7
+Pseudobutyricicoccus lothianensis,taxon,31,8,0,15,8
+Merdisoma faecalis,taxon,30,8,3,15,4
+Lachnoclostridium_A stercorigallinarum,taxon,30,6,3,17,4
+Anaerotignum merdipullorum,taxon,29,8,1,15,5
+Blautia ornithocaccae,taxon,29,11,0,16,2
+Scatavimonas merdipullorum,taxon,28,6,1,13,8
+Merdivicinus intestinigallinarum,taxon,26,7,2,11,6
+Caccovicinus merdipullorum,taxon,26,5,5,12,4
+Enterocloster excrementipullorum,taxon,25,4,7,11,3
+Sellimonas intestinalis,taxon,25,5,4,14,2
+Escherichia coli,taxon,24,7,3,8,6
+UBA1417 sp900552925,taxon,24,6,2,15,1
+Anaerotruncus colihominis,taxon,23,5,2,13,3
+Massilimicrobiota merdigallinarum,taxon,23,3,4,13,3
+Mediterraneibacter sp019418195,taxon,22,7,1,12,2
+Merdimonas faecis,taxon,21,5,1,11,4
+Lawsonibacter pullicola,taxon,21,7,1,11,2
+Lawsonibacter sp019424865,taxon,21,6,0,12,3
+Eisenbergiella merdigallinarum,taxon,21,3,4,10,4
+Choladocola avistercoris,taxon,21,6,1,12,2
+Flavonifractor avistercoris,taxon,21,4,5,9,3
+Anaerobutyricum stercoris,taxon,21,7,1,11,2
+Acutalibacter ornithocaccae,taxon,20,8,0,12,0
+unclassified_Acutalibacteraceae,taxon,19,5,2,11,1
+Borkfalkia excrementigallinarum,taxon,19,5,1,12,1
+Faecivivens stercoravium,taxon,19,6,0,9,4
+Harrysmithimonas galli,taxon,19,3,3,8,5
+Scatosoma sp900555925,taxon,19,5,1,10,3
+Agathobaculum stercoravium,taxon,18,5,3,9,1
+Mediterraneibacter excrementipullorum,taxon,17,3,3,8,3
+Hungatella_B pullicola,taxon,17,4,1,8,4
+Lachnoclostridium_B sp002160985,taxon,17,4,2,9,2
+Ruminococcus_G avistercoris,taxon,17,5,1,11,0
+L-Leucine,metavar,16,16,0,0,0
+Romboutsia sp904418825,taxon,15,3,1,7,4
+Lactobacillus crispatus,taxon,15,4,1,6,4
+Holdemania filiformis,taxon,15,5,0,6,4
+unclassified_Merdibacter,taxon,15,4,0,7,4
+UMGS775 sp900545325,taxon,15,4,0,8,3
+Intestinimonas stercoravium,taxon,14,5,1,7,1
+CAG-313 sp000433035,taxon,14,6,0,5,3
+unclassified_Blautia,taxon,14,3,2,9,0
+Galloscillospira_A stercoripullorum,taxon,14,3,0,6,5
+Rubneribacter badeniensis,taxon,14,2,5,5,2
+Pantothenic acid,metavar,13,13,0,0,0
+Agathobaculum intestinigallinarum,taxon,13,3,2,7,1
+Mediterraneibacter norwichensis,taxon,13,3,1,8,1
+Avimicrobium caecorum,taxon,13,2,1,6,4
+Agathobaculum sp900557315,taxon,13,4,1,7,1
+Clostridium_Q saccharolyticum_A,taxon,13,4,0,7,2
+Mediterraneibacter faecavium,taxon,13,5,0,7,1
+CAG-273 sp944392105,taxon,13,2,1,6,4
+Onthovicinus excrementipullorum,taxon,12,2,2,5,3
+Mediterraneibacter avicola,taxon,12,4,0,6,2
+Mediterraneibacter merdigallinarum,taxon,12,2,1,6,3
+Coproplasma avistercoris,taxon,12,3,0,6,3
+Blautia stercorigallinarum,taxon,12,4,0,7,1
+unclassified_CAG-273,taxon,12,3,0,5,4
+Faeciplasma gallinarum,taxon,12,3,0,6,3
+Acutalibacter pullistercoris,taxon,12,4,0,7,1
+Gordonibacter urolithinfaciens,taxon,12,2,2,6,2
+Evtepia gabavorous,taxon,12,3,1,6,2
+Borkfalkia sp017886545,taxon,12,2,1,6,3
+CAG-269 sp904419495,taxon,12,4,0,4,4
+Dysosmobacter avistercoris,taxon,11,3,2,5,1
+Clostridium_AQ innocuum,taxon,11,1,2,6,2
+Dysosmobacter faecalis,taxon,11,4,0,6,1
+Scatomorpha sp900759385,taxon,11,3,0,5,3
+Mediterraneibacter faecigallinarum,taxon,11,1,2,6,2
+Lawsonibacter asaccharolyticus,taxon,11,4,0,7,0
+Borkfalkia sp904373255,taxon,11,3,0,6,2
+Fimenecus stercoravium,taxon,10,4,0,6,0
+L-Valine,metavar,10,7,3,0,0
+unclassified_Blautia_A,taxon,10,2,1,5,2
+Roslinia sp019419865,taxon,10,0,3,6,1
+Lachnoclostridium_A stercoripullorum,taxon,10,4,0,4,2
+Pullilachnospira stercoravium,taxon,10,3,2,4,1
+UMGS1370 sp904395885,taxon,10,4,0,5,1
+Heteroclostridium caecigallinarum,taxon,10,3,0,6,1
+L-Threonine,metavar,10,8,2,0,0
+L-Asparagine,metavar,10,6,4,0,0
+Ruthenibacterium lactatiformans,taxon,10,2,1,5,2
+L-Methionine,metavar,10,9,1,0,0
+L-Glutamine,metavar,9,8,1,0,0
+Total_removed_abd,metavar,9,1,8,0,0
+Ligilactobacillus salivarius,taxon,9,3,0,4,2
+L-Histidine,metavar,9,6,3,0,0
+Lactobacillus johnsonii,taxon,9,1,1,4,3
+Gallimonas merdigallinarum,taxon,9,1,2,4,2
+Eubacterium_R faecavium,taxon,9,3,0,5,1
+L-Phenylalanine,metavar,9,8,1,0,0
+unclassified_CAJFPI01,taxon,9,1,1,4,3
+Pararuminococcus gallinarum,taxon,8,2,0,4,2
+L-Serine,metavar,8,6,2,0,0
+Mediterraneibacter sp944381495,taxon,8,2,0,4,2
+L-Tyrosine,metavar,8,7,1,0,0
+L-Arginine,metavar,8,7,1,0,0
+Lachnoclostridium_A sp002160755,taxon,8,2,0,4,2
+L-Tryptophan,metavar,8,8,0,0,0
+Coprocola pullicola,taxon,8,3,0,5,0
+Fournierella sp002161595,taxon,8,1,2,5,0
+L-Lysine,metavar,8,7,1,0,0
+Merdivicinus excrementipullorum,taxon,8,2,0,4,2
+Intestinimonas pullistercoris,taxon,8,3,0,5,0
+L-Isoleucine,metavar,8,8,0,0,0
+Eisenbergiella merdavium,taxon,7,2,0,4,1
+Niacinamide,metavar,7,4,3,0,0
+CAJFUH01 sp904420155,taxon,7,3,0,4,0
+UBA4716 sp905215805,taxon,7,2,0,4,1
+Neoanaerotignum_A tabaqchaliae,taxon,7,2,0,3,2
+unclassified_Intestinimonas,taxon,7,3,0,4,0
+L-Aspartic Acid,metavar,7,6,1,0,0
+An181 sp002160325,taxon,7,1,1,3,2
+Egerieicola faecale,taxon,7,2,0,3,2
+Fimimorpha faecalis,taxon,7,2,0,3,2
+unclassified_Gallispira,taxon,7,2,1,4,0
+unclassified_Ornithomonoglobus_A,taxon,7,2,0,4,1
+Nicotinic acid,metavar,7,5,2,0,0
+unclassified_CAG-508,taxon,7,1,1,3,2
+CAG-245 sp944388645,taxon,7,2,0,3,2
+unclassified_Oscillospiraceae,taxon,7,2,0,3,2
+Enterococcus_D gallinarum,taxon,6,3,0,2,1
+Thiamine,metavar,6,6,0,0,0
+unclassified_Eubacterium_R,taxon,6,2,0,3,1
+Scybalenecus merdavium,taxon,6,2,0,4,0
+Merdisoma sp944375745,taxon,6,2,0,4,0
+Mediterraneibacter intestinavium,taxon,6,1,1,4,0
+Borkfalkia sp904374385,taxon,6,2,0,3,1
+L-Alanine,metavar,6,6,0,0,0
+Mediterraneibacter faecipullorum,taxon,6,2,0,4,0
+Merdisoma sp002160825,taxon,6,0,2,4,0
+unclassified_Onthovicinus,taxon,6,1,1,3,1
+Lactobacillus gallinarum,taxon,6,1,1,2,2
+Spyradocola merdavium,taxon,6,2,0,3,1
+Angelakisella sp904420255,taxon,6,2,0,3,1
+unclassified_Mediterraneibacter,taxon,6,2,0,3,1
+Ornithomonoglobus merdipullorum,taxon,5,2,0,3,0
+Streptococcus alactolyticus,taxon,5,0,1,2,2
+Faecalibacterium faecigallinarum,taxon,5,2,0,3,0
+Heritagella sp905215105,taxon,5,3,0,2,0
+Agathobaculum sp900291975,taxon,5,2,0,3,0
+Timburyella stercoris,taxon,5,2,0,3,0
+L-Glutamic acid,metavar,5,4,1,0,0
+Alistipes excrementavium,taxon,5,1,1,2,1
+Alangreenwoodia sp905206455,taxon,5,1,0,2,2
+Pyridoxine,metavar,5,5,0,0,0
+Pyridoxamine,metavar,5,5,0,0,0
+unclassified_CAG-269,taxon,4,1,0,2,1
+Caccovicinus sp017889125,taxon,4,2,0,2,0
+L-Proline,metavar,4,2,2,0,0
+Anaerostipes butyraticus,taxon,4,1,0,2,1
+Anaerostipes excrementavium,taxon,4,1,0,2,1
+Mediterraneibacter pullicola,taxon,4,2,0,2,0
+Mediterraneibacter intestinigallinarum,taxon,4,2,0,2,0
+Tyzzerella sp944383305,taxon,4,0,1,2,1
+Akkermansia sp905200945,taxon,4,1,0,2,1
+Enterocloster sp944384065,taxon,4,1,1,2,0
+Mediterraneibacter vanvlietii,taxon,3,1,0,2,0
+Anaerobutyricum faecale,taxon,3,1,0,1,1
+Intestinimonas timonensis,taxon,3,2,0,1,0
+Limosilactobacillus reuteri_E,taxon,3,0,1,2,0
+Massilimicrobiota sp002160865,taxon,3,1,0,1,1
+Gemmiger avicola,taxon,3,1,0,2,0
+Ornithomonoglobus sp904420525,taxon,3,1,0,2,0
+Borkfalkia ceftriaxoniphila,taxon,3,1,0,1,1
+Borkfalkia sp944342025,taxon,3,1,0,2,0
+Acutalibacter sp904391645,taxon,3,1,0,2,0
+Salmonella enterica,taxon,3,1,0,1,1
+HGM12998 sp900756495,taxon,3,1,0,2,0
+Blautia_A intestinavium,taxon,3,1,0,2,0
+unclassified_Choladocola,taxon,3,1,0,2,0
+Clostridium_AQ sp900552125,taxon,3,1,0,2,0
+Pullichristensenella excrementipullorum,taxon,3,1,0,1,1
+Choladocola sp944381625,taxon,2,1,0,1,0
+Caccousia avistercoris,taxon,2,1,0,1,0
+a-Tocopheryl acetate,metavar,2,1,1,0,0
+Metalachnospira gallinarum,taxon,2,0,1,1,0
+Merdibacter merdigallinarum,taxon,2,1,0,1,0
+Riboflavin,metavar,1,0,1,0,0
+Anaerotignum lactatifermentans,taxon,1,1,0,0,0
+Fimicola sp944379995,taxon,1,1,0,0,0
+Limosilactobacillus fermentum,taxon,1,1,0,0,0
+Scatosoma sp904419075,taxon,1,0,1,0,0
+Lachnoclostridium_A avicola,taxon,1,1,0,0,0

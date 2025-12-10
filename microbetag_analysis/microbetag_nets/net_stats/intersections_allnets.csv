@@ -1,0 +1,39 @@
+Clostridium_Q saccharolyticum_A,Ligilactobacillus salivarius,
+UBA1417 sp900552925,Ligilactobacillus salivarius,
+Fournierella sp002161595,Ligilactobacillus salivarius,
+CAJFUH01 sp904420155,Ligilactobacillus salivarius,
+Onthovicinus excrementipullorum,Ligilactobacillus salivarius,
+Eisenbergiella merdigallinarum,Ligilactobacillus salivarius,
+Mediterraneibacter excrementipullorum,Ligilactobacillus salivarius,
+Lawsonibacter sp019424865,Ligilactobacillus salivarius,
+Acutalibacter sp900755895,Ligilactobacillus salivarius,
+Mediterraneibacter pullicola,Ligilactobacillus salivarius,
+Lawsonibacter sp900545895,Ligilactobacillus salivarius,
+Anaeromassilibacillus stercoravium,Ligilactobacillus salivarius,
+Eisenbergiella intestinigallinarum,Ligilactobacillus salivarius,
+Thomasclavelia spiroformis,Ligilactobacillus salivarius,
+treatment_TG1,Ligilactobacillus salivarius,
+Pyridoxine,Ligilactobacillus salivarius,
+,,
+,,
+,,
+,,
+,,
+,,
+,,
+Clostridium_Q saccharolyticum_A,"'co-exclusion', 'competition'","'day14', 'overall', 'day07'"
+UBA1417 sp900552925,"'co-exclusion', 'cooperation', 'competition'","'day21', 'overall'"
+Fournierella sp002161595,"'cooperation', 'competition', 'co-occurrence'","'day21', 'overall'"
+CAJFUH01 sp904420155,"'cooperation', 'competition', 'co-occurrence'","'day35', 'day28'"
+Ligilactobacillus salivarius-treatment_TG1,'co-occurrence',"'overall', 'day14'"
+Onthovicinus excrementipullorum,"'co-exclusion', 'cooperation', 'competition'",'overall'
+Eisenbergiella merdigallinarum,"'co-exclusion', 'cooperation', 'competition'",'overall'
+Mediterraneibacter excrementipullorum,"'cooperation', 'competition', 'co-occurrence'",'overall'
+Ligilactobacillus salivarius-Pyridoxine,'co-occurrence','overall'
+Lawsonibacter sp019424865,"'cooperation', 'competition', 'co-occurrence'",'day35'
+Acutalibacter sp900755895,"'co-exclusion', 'cooperation', 'competition'",'day35'
+Mediterraneibacter pullicola,"'cooperation', 'competition', 'co-occurrence'",'day35'
+Lawsonibacter sp900545895,"'competition', 'co-occurrence'",'TG1'
+Anaeromassilibacillus stercoravium,"'co-exclusion', 'competition'",'day07'
+Eisenbergiella intestinigallinarum,"'cooperation', 'competition', 'co-occurrence'",'TG2'
+Thomasclavelia spiroformis,"'competition', 'co-occurrence'",'TG2'

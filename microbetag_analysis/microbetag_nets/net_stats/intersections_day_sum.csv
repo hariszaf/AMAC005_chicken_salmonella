@@ -1,0 +1,614 @@
+,occurrences_across_networks,interaction_types
+L-Isoleucine-L-Leucine,5,{'co-occurrence'}
+L-Phenylalanine-L-Tyrosine,4,{'co-occurrence'}
+Eisenbergiella intestinigallinarum-Eisenbergiella sp904392525,4,"{'co-occurrence', 'competition'}"
+unclassified_Onthovicinus-treatment_TG1,3,{'co-occurrence'}
+An181 sp002160325-treatment_TG3,3,{'co-occurrence'}
+Eisenbergiella merdigallinarum-Lactobacillus johnsonii,3,"{'co-occurrence', 'cooperation', 'competition'}"
+Gallacutalibacter pullicola-Choladocola avistercoris,3,"{'co-exclusion', 'competition'}"
+L-Alanine-L-Glutamine,3,{'co-occurrence'}
+Intestinimonas pullistercoris-Copromonas faecavium,3,"{'cooperation', 'co-exclusion', 'competition'}"
+Flavonifractor avicola-Merdisoma faecalis,3,"{'co-occurrence', 'cooperation', 'competition'}"
+Merdisoma sp002160825-Mediterraneibacter norwichensis,3,"{'co-occurrence', 'competition'}"
+Lawsonibacter sp900545895-Lawsonibacter pullicola,3,"{'co-occurrence', 'competition'}"
+Mediterraneibacter sp900761655-treatment_TG3,3,{'co-occurrence'}
+Merdivicinus excrementipullorum-treatment_TG2,3,{'co-occurrence'}
+Choladocola sp944381625-Blautia_A intestinavium,2,"{'co-occurrence', 'competition', 'co-exclusion'}"
+Flavonifractor avistercoris-Mediterraneibacter faecavium,2,"{'cooperation', 'co-exclusion', 'competition'}"
+Fimenecus stercoravium-treatment_TG5,2,{'co-occurrence'}
+Gemmiger stercoravium-treatment_TG4,2,{'co-occurrence'}
+Lachnoclostridium_A avicola-treatment_TG5,2,{'co-exclusion'}
+Gemmiger stercoravium-Neoanaerotignum_A tabaqchaliae,2,"{'co-exclusion', 'competition'}"
+Acutalibacter stercoravium-Eisenbergiella intestinigallinarum,2,"{'co-occurrence', 'competition'}"
+unclassified_Lawsonibacter-treatment_TG2,2,"{'co-occurrence', 'co-exclusion'}"
+unclassified_Lawsonibacter-Blautia_A intestinavium,2,"{'co-occurrence', 'competition', 'co-exclusion'}"
+Mediterraneibacter faecavium-treatment_TG3,2,{'co-occurrence'}
+Negativibacillus faecipullorum-treatment_TG3,2,{'co-exclusion'}
+Merdisoma sp002160825-Merdibacter merdigallinarum,2,"{'co-occurrence', 'cooperation', 'competition'}"
+Onthovicinus excrementipullorum-Gallimonas merdigallinarum,2,"{'co-exclusion', 'competition'}"
+Alistipes excrementavium-treatment_TG1,2,{'co-occurrence'}
+Pseudobutyricicoccus lothianensis-Blautia_A intestinavium,2,"{'co-occurrence', 'cooperation', 'competition'}"
+Anaerotignum lactatifermentans-treatment_TG5,2,{'co-occurrence'}
+Heritagella sp905215105-Merdibacter merdigallinarum,2,"{'co-occurrence', 'co-exclusion', 'competition'}"
+Dysosmobacter avistercoris-treatment_TG3,2,{'co-exclusion'}
+Mediterraneibacter excrementipullorum-Borkfalkia excrementigallinarum,2,"{'co-occurrence', 'competition'}"
+Onthovicinus excrementipullorum-Anaerostipes butyraticus,2,"{'co-occurrence', 'competition'}"
+unclassified_Choladocola-Limosilactobacillus reuteri_E,2,"{'co-occurrence', 'competition'}"
+Heritagella sp905215105-Borkfalkia sp904373255,2,"{'co-occurrence', 'competition'}"
+Merdisoma faecalis-Anaerobutyricum stercoris,2,"{'co-exclusion', 'competition'}"
+CAJFUH01 sp904420155-Ligilactobacillus salivarius,2,"{'co-occurrence', 'cooperation', 'competition'}"
+Mediterraneibacter sp019418195-Pullilachnospira stercoravium,2,"{'co-occurrence', 'competition'}"
+Choladocola sp944381625-Scatosoma sp904419075,2,"{'co-occurrence', 'competition', 'co-exclusion'}"
+Borkfalkia excrementigallinarum-Gallimonas merdigallinarum,2,"{'co-occurrence', 'competition'}"
+Mediterraneibacter sp019418195-Merdimonas faecis,2,"{'co-occurrence', 'competition'}"
+L-Alanine-L-Threonine,2,{'co-occurrence'}
+unclassified_Choladocola-An181 sp002160325,2,"{'co-occurrence', 'competition'}"
+UBA1417 sp900552925-Lachnoclostridium_A stercoripullorum,2,"{'co-exclusion', 'competition'}"
+Enterocloster excrementipullorum-Clostridium_Q saccharolyticum_A,2,"{'co-occurrence', 'competition'}"
+UBA1417 sp900552925-Clostridium_Q saccharolyticum_A,2,"{'co-occurrence', 'cooperation', 'competition'}"
+Mediterraneibacter faecigallinarum-Mediterraneibacter faecipullorum,2,"{'co-occurrence', 'competition'}"
+Coproplasma stercorigallinarum-Massilimicrobiota merdigallinarum,2,"{'cooperation', 'co-exclusion', 'competition'}"
+Faecousia gallistercoris-Gallacutalibacter pullicola,2,"{'co-occurrence', 'cooperation', 'competition'}"
+Acutalibacter stercoravium-Merdivicinus intestinigallinarum,2,"{'co-occurrence', 'competition'}"
+Acutalibacter ornithocaccae-Merdivicinus intestinigallinarum,2,"{'co-occurrence', 'competition'}"
+Merdivicinus intestinigallinarum-treatment_TG2,2,{'co-exclusion'}
+Ornithomonoglobus merdipullorum-Anaerotignum lactatifermentans,2,"{'co-occurrence', 'cooperation', 'competition'}"
+unclassified_Choladocola-Mediterraneibacter sp900761655,2,"{'co-occurrence', 'competition'}"
+Intestinimonas pullistercoris-Mediterraneibacter excrementipullorum,2,"{'cooperation', 'co-exclusion', 'competition'}"
+Fimenecus stercoravium-Lachnoclostridium_A avicola,2,"{'co-occurrence', 'cooperation', 'competition'}"
+Dysosmobacter avistercoris-Borkfalkia excrementigallinarum,2,"{'co-occurrence', 'competition'}"
+Niacinamide-Nicotinic acid,2,"{'co-occurrence', 'co-exclusion'}"
+Acutalibacter stercoravium-Coprocola pullicola,2,"{'co-exclusion', 'competition'}"
+Gordonibacter urolithinfaciens-Mediterraneibacter faecigallinarum,2,"{'co-occurrence', 'competition'}"
+Pseudobutyricicoccus lothianensis-treatment_TG2,2,{'co-occurrence'}
+Clostridium_Q saccharolyticum_A-Ligilactobacillus salivarius,2,"{'co-exclusion', 'competition'}"
+Pararuminococcus gallinarum-Enterocloster sp944384065,2,"{'co-occurrence', 'competition'}"
+L-Threonine-L-Glutamine,2,{'co-occurrence'}
+L-Leucine-L-Methionine,2,{'co-occurrence'}
+Lawsonibacter sp900545895-Enterocloster excrementigallinarum,2,"{'co-occurrence', 'competition'}"
+Acutalibacter ornithocaccae-Mediterraneibacter faecigallinarum,2,"{'co-occurrence', 'competition', 'co-exclusion'}"
+Dysosmobacter avistercoris-Copromonas faecavium,2,"{'co-occurrence', 'cooperation', 'competition'}"
+L-Arginine-L-Tryptophan,2,{'co-occurrence'}
+Gallacutalibacter pullicola-L-Arginine,2,{'co-exclusion'}
+Heritagella sp905215105-Blautia stercorigallinarum,2,"{'co-occurrence', 'competition'}"
+Agathobaculum intestinigallinarum-Intestinimonas pullistercoris,2,"{'co-exclusion', 'competition'}"
+Faeciplasma gallinarum-Heteroclostridium caecigallinarum,2,"{'co-occurrence', 'cooperation', 'competition'}"
+L-Alanine-L-Serine,2,{'co-occurrence'}
+unclassified_Onthovicinus-unclassified_Mediterraneibacter,2,"{'co-occurrence', 'cooperation', 'competition', 'co-exclusion'}"
+Borkfalkia sp904373255-treatment_TG4,2,{'co-occurrence'}
+Alistipes excrementavium-unclassified_Onthovicinus,2,"{'co-occurrence', 'cooperation', 'co-exclusion', 'competition'}"
+Onthovicinus excrementipullorum-Mediterraneibacter vanvlietii,2,"{'co-occurrence', 'competition'}"
+Anaerotignum merdipullorum-Enterocloster excrementigallinarum,2,"{'co-occurrence', 'cooperation', 'competition'}"
+Intestinimonas pullistercoris-Faecousia gallistercoris,2,"{'co-occurrence', 'cooperation', 'competition'}"
+Flavonifractor avistercoris-Dysosmobacter pullicola,2,"{'co-exclusion', 'competition'}"
+Faecalibacterium faecigallinarum-L-Phenylalanine,1,{'co-occurrence'}
+L-Valine-L-Isoleucine,1,{'co-occurrence'}
+Avimicrobium caecorum-treatment_TG1,1,{'co-occurrence'}
+L-Lysine-L-Arginine,1,{'co-occurrence'}
+unclassified_Oscillospiraceae-treatment_TG1,1,{'co-occurrence'}
+Anaerostipes butyraticus-L-Tyrosine,1,{'co-exclusion'}
+Acutalibacter sp900755895-Ligilactobacillus salivarius,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Agathobaculum sp900291975-L-Serine,1,{'co-occurrence'}
+L-Phenylalanine-L-Tryptophan,1,{'co-occurrence'}
+Mediterraneibacter pullicola-Total_removed_abd,1,{'co-occurrence'}
+Anaerotignum merdipullorum-Total_removed_abd,1,{'co-occurrence'}
+Mediterraneibacter pullicola-Ligilactobacillus salivarius,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Pullilachnospira stercoravium-L-Histidine,1,{'co-occurrence'}
+L-Glutamine-Thiamine,1,{'co-occurrence'}
+Pullichristensenella excrementipullorum-treatment_TG5,1,{'co-occurrence'}
+Limosilactobacillus reuteri_E-Niacinamide,1,{'co-occurrence'}
+Ornithomonoglobus merdipullorum-L-Proline,1,{'co-occurrence'}
+Lactobacillus johnsonii-L-Aspartic Acid,1,{'co-occurrence'}
+unclassified_Blautia_A-treatment_TG1,1,{'co-exclusion'}
+Mediterraneibacter intestinigallinarum-treatment_TG1,1,{'co-occurrence'}
+Avimicrobium caecorum-Pyridoxine,1,{'co-occurrence'}
+Borkfalkia sp017886545-treatment_TG1,1,{'co-occurrence'}
+L-Glutamic acid-Pyridoxine,1,{'co-exclusion'}
+Coproplasma avistercoris-treatment_TG4,1,{'co-occurrence'}
+Gallacutalibacter pullicola-treatment_TG4,1,{'co-exclusion'}
+Gordonibacter urolithinfaciens-L-Glutamic acid,1,{'co-occurrence'}
+Acutalibacter stercoravium-L-Aspartic Acid,1,{'co-exclusion'}
+Anaerostipes excrementavium-treatment_TG3,1,{'co-occurrence'}
+Eisenbergiella merdavium-treatment_TG3,1,{'co-occurrence'}
+Spyradocola merdavium-treatment_TG2,1,{'co-exclusion'}
+Choladocola sp944381625-treatment_TG2,1,{'co-exclusion'}
+Coprocola pullicola-L-Glutamic acid,1,{'co-occurrence'}
+Anaerostipes butyraticus-L-Leucine,1,{'co-occurrence'}
+Mediterraneibacter merdavium-Pantothenic acid,1,{'co-occurrence'}
+Galloscillospira_A stercoripullorum-treatment_TG2,1,{'co-occurrence'}
+Scatomorpha sp900759385-treatment_TG5,1,{'co-occurrence'}
+Pyridoxamine-Pyridoxine,1,{'co-occurrence'}
+Acutalibacter sp900755895-L-Asparagine,1,{'co-exclusion'}
+Enterocloster excrementigallinarum-L-Arginine,1,{'co-exclusion'}
+L-Asparagine-L-Threonine,1,{'co-occurrence'}
+unclassified_Blautia-Thomasclavelia spiroformis,1,"{'co-exclusion', 'competition'}"
+Lawsonibacter sp019424865-Ligilactobacillus salivarius,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Anaerobutyricum faecale-Anaerobutyricum stercoris,1,"{'co-exclusion', 'competition'}"
+Faecalibacterium faecigallinarum-Anaerostipes butyraticus,1,"{'co-occurrence', 'competition'}"
+Neoanaerotignum_A tabaqchaliae-Anaerostipes butyraticus,1,"{'co-occurrence', 'cooperation', 'competition'}"
+unclassified_Lawsonibacter-Heteroclostridium caecigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Merdivicinus excrementipullorum-Heteroclostridium caecigallinarum,1,"{'co-occurrence', 'competition'}"
+Gemmiger avicola-Heteroclostridium caecigallinarum,1,{'co-exclusion'}
+Angelakisella sp904420255-Heteroclostridium caecigallinarum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+UBA4716 sp905215805-Borkfalkia ceftriaxoniphila,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Choladocola avistercoris-Borkfalkia ceftriaxoniphila,1,"{'co-exclusion', 'competition'}"
+Lawsonibacter sp019424865-Borkfalkia excrementigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Dysosmobacter faecalis-Borkfalkia faecigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+unclassified_Onthovicinus-Borkfalkia faecigallinarum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+unclassified_Blautia_A-Borkfalkia faecigallinarum,1,"{'co-occurrence', 'competition'}"
+Lawsonibacter sp019424865-Borkfalkia sp904373255,1,"{'co-exclusion', 'competition'}"
+UBA1417 sp900552925-Borkfalkia sp904373255,1,"{'co-occurrence', 'competition'}"
+Onthovicinus excrementipullorum-Borkfalkia sp904373255,1,"{'co-occurrence', 'competition'}"
+Pullilachnospira stercoravium-Anaerostipes excrementavium,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Faecousia gallistercoris-Anaerobutyricum stercoris,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Ornithomonoglobus sp904420525-Limosilactobacillus reuteri_E,1,"{'co-occurrence', 'competition'}"
+Mediterraneibacter merdavium-Fimimorpha faecalis,1,"{'co-occurrence', 'competition'}"
+Negativibacillus faecipullorum-Mediterraneibacter intestinigallinarum,1,"{'co-exclusion', 'competition'}"
+Agathobaculum stercoravium-Copromonas faecavium,1,"{'cooperation', 'co-exclusion', 'competition'}"
+unclassified_Lawsonibacter-Mediterraneibacter norwichensis,1,"{'cooperation', 'co-exclusion', 'competition'}"
+UMGS1370 sp904395885-Mediterraneibacter norwichensis,1,"{'co-exclusion', 'competition'}"
+Dysosmobacter pullicola-Enterocloster excrementigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Gordonibacter urolithinfaciens-Merdimonas faecis,1,"{'co-occurrence', 'competition'}"
+Evtepia gabavorous-Merdimonas faecis,1,{'co-occurrence'}
+UBA4716 sp905215805-Pullilachnospira stercoravium,1,"{'co-occurrence', 'competition'}"
+Copromonas faecavium-Pullilachnospira stercoravium,1,"{'co-exclusion', 'competition'}"
+Fimenecus stercoravium-Caccovicinus sp017889125,1,"{'co-occurrence', 'competition'}"
+Scatomorpha sp900759385-Mediterraneibacter sp944381495,1,"{'co-occurrence', 'competition'}"
+CAG-273 sp944392105-Lachnoclostridium_A sp002160755,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Merdisoma sp002160825-Lachnoclostridium_A sp002160755,1,"{'co-occurrence', 'competition'}"
+Evtepia gabavorous-Anaerobutyricum faecale,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Mediterraneibacter vanvlietii-Anaerobutyricum faecale,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Clostridium_Q saccharolyticum_A-Borkfalkia sp904373255,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Eisenbergiella merdavium-Borkfalkia sp904374385,1,"{'co-occurrence', 'competition'}"
+Anaerostipes excrementavium-Borkfalkia sp904374385,1,"{'co-exclusion', 'competition'}"
+Dysosmobacter avistercoris-Borkfalkia sp017886545,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Mediterraneibacter intestinavium-Harrysmithimonas galli,1,"{'co-exclusion', 'competition'}"
+Agathobaculum intestinigallinarum-Massilimicrobiota merdigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Mediterraneibacter intestinavium-Thomasclavelia spiroformis,1,"{'co-exclusion', 'competition'}"
+Heritagella sp905215105-Clostridium_AQ sp900552125,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Coproplasma avistercoris-Clostridium_AQ sp900552125,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Akkermansia sp905200945-unclassified_Merdibacter,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Faeciplasma gallinarum-unclassified_Merdibacter,1,"{'co-occurrence', 'competition'}"
+unclassified_CAG-269-unclassified_Merdibacter,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Heteroclostridium caecigallinarum-unclassified_Merdibacter,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Blautia stercorigallinarum-Merdibacter merdigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+unclassified_CAG-273-Holdemania filiformis,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Mediterraneibacter avicola-Holdemania filiformis,1,"{'co-occurrence', 'cooperation', 'competition'}"
+UMGS775 sp900545325-Holdemania filiformis,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Fimenecus stercoravium-Streptococcus alactolyticus,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Lawsonibacter asaccharolyticus-Lactobacillus crispatus,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Faecivivens stercoravium-Harrysmithimonas galli,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Coproplasma avistercoris-Romboutsia sp904418825,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Ornithomonoglobus merdipullorum-Pullichristensenella excrementipullorum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Blautia stercorigallinarum-Coproplasma avistercoris,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Gemmiger stercoravium-Scatosoma sp900555925,1,"{'co-occurrence', 'competition'}"
+Fimimorpha faecalis-Scatosoma sp900555925,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Rubneribacter badeniensis-Gallimonas merdigallinarum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Lachnoclostridium_A stercoripullorum-Gallimonas merdigallinarum,1,"{'co-occurrence', 'competition'}"
+CAG-273 sp944392105-Coproplasma avistercoris,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Neoanaerotignum_A tabaqchaliae-Coproplasma avistercoris,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Lachnoclostridium_A sp002160755-Coproplasma avistercoris,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Fimenecus stercoravium-Pullichristensenella excrementipullorum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Choladocola avistercoris-Coproplasma stercorigallinarum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Eisenbergiella merdigallinarum-Coproplasma stercorigallinarum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Caccousia avistercoris-UMGS775 sp900545325,1,"{'co-occurrence', 'competition'}"
+Pararuminococcus gallinarum-UMGS775 sp900545325,1,"{'co-occurrence', 'cooperation', 'competition'}"
+unclassified_CAG-273-Spyradocola merdavium,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Heteroclostridium caecigallinarum-Spyradocola merdavium,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Flavonifractor plautii-Flavonifractor avistercoris,1,"{'co-exclusion', 'competition'}"
+Proteus mirabilis-Flavonifractor plautii,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Agathobaculum intestinigallinarum-Lawsonibacter asaccharolyticus,1,"{'co-exclusion', 'competition'}"
+Intestinimonas timonensis-Lawsonibacter pullicola,1,"{'co-occurrence', 'competition'}"
+Mediterraneibacter merdigallinarum-Coproplasma stercorigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+unclassified_CAG-508-UMGS775 sp900545325,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Akkermansia sp905200945-Spyradocola merdavium,1,"{'co-occurrence', 'competition'}"
+unclassified_Lawsonibacter-Spyradocola merdavium,1,"{'co-occurrence', 'competition'}"
+Merdisoma sp944375745-Spyradocola merdavium,1,"{'co-occurrence', 'competition'}"
+unclassified_CAJFPI01-Alangreenwoodia sp905206455,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Roslinia sp019419865-Romboutsia sp904418825,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Acutalibacter pullistercoris-Harrysmithimonas galli,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Coprocola pullicola-Harrysmithimonas galli,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Pararuminococcus gallinarum-Thomasclavelia ramosa,1,"{'cooperation', 'co-exclusion', 'competition'}"
+unclassified_CAG-508-Thomasclavelia ramosa,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Heteroclostridium caecigallinarum-Thomasclavelia ramosa,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Agathobaculum sp900557315-Massilimicrobiota sp002160865,1,"{'co-exclusion', 'competition'}"
+unclassified_Onthovicinus-Massilimicrobiota sp002160865,1,"{'co-exclusion', 'competition'}"
+unclassified_Mediterraneibacter-Massilimicrobiota sp002160865,1,"{'co-occurrence', 'competition'}"
+Acutalibacter sp900755895-Coproplasma stercorigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+unclassified_Intestinimonas-Coproplasma stercorigallinarum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Intestinimonas pullistercoris-Coproplasma stercorigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Pararuminococcus gallinarum-Heteroclostridium caecigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Mediterraneibacter norwichensis-Mediterraneibacter vanvlietii,1,"{'co-occurrence', 'competition'}"
+Fimenecus stercoravium-Mediterraneibacter sp944381495,1,"{'co-occurrence', 'competition'}"
+Ornithomonoglobus merdipullorum-Lachnoclostridium_A avicola,1,"{'co-occurrence', 'competition'}"
+Blautia_A intestinavium-Hungatella_B pullicola,1,"{'co-occurrence', 'competition'}"
+Lachnoclostridium_B sp002160985-Anaerobutyricum stercoris,1,"{'co-exclusion', 'competition'}"
+Caccousia avistercoris-Heteroclostridium caecigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Negativibacillus faecipullorum-Borkfalkia ceftriaxoniphila,1,"{'cooperation', 'co-exclusion', 'competition'}"
+unclassified_Lawsonibacter-Scatosoma sp904419075,1,"{'co-occurrence', 'cooperation', 'competition'}"
+An181 sp002160325-Borkfalkia ceftriaxoniphila,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Dysosmobacter faecalis-Borkfalkia excrementigallinarum,1,"{'co-occurrence', 'competition'}"
+Lachnoclostridium_A sp002160755-Borkfalkia sp904373255,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Pullilachnospira stercoravium-Borkfalkia sp904374385,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Borkfalkia sp904373255-Borkfalkia sp017886545,1,"{'co-occurrence', 'competition'}"
+Eisenbergiella merdigallinarum-Scatosoma sp900555925,1,"{'co-occurrence', 'competition'}"
+Agathobaculum sp900557315-Massilimicrobiota merdigallinarum,1,{'co-exclusion'}
+Scatosoma sp900555925-Massilimicrobiota merdigallinarum,1,"{'co-occurrence', 'competition'}"
+Fimenecus stercoravium-Thomasclavelia spiroformis,1,"{'co-occurrence', 'competition'}"
+Ornithomonoglobus merdipullorum-L-Methionine,1,{'co-occurrence'}
+Lachnoclostridium_A avicola-L-Proline,1,{'co-occurrence'}
+Caccovicinus merdipullorum-L-Valine,1,{'co-exclusion'}
+Evtepia gabavorous-L-Isoleucine,1,{'co-occurrence'}
+Eisenbergiella merdigallinarum-L-Isoleucine,1,{'co-occurrence'}
+L-Valine-L-Leucine,1,{'co-occurrence'}
+Eisenbergiella merdigallinarum-L-Aspartic Acid,1,{'co-occurrence'}
+unclassified_Gallispira-Pyridoxamine,1,{'co-occurrence'}
+Lawsonibacter sp900545895-L-Proline,1,{'co-occurrence'}
+Thomasclavelia spiroformis-L-Arginine,1,{'co-occurrence'}
+L-Glutamic acid-L-Arginine,1,{'co-occurrence'}
+L-Arginine-L-Tyrosine,1,{'co-occurrence'}
+L-Threonine-L-Tryptophan,1,{'co-occurrence'}
+L-Methionine-L-Tryptophan,1,{'co-occurrence'}
+L-Alanine-Thiamine,1,{'co-occurrence'}
+Mediterraneibacter sp944381495-L-Proline,1,{'co-exclusion'}
+Anaerobutyricum stercoris-Pantothenic acid,1,{'co-occurrence'}
+Gemmiger stercoravium-Merdibacter merdigallinarum,1,"{'co-occurrence', 'competition'}"
+Metalachnospira gallinarum-treatment_TG1,1,{'co-exclusion'}
+Lachnoclostridium_B sp002160985-Lactobacillus crispatus,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Mediterraneibacter vanvlietii-Lactobacillus gallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Negativibacillus faecipullorum-Limosilactobacillus reuteri_E,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Anaerostipes butyraticus-Limosilactobacillus reuteri_E,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Borkfalkia sp904374385-Limosilactobacillus reuteri_E,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Lactobacillus gallinarum-Limosilactobacillus reuteri_E,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Massilimicrobiota sp002160865-treatment_TG1,1,{'co-exclusion'}
+Lachnoclostridium_A sp002160755-L-Asparagine,1,{'co-occurrence'}
+Pararuminococcus gallinarum-treatment_TG2,1,{'co-occurrence'}
+Heteroclostridium caecigallinarum-treatment_TG2,1,{'co-occurrence'}
+Borkfalkia sp904374385-treatment_TG3,1,{'co-occurrence'}
+Merdisoma sp002160825-treatment_TG4,1,{'co-occurrence'}
+Blautia stercorigallinarum-treatment_TG4,1,{'co-occurrence'}
+Caccovicinus sp017889125-treatment_TG5,1,{'co-occurrence'}
+Choladocola avistercoris-Caccovicinus sp017889125,1,"{'co-occurrence', 'competition'}"
+Onthovicinus excrementipullorum-Pullilachnospira stercoravium,1,"{'co-occurrence', 'competition'}"
+Caccovicinus merdipullorum-Enterocloster excrementigallinarum,1,"{'co-occurrence', 'competition'}"
+Faeciplasma gallinarum-Avimicrobium caecorum,1,"{'co-exclusion', 'competition'}"
+Gemmiger avicola-Lachnoclostridium_A stercorigallinarum,1,"{'co-exclusion', 'competition'}"
+Escherichia coli-Merdivicinus intestinigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Faecousia gallistercoris-Faecalibacterium faecigallinarum,1,"{'co-exclusion', 'competition'}"
+Heritagella sp905215105-Faecalibacterium faecigallinarum,1,"{'co-occurrence', 'competition'}"
+Pseudobutyricicoccus lothianensis-Gemmiger avicola,1,"{'co-occurrence', 'cooperation', 'competition'}"
+unclassified_Lawsonibacter-Gemmiger avicola,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Anaerotruncus colihominis-Ornithomonoglobus merdipullorum,1,"{'co-exclusion', 'competition'}"
+unclassified_Lawsonibacter-Merdivicinus excrementipullorum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Gordonibacter urolithinfaciens-Roslinia sp019419865,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Rubneribacter badeniensis-unclassified_Gallispira,1,{'co-exclusion'}
+Escherichia coli-Anaerotignum merdipullorum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Agathobaculum sp900291975-Anaerotignum lactatifermentans,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Dysosmobacter pullicola-unclassified_Choladocola,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Anaeromassilibacillus stercoravium-unclassified_Choladocola,1,"{'co-occurrence', 'competition'}"
+Acutalibacter pullistercoris-Merdivicinus excrementipullorum,1,"{'co-occurrence', 'competition'}"
+Acutalibacter pullistercoris-Faeciplasma gallinarum,1,"{'co-occurrence', 'competition'}"
+Merdivicinus intestinigallinarum-Merdisoma faecalis,1,"{'co-occurrence', 'competition'}"
+Acutalibacter pullistercoris-Caccousia avistercoris,1,"{'co-occurrence', 'competition'}"
+Flavonifractor plautii-Pelethomonas intestinigallinarum,1,"{'co-exclusion', 'competition'}"
+Escherichia coli-Faecousia gallistercoris,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Lawsonibacter sp900545895-Acutalibacter stercoravium,1,"{'co-occurrence', 'competition'}"
+Lawsonibacter sp019424865-UBA1417 sp900552925,1,"{'co-exclusion', 'competition'}"
+Pelethomonas intestinigallinarum-UBA1417 sp900552925,1,"{'co-exclusion', 'competition'}"
+Agathobaculum stercoravium-Anaeromassilibacillus stercoravium,1,"{'co-occurrence', 'competition'}"
+Agathobaculum stercoravium-Scatavimonas merdipullorum,1,"{'co-exclusion', 'competition'}"
+unclassified_Lawsonibacter-Faeciplasma gallinarum,1,"{'co-occurrence', 'competition'}"
+Dysosmobacter avistercoris-unclassified_Acutalibacteraceae,1,"{'co-exclusion', 'competition'}"
+UBA1417 sp900552925-CAJFUH01 sp904420155,1,"{'co-exclusion', 'competition'}"
+Lawsonibacter sp019424865-Fournierella sp002161595,1,"{'co-exclusion', 'competition'}"
+CAJFUH01 sp904420155-Fournierella sp002161595,1,"{'co-occurrence', 'competition'}"
+Gordonibacter urolithinfaciens-Ruthenibacterium lactatiformans,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Pseudobutyricicoccus lothianensis-Faeciplasma gallinarum,1,"{'co-occurrence', 'competition'}"
+Acutalibacter pullistercoris-Merdisoma sp944375745,1,"{'co-exclusion', 'competition'}"
+Merdisoma sp944375745-Blautia_A intestinavium,1,"{'co-occurrence', 'competition'}"
+Choladocola avistercoris-Copromonas faecavium,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Rubneribacter badeniensis-Sellimonas intestinalis,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Mediterraneibacter sp019418195-Mediterraneibacter faecipullorum,1,"{'co-occurrence', 'competition'}"
+Acutalibacter ornithocaccae-Clostridium_Q saccharolyticum_A,1,"{'co-occurrence', 'competition'}"
+Mediterraneibacter faecavium-Clostridium_Q saccharolyticum_A,1,"{'co-occurrence', 'competition'}"
+Fournierella sp002161595-Lachnoclostridium_A stercoripullorum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Gemmiger stercoravium-Blautia stercorigallinarum,1,"{'co-occurrence', 'competition'}"
+Neoanaerotignum_A tabaqchaliae-Blautia stercorigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Avimicrobium caecorum-Lachnoclostridium_A stercorigallinarum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Flavonifractor avistercoris-UMGS1370 sp904395885,1,"{'co-exclusion', 'competition'}"
+Merdisoma faecalis-Lachnoclostridium_A stercorigallinarum,1,"{'co-occurrence', 'competition'}"
+Alistipes excrementavium-Mediterraneibacter intestinigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Lawsonibacter asaccharolyticus-Mediterraneibacter intestinigallinarum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Lachnoclostridium_B sp002160985-Mediterraneibacter intestinigallinarum,1,"{'co-occurrence', 'competition'}"
+Intestinimonas timonensis-Copromonas faecavium,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Faecousia gallistercoris-Copromonas faecavium,1,"{'cooperation', 'co-exclusion', 'competition'}"
+unclassified_CAG-508-Mediterraneibacter faecipullorum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Anaerotignum merdipullorum-Caccovicinus merdipullorum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Salmonella enterica-unclassified_Mediterraneibacter,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Anaeromassilibacillus stercoravium-Eisenbergiella sp904392525,1,"{'co-occurrence', 'competition'}"
+Timburyella stercoris-unclassified_Mediterraneibacter,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Metalachnospira gallinarum-unclassified_Mediterraneibacter,1,"{'co-exclusion', 'competition'}"
+Gallacutalibacter pullicola-Mediterraneibacter intestinavium,1,"{'co-occurrence', 'competition'}"
+Anaerotignum merdipullorum-Mediterraneibacter faecavium,1,"{'co-occurrence', 'competition'}"
+Negativibacillus faecipullorum-Mediterraneibacter sp900761655,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Acutalibacter stercoravium-Eisenbergiella sp904392525,1,"{'co-exclusion', 'competition'}"
+Gallacutalibacter pullicola-unclassified_Blautia,1,"{'co-occurrence', 'competition'}"
+Flavonifractor plautii-Enterocloster excrementipullorum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Intestinimonas stercoravium-Mediterraneibacter excrementipullorum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Coprocola pullicola-Mediterraneibacter faecigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Akkermansia sp905200945-Enterocloster sp944384065,1,"{'co-exclusion', 'competition'}"
+unclassified_Lawsonibacter-Enterocloster sp944384065,1,"{'co-occurrence', 'competition'}"
+Avimicrobium caecorum-Enterocloster sp944384065,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Choladocola sp944381625-Enterocloster sp944384065,1,"{'co-occurrence', 'competition'}"
+unclassified_Oscillospiraceae-Mediterraneibacter intestinigallinarum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Dysosmobacter pullicola-Eisenbergiella merdavium,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Onthovicinus excrementipullorum-Lachnoclostridium_A stercorigallinarum,1,"{'co-occurrence', 'competition'}"
+unclassified_Acutalibacteraceae-Mediterraneibacter vanvlietii,1,"{'co-occurrence', 'competition'}"
+Merdivicinus excrementipullorum-Spyradocola merdavium,1,"{'co-occurrence', 'competition'}"
+Egerieicola faecale-Coproplasma stercorigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Faeciplasma gallinarum-Coproplasma stercorigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Lawsonibacter sp019424865-Scatosoma sp904419075,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Heteroclostridium caecigallinarum-Borkfalkia sp944342025,1,"{'co-occurrence', 'competition'}"
+Gemmiger avicola-Borkfalkia sp944342025,1,"{'co-occurrence', 'competition'}"
+Acutalibacter sp900755895-Borkfalkia sp944342025,1,"{'co-occurrence', 'competition'}"
+unclassified_Acutalibacteraceae-Borkfalkia excrementigallinarum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Pseudobutyricicoccus lothianensis-Heteroclostridium caecigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Dysosmobacter avistercoris-Anaerostipes butyraticus,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Blautia ornithocaccae-Anaerobutyricum stercoris,1,"{'co-occurrence', 'competition'}"
+Flavonifractor avicola-Anaerobutyricum stercoris,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Acutalibacter stercoravium-Hungatella_B pullicola,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Lawsonibacter asaccharolyticus-Hungatella_B pullicola,1,"{'co-occurrence', 'cooperation', 'competition'}"
+unclassified_Choladocola-Pullilachnospira stercoravium,1,"{'co-exclusion', 'competition'}"
+Coproplasma stercorigallinarum-Spyradocola merdavium,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Mediterraneibacter faecipullorum-Merdimonas faecis,1,"{'co-occurrence', 'competition'}"
+Enterocloster excrementipullorum-Enterocloster excrementigallinarum,1,"{'co-occurrence', 'competition'}"
+Flavonifractor avistercoris-Enterocloster excrementigallinarum,1,"{'co-exclusion', 'competition'}"
+Gemmiger stercoravium-Mediterraneibacter norwichensis,1,"{'co-occurrence', 'competition'}"
+Lawsonibacter sp900545895-Copromonas faecavium,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Acutalibacter sp900755895-Lachnoclostridium_A stercorigallinarum,1,"{'co-exclusion', 'competition'}"
+Mediterraneibacter intestinavium-An181 sp002160325,1,"{'co-occurrence', 'competition'}"
+UBA4716 sp905215805-An181 sp002160325,1,"{'co-occurrence', 'competition'}"
+Onthovicinus excrementipullorum-Clostridium_Q saccharolyticum_A,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Mediterraneibacter sp900761655-UMGS1370 sp904395885,1,"{'co-occurrence', 'competition'}"
+Gallacutalibacter pullicola-UMGS1370 sp904395885,1,"{'co-occurrence', 'competition'}"
+Mediterraneibacter excrementipullorum-Enterocloster excrementipullorum,1,"{'co-exclusion', 'competition'}"
+unclassified_Mediterraneibacter-Enterocloster excrementipullorum,1,"{'co-exclusion', 'competition'}"
+Caccousia avistercoris-Enterocloster sp944384065,1,"{'co-occurrence', 'competition'}"
+Enterocloster sp944384065-Spyradocola merdavium,1,"{'co-occurrence', 'competition'}"
+Lawsonibacter asaccharolyticus-Romboutsia sp904418825,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Gemmiger stercoravium-Merdisoma sp002160825,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Coproplasma stercorigallinarum-treatment_TG2,1,{'co-occurrence'}
+Mediterraneibacter vanvlietii-Nicotinic acid,1,{'co-occurrence'}
+Mediterraneibacter sp019418195-Nicotinic acid,1,{'co-occurrence'}
+Acutalibacter sp900755895-Niacinamide,1,{'co-occurrence'}
+L-Valine-L-Threonine,1,{'co-occurrence'}
+Merdisoma sp002160825-L-Valine,1,{'co-occurrence'}
+Onthovicinus excrementipullorum-L-Valine,1,{'co-occurrence'}
+Anaerobutyricum stercoris-L-Proline,1,{'co-occurrence'}
+Ornithomonoglobus merdipullorum-Pantothenic acid,1,{'co-occurrence'}
+Escherichia coli-L-Asparagine,1,{'co-exclusion'}
+Thomasclavelia spiroformis-treatment_TG5,1,{'co-occurrence'}
+Ornithomonoglobus merdipullorum-treatment_TG5,1,{'co-occurrence'}
+Ruthenibacterium lactatiformans-treatment_TG5,1,{'co-occurrence'}
+Lachnoclostridium_B sp002160985-treatment_TG4,1,{'co-occurrence'}
+Pullilachnospira stercoravium-treatment_TG3,1,{'co-occurrence'}
+Egerieicola faecale-Total_removed_abd,1,{'co-exclusion'}
+Coprocola pullicola-Romboutsia sp904418825,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Fournierella sp002161595-Ligilactobacillus salivarius,1,"{'co-occurrence', 'cooperation', 'competition'}"
+UBA1417 sp900552925-Ligilactobacillus salivarius,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Anaerostipes butyraticus-Lactobacillus gallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Choladocola avistercoris-Lactobacillus johnsonii,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Intestinimonas timonensis-Lactobacillus johnsonii,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Intestinimonas pullistercoris-Lactobacillus crispatus,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Borkfalkia sp017886545-Merdibacter merdigallinarum,1,"{'co-occurrence', 'competition'}"
+Mediterraneibacter sp019418195-Clostridium_AQ innocuum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Mediterraneibacter norwichensis-Massilimicrobiota merdigallinarum,1,"{'co-occurrence', 'competition'}"
+Mediterraneibacter faecigallinarum-Massilimicrobiota merdigallinarum,1,"{'co-occurrence', 'competition'}"
+Gemmiger stercoravium-Massilimicrobiota merdigallinarum,1,"{'co-occurrence', 'competition'}"
+Agathobaculum stercoravium-Massilimicrobiota merdigallinarum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Roslinia sp019419865-Harrysmithimonas galli,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Agathobaculum stercoravium-Harrysmithimonas galli,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Eisenbergiella sp904392525-Mediterraneibacter faecigallinarum,1,"{'co-occurrence', 'competition'}"
+Anaeromassilibacillus stercoravium-Lachnoclostridium_B sp002160985,1,"{'co-exclusion', 'competition'}"
+Lawsonibacter pullicola-Lachnoclostridium_A stercorigallinarum,1,"{'co-occurrence', 'competition'}"
+Mediterraneibacter merdigallinarum-treatment_TG2,1,{'co-occurrence'}
+unclassified_Lawsonibacter-Pelethomonas intestinigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+unclassified_Lawsonibacter-Lawsonibacter sp019424865,1,"{'co-occurrence', 'competition'}"
+Klebsiella pneumoniae-Lawsonibacter sp900545895,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Klebsiella pneumoniae-Intestinimonas stercoravium,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Agathobaculum intestinigallinarum-Flavonifractor avicola,1,"{'co-occurrence', 'competition'}"
+Escherichia coli-Gordonibacter urolithinfaciens,1,"{'cooperation', 'co-exclusion', 'competition'}"
+L-Asparagine-L-Histidine,1,{'co-occurrence'}
+L-Asparagine-L-Valine,1,{'co-occurrence'}
+Pullilachnospira stercoravium-treatment_TG4,1,{'co-occurrence'}
+Flavonifractor avistercoris-treatment_TG4,1,{'co-occurrence'}
+Bifidobacterium globosum-treatment_TG4,1,{'co-occurrence'}
+Mediterraneibacter excrementipullorum-treatment_TG3,1,{'co-exclusion'}
+Anaerotignum merdipullorum-treatment_TG3,1,{'co-exclusion'}
+Fimicola sp944379995-treatment_TG3,1,{'co-occurrence'}
+Flavonifractor avicola-treatment_TG1,1,{'co-occurrence'}
+Alistipes excrementavium-Dysosmobacter faecalis,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Anaeromassilibacillus stercoravium-Ligilactobacillus salivarius,1,"{'co-exclusion', 'competition'}"
+Lawsonibacter sp900545895-Lactobacillus gallinarum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Anaerotignum merdipullorum-Thomasclavelia spiroformis,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Flavonifractor avistercoris-Hungatella_B pullicola,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Blautia ornithocaccae-Enterocloster excrementigallinarum,1,"{'co-occurrence', 'competition'}"
+Acutalibacter stercoravium-Copromonas faecavium,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Anaerotruncus colihominis-Sellimonas intestinalis,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Negativibacillus faecipullorum-Sellimonas intestinalis,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Fimicola sp944379995-UMGS1370 sp904395885,1,"{'co-occurrence', 'competition'}"
+Fournierella sp002161595-Mediterraneibacter merdigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+UBA1417 sp900552925-Eisenbergiella intestinigallinarum,1,"{'co-exclusion', 'competition'}"
+Pseudobutyricicoccus lothianensis-Fournierella sp002161595,1,"{'cooperation', 'co-exclusion', 'competition'}"
+UBA1417 sp900552925-Anaeromassilibacillus stercoravium,1,"{'co-occurrence', 'competition'}"
+Lawsonibacter pullicola-UBA1417 sp900552925,1,"{'co-exclusion', 'competition'}"
+Lawsonibacter sp019424865-Pelethomonas intestinigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Lawsonibacter sp019424865-Acutalibacter sp900755895,1,"{'co-occurrence', 'competition'}"
+Flavonifractor avistercoris-unclassified_Blautia,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Flavonifractor plautii-Roslinia sp019419865,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Gallacutalibacter pullicola-Eisenbergiella sp904392525,1,"{'co-occurrence', 'competition'}"
+UBA1417 sp900552925-Mediterraneibacter faecavium,1,"{'co-occurrence', 'competition'}"
+Flavonifractor plautii-Mediterraneibacter faecavium,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Fournierella sp002161595-unclassified_Mediterraneibacter,1,"{'co-occurrence', 'competition'}"
+Negativibacillus faecipullorum-Mediterraneibacter merdigallinarum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Ornithomonoglobus merdipullorum-Eisenbergiella merdigallinarum,1,"{'co-occurrence', 'competition'}"
+Coprocola pullicola-Eisenbergiella intestinigallinarum,1,"{'co-exclusion', 'competition'}"
+Anaeromassilibacillus stercoravium-Eisenbergiella intestinigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Choladocola avistercoris-Merdisoma faecalis,1,"{'co-exclusion', 'competition'}"
+Gemmiger avicola-Choladocola sp944381625,1,"{'co-occurrence', 'competition'}"
+Caccousia avistercoris-Choladocola sp944381625,1,"{'co-occurrence', 'competition'}"
+Acutalibacter sp900755895-Anaerotignum merdipullorum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Lawsonibacter sp900545895-Anaerotignum merdipullorum,1,"{'co-occurrence', 'competition'}"
+Acutalibacter stercoravium-Roslinia sp019419865,1,"{'co-exclusion', 'competition'}"
+Agathobaculum sp900557315-Roslinia sp019419865,1,"{'co-occurrence', 'competition'}"
+Dysosmobacter pullicola-Acutalibacter stercoravium,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Acutalibacter ornithocaccae-Anaerotruncus colihominis,1,"{'co-occurrence', 'competition'}"
+Dysosmobacter avistercoris-Negativibacillus faecipullorum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Intestinimonas stercoravium-Negativibacillus faecipullorum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Merdivicinus excrementipullorum-Gemmiger avicola,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Acutalibacter sp900755895-Gemmiger avicola,1,"{'co-occurrence', 'competition'}"
+Pelethomonas intestinigallinarum-Gemmiger avicola,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Lawsonibacter sp019424865-Egerieicola faecale,1,"{'co-occurrence', 'cooperation', 'competition'}"
+unclassified_Lawsonibacter-Egerieicola faecale,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Pseudobutyricicoccus lothianensis-Merdivicinus excrementipullorum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Pelethomonas intestinigallinarum-Faeciplasma gallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+unclassified_Onthovicinus-Fournierella sp002161595,1,"{'co-occurrence', 'competition'}"
+Flavonifractor avicola-unclassified_Onthovicinus,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Intestinimonas stercoravium-unclassified_Acutalibacteraceae,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Rubneribacter badeniensis-Gallacutalibacter pullicola,1,"{'co-occurrence', 'competition'}"
+L-Serine-L-Isoleucine,1,{'co-occurrence'}
+Ornithomonoglobus merdipullorum-L-Aspartic Acid,1,{'co-occurrence'}
+Alistipes excrementavium-L-Glutamine,1,{'co-exclusion'}
+Lawsonibacter sp019424865-Negativibacillus faecipullorum,1,"{'co-exclusion', 'competition'}"
+Anaerotruncus colihominis-Anaerotignum merdipullorum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Pelethomonas intestinigallinarum-Anaerotignum merdipullorum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Akkermansia sp905200945-unclassified_Gallispira,1,{'co-occurrence'}
+unclassified_Eubacterium_R-unclassified_CAG-273,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Egerieicola faecale-unclassified_CAG-269,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Faecousia gallistercoris-Roslinia sp019419865,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Anaeromassilibacillus stercoravium-Ornithomonoglobus sp904420525,1,"{'co-occurrence', 'competition'}"
+Pelethomonas intestinigallinarum-Ornithomonoglobus sp904420525,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Enterenecus faecium-UBA4716 sp905215805,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Angelakisella sp904420255-unclassified_Ornithomonoglobus_A,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Gemmiger avicola-Angelakisella sp904420255,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Acutalibacter ornithocaccae-Angelakisella sp904420255,1,"{'cooperation', 'co-exclusion', 'competition'}"
+unclassified_Eubacterium_R-Gemmiger stercoravium,1,"{'co-occurrence', 'competition'}"
+Heritagella sp905215105-Gemmiger stercoravium,1,"{'co-occurrence', 'competition'}"
+Eubacterium_R faecavium-Gemmiger avicola,1,"{'co-occurrence', 'competition'}"
+Acutalibacter pullistercoris-Choladocola sp944381625,1,"{'co-occurrence', 'competition'}"
+Pseudobutyricicoccus lothianensis-Merdivicinus intestinigallinarum,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Eubacterium_R faecavium-Merdivicinus excrementipullorum,1,"{'co-occurrence', 'competition'}"
+Caccousia avistercoris-Faeciplasma gallinarum,1,"{'co-occurrence', 'competition'}"
+Gallacutalibacter pullicola-Ruthenibacterium lactatiformans,1,"{'co-occurrence', 'competition'}"
+Caccousia avistercoris-Eubacterium_R faecavium,1,"{'co-occurrence', 'competition'}"
+Galloscillospira_A stercoripullorum-Eubacterium_R faecavium,1,"{'cooperation', 'co-exclusion', 'competition'}"
+unclassified_Oscillospiraceae-unclassified_Onthovicinus,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Flavonifractor avicola-CAJFUH01 sp904420155,1,"{'co-exclusion', 'competition'}"
+unclassified_Lawsonibacter-Scatavimonas merdipullorum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Gordonibacter urolithinfaciens-Gallacutalibacter pullicola,1,"{'co-exclusion', 'competition'}"
+Lawsonibacter sp900545895-Acutalibacter ornithocaccae,1,"{'co-occurrence', 'competition'}"
+Pseudobutyricicoccus lothianensis-Acutalibacter stercoravium,1,"{'cooperation', 'co-exclusion', 'competition'}"
+unclassified_Lawsonibacter-Scatomorpha sp900759385,1,"{'co-occurrence', 'competition'}"
+HGM12998 sp900756495-unclassified_Lawsonibacter,1,"{'co-occurrence', 'competition'}"
+Galloscillospira_A stercoripullorum-Choladocola sp944381625,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Pararuminococcus gallinarum-Choladocola sp944381625,1,"{'co-occurrence', 'cooperation', 'competition'}"
+L-Glutamic acid-L-Lysine,1,{'co-occurrence'}
+Fournierella sp002161595-Mediterraneibacter merdavium,1,"{'co-occurrence', 'competition'}"
+unclassified_Mediterraneibacter-unclassified_Blautia_A,1,"{'co-occurrence', 'competition'}"
+Flavonifractor avistercoris-Clostridium_Q saccharolyticum_A,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Flavonifractor plautii-Clostridium_Q saccharolyticum_A,1,"{'co-occurrence', 'competition'}"
+Merdisoma faecalis-Mediterraneibacter faecipullorum,1,"{'co-exclusion', 'competition'}"
+Ruthenibacterium lactatiformans-UMGS1370 sp904395885,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Roslinia sp019419865-Caccovicinus merdipullorum,1,"{'co-exclusion', 'competition'}"
+Dysosmobacter faecalis-Caccovicinus merdipullorum,1,"{'co-occurrence', 'competition'}"
+unclassified_Choladocola-Enterocloster excrementipullorum,1,"{'co-occurrence', 'competition'}"
+Merdivicinus intestinigallinarum-Enterocloster excrementipullorum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Eisenbergiella sp904392525-Blautia ornithocaccae,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Merdivicinus excrementipullorum-Enterocloster sp944384065,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Faeciplasma gallinarum-Enterocloster sp944384065,1,"{'co-occurrence', 'cooperation', 'competition'}"
+UBA1417 sp900552925-Enterocloster sp944384065,1,"{'co-exclusion', 'competition'}"
+Coprocola pullicola-Mediterraneibacter merdavium,1,"{'co-occurrence', 'competition'}"
+unclassified_CAG-273-Merdisoma sp002160825,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Intestinimonas stercoravium-Choladocola avistercoris,1,"{'co-occurrence', 'competition'}"
+unclassified_Eubacterium_R-Merdisoma sp002160825,1,"{'cooperation', 'co-exclusion', 'competition'}"
+unclassified_Intestinimonas-Lachnoclostridium_B sp002160985,1,"{'co-occurrence', 'competition'}"
+Intestinimonas pullistercoris-Lachnoclostridium_B sp002160985,1,"{'co-exclusion', 'competition'}"
+Agathobaculum sp900557315-Lachnoclostridium_B sp002160985,1,"{'co-exclusion', 'competition'}"
+Merdisoma faecalis-Mediterraneibacter excrementipullorum,1,"{'co-exclusion', 'competition'}"
+Dysosmobacter faecalis-unclassified_Blautia,1,{'co-occurrence'}
+Acutalibacter pullistercoris-Mediterraneibacter avicola,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Eisenbergiella intestinigallinarum-Mediterraneibacter faecavium,1,"{'co-occurrence', 'competition'}"
+Faecivivens stercoravium-Mediterraneibacter faecavium,1,"{'co-exclusion', 'competition'}"
+Ruminococcus_G avistercoris-Mediterraneibacter intestinavium,1,"{'co-occurrence', 'competition'}"
+Alistipes excrementavium-unclassified_Mediterraneibacter,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Merdivicinus intestinigallinarum-Ruminococcus_G avistercoris,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Agathobaculum intestinigallinarum-Eisenbergiella merdigallinarum,1,"{'co-occurrence', 'competition'}"
+unclassified_Lawsonibacter-Choladocola avistercoris,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Agathobaculum sp900557315-unclassified_Lawsonibacter,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Flavonifractor plautii-Lawsonibacter sp900545895,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Alistipes excrementavium-unclassified_Oscillospiraceae,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Choladocola avistercoris-Mediterraneibacter excrementipullorum,1,"{'co-occurrence', 'competition'}"
+Eisenbergiella intestinigallinarum-Total_removed_abd,1,{'co-exclusion'}
+Escherichia coli-Total_removed_abd,1,{'co-exclusion'}
+Copromonas faecavium-Thomasclavelia spiroformis,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Mediterraneibacter merdigallinarum-Romboutsia sp904418825,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Mediterraneibacter vanvlietii-Borkfalkia excrementigallinarum,1,"{'co-exclusion', 'competition'}"
+UMGS1370 sp904395885-Borkfalkia excrementigallinarum,1,"{'co-exclusion', 'competition'}"
+Gallacutalibacter pullicola-Anaerobutyricum stercoris,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Merdivicinus intestinigallinarum-Hungatella_B pullicola,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Pullilachnospira stercoravium-Mediterraneibacter vanvlietii,1,"{'co-occurrence', 'competition'}"
+Klebsiella pneumoniae-Enterocloster excrementigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Intestinimonas pullistercoris-Sellimonas intestinalis,1,"{'co-occurrence', 'competition'}"
+Clostridium_Q saccharolyticum_A-Lachnoclostridium_A stercoripullorum,1,"{'co-exclusion', 'competition'}"
+Escherichia coli-UMGS1370 sp904395885,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Acutalibacter stercoravium-Mediterraneibacter faecigallinarum,1,"{'co-exclusion', 'competition'}"
+Flavonifractor plautii-Eisenbergiella sp904392525,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Intestinimonas pullistercoris-Intestinimonas timonensis,1,"{'co-exclusion', 'competition'}"
+Klebsiella pneumoniae-Eisenbergiella intestinigallinarum,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Acutalibacter stercoravium-Anaerotignum merdipullorum,1,"{'co-occurrence', 'competition'}"
+Ornithomonoglobus merdipullorum-Tyzzerella sp944383305,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Agathobaculum stercoravium-Ornithomonoglobus merdipullorum,1,"{'co-exclusion', 'competition'}"
+Gallacutalibacter pullicola-Negativibacillus faecipullorum,1,"{'co-exclusion', 'competition'}"
+Flavonifractor avistercoris-Acutalibacter stercoravium,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Onthovicinus excrementipullorum-Thiamine,1,{'co-occurrence'}
+L-Leucine-L-Tryptophan,1,{'co-occurrence'}
+Mediterraneibacter norwichensis-L-Tyrosine,1,{'co-exclusion'}
+Eisenbergiella merdigallinarum-L-Tyrosine,1,{'co-occurrence'}
+Mediterraneibacter norwichensis-Pyridoxamine,1,{'co-occurrence'}
+L-Lysine-L-Phenylalanine,1,{'co-occurrence'}
+Mediterraneibacter faecavium-L-Histidine,1,{'co-occurrence'}
+Lachnoclostridium_B sp002160985-L-Methionine,1,{'co-exclusion'}
+Clostridium_Q saccharolyticum_A-Total_removed_abd,1,{'co-exclusion'}
+Ligilactobacillus salivarius-treatment_TG1,1,{'co-occurrence'}
+Intestinimonas pullistercoris-treatment_TG2,1,{'co-occurrence'}
+Hungatella_B pullicola-treatment_TG2,1,{'co-occurrence'}
+Flavonifractor avistercoris-Intestinimonas pullistercoris,1,"{'co-exclusion', 'competition'}"
+Escherichia coli-Flavonifractor plautii,1,"{'co-occurrence', 'cooperation', 'competition'}"
+Pseudobutyricicoccus lothianensis-Flavonifractor avicola,1,"{'cooperation', 'co-exclusion', 'competition'}"
+Gordonibacter urolithinfaciens-Pseudobutyricicoccus lothianensis,1,"{'co-occurrence', 'cooperation', 'competition'}"
+UBA1417 sp900552925-a-Tocopheryl acetate,1,{'co-exclusion'}
+L-Proline-Riboflavin,1,{'co-occurrence'}
+Eisenbergiella sp904392525-Riboflavin,1,{'co-occurrence'}
+Total_removed_abd-L-Tryptophan,1,{'co-exclusion'}
+L-Aspartic Acid-L-Arginine,1,{'co-occurrence'}
+L-Valine-L-Histidine,1,{'co-occurrence'}
+Dysosmobacter avistercoris-L-Methionine,1,{'co-exclusion'}
+L-Asparagine-L-Glutamine,1,{'co-occurrence'}
+L-Glutamic acid-L-Aspartic Acid,1,{'co-occurrence'}
+L-Asparagine-L-Aspartic Acid,1,{'co-occurrence'}
+Pullilachnospira stercoravium-L-Aspartic Acid,1,{'co-occurrence'}
+Anaeromassilibacillus stercoravium-L-Aspartic Acid,1,{'co-exclusion'}
+treatment_TG1-Nicotinic acid,1,{'co-occurrence'}
+Merdisoma faecalis-Nicotinic acid,1,{'co-occurrence'}
+Proteus mirabilis-Niacinamide,1,{'co-occurrence'}
+Lawsonibacter pullicola-L-Valine,1,{'co-exclusion'}
+L-Glutamic acid-L-Serine,1,{'co-occurrence'}
+Agathobaculum stercoravium-L-Serine,1,{'co-exclusion'}
+treatment_TG4-L-Glutamic acid,1,{'co-occurrence'}
+Mediterraneibacter faecigallinarum-L-Asparagine,1,{'co-occurrence'}
+Eisenbergiella intestinigallinarum-treatment_TG5,1,{'co-occurrence'}
+Tyzzerella sp944383305-treatment_TG5,1,{'co-occurrence'}
+Mediterraneibacter faecigallinarum-treatment_TG4,1,{'co-occurrence'}
+UMGS1370 sp904395885-treatment_TG3,1,{'co-occurrence'}
+Rubneribacter badeniensis-treatment_TG3,1,{'co-occurrence'}
+Pantothenic acid-a-Tocopheryl acetate,1,{'co-exclusion'}
