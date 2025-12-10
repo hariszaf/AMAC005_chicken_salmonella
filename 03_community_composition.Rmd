@@ -4,6 +4,28 @@
 load("data/data.Rdata")
 ```
 
+```{r}
+
+# genome_counts_filt <- read_counts_filt %>%
+#   mutate(across(where(is.numeric), ~ . / (genome_metadata$length / readlength) ))
+
+genome_counts_filt <- read.csv("microbetag_analysis/microbetag_input/prev20/abd_prev_0.2_overall_cropped.tsv", sep = ",") %>%
+  as_tibble()
+
+genome_counts_filt <- genome_counts_filt %>%
+  mutate(across(-genome, ~ as.numeric(.x)))  # still warns if values are non-numeric
+
+# Optionally, replace coercion NAs with 0 (if appropriate)
+genome_counts_filt <- genome_counts_filt %>%
+  mutate(across(-genome, ~ as.numeric(.x))) %>%
+  mutate(across(-genome, ~ ifelse(is.na(.x), 0, .x)))
+
+genome_counts_filt_ss <- genome_counts_filt %>%
+  as.data.frame() %>%                   # <- convert tibble to data frame
+  column_to_rownames(var = "genome") %>%
+  dplyr::select(where(~ !all(. == 0)))  # remove all-zero samples
+```
+
 ## Taxonomy overview 
 
 ### Stacked barplot
@@ -291,7 +313,7 @@ genome_counts_filt %>%
   pivot_longer(-genome, names_to = "sample", values_to = "count") %>%
   left_join(sample_metadata, by = join_by(sample == sample)) %>% 
   left_join(genome_metadata, by = join_by(genome == genome)) %>% 
-  filter(species=="s__Limosilactobacillus reuteri") %>%
+  filter(species=="s__Ligilactobacillus salivarius") %>% 
   filter(species != "s__") %>%
     select(-species) %>%
     filter(treatment != "TG0") %>%

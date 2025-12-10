@@ -13,7 +13,8 @@ microbetag_analysis/mgg_prec/reconstructions/*
 
 
 my_bins/
-depr/
+.depr/
 GENREs/
 *.fna
 
+*.log

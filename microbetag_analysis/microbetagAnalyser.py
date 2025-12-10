@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import os
+import sys
 import json
 import pandas as pd
-# pip install ndex2
+from glob import glob
 from ndex2.cx2 import RawCX2NetworkFactory
 
 COOCCURRENCE        = "co-occurrence"
@@ -25,7 +26,7 @@ class MicrobetagNetsAnalysis:
 
     def __init__(self, path_to_cx2, taxonomic_level='species', competition_threshold=0.5, cooperation_threshold=0.2):
 
-        self.cx2_nets        = self.load_cx2_nets(path_to_cx2)
+        self.cx2_nets        = MicrobetagNetsAnalysis.load_cx2_nets(path_to_cx2)
         self.taxonomic_level = taxonomic_level
         self.comp_threshold  = competition_threshold
         self.coop_threshold  = cooperation_threshold
@@ -33,24 +34,6 @@ class MicrobetagNetsAnalysis:
         self.intersection    = None
         self.top_interactors = None
         self._interactors    = None
-
-    def load_cx2_nets(self, path_to_cx2):
-
-        cx2_nets = set()
-
-        if os.path.isfile(path_to_cx2):
-            print(f"Loading {path_to_cx2}...")
-            cx2_nets.add(MicrobetagNetsAnalysis.load_cx2(path_to_cx2))   # or self.load_cx2()
-
-        elif os.path.isdir(path_to_cx2):
-
-            for filename in os.listdir(path_to_cx2):
-                full_path = os.path.join(path_to_cx2, filename)
-
-                if os.path.isfile(full_path):
-                    print(f"Loading {full_path}...")
-                    cx2_nets.add(MicrobetagNetsAnalysis.load_cx2(full_path))   # or self.load_cx2()
-        return cx2_nets
 
     def get_stats(self):
         """
@@ -107,8 +90,6 @@ class MicrobetagNetsAnalysis:
                         else:
                             per_net_interactors[taxon][interaction] += 1
                             per_net_interactors[taxon]["total_edges"] += 1
-                    # else:
-                    #     per_net_interactors[taxon]["total_edges"] += 1
 
                 # INTERSECTIONS
                 key     = f"{s_taxa}-{t_taxa}"
@@ -121,13 +102,17 @@ class MicrobetagNetsAnalysis:
 
                 if interaction == COOCCURRENCE or interaction == COEXCLUSION:
                     intersections[key]["occurrences_across_networks"] += 1
-                curr = intersections[key]["interaction_types"]
+
+                curr_types = intersections[key]["interaction_types"]
+                curr_nets  = intersections[key]["networks_with_the_edge"]
+
+                curr_nets.add(filename)
 
                 if interaction is not None:
                     if isinstance(interaction, tuple):
-                        curr.update(interaction)
+                        curr_types.update(interaction)
                     else:
-                        curr.add(interaction)
+                        curr_types.add(interaction)
 
             interactors[filename] = per_net_interactors
 
@@ -162,6 +147,39 @@ class MicrobetagNetsAnalysis:
         return interactors, intersection
 
     @staticmethod
+    def load_cx2_nets(paths):
+
+        cx2_nets = set()
+
+        # Normalize to list
+        if isinstance(paths, (str, os.PathLike)):
+            paths = [paths]
+        elif not isinstance(paths, (list, tuple, set)):
+            raise ValueError(f"Invalid type for paths: {type(paths)}")
+
+        # Expand all paths and collect .cx2 files
+        all_files = []
+        for p in paths:
+            for f in glob(p, recursive=True):  # handles wildcards & directories
+                if os.path.isfile(f) and f.endswith(".cx2"):
+                    all_files.append(f)
+                elif os.path.isdir(f):
+                    # recursively add all .cx2 files in directory
+                    all_files.extend(
+                        os.path.join(root, file)
+                        for root, _, files in os.walk(f)
+                        for file in files
+                        if file.endswith(".cx2")
+                    )
+
+        # Load all files
+        for file_path in all_files:
+            print(f"Loading {file_path}...")
+            cx2_nets.add(MicrobetagNetsAnalysis.load_cx2(file_path))  # or self.load_cx2()
+
+        return cx2_nets
+
+    @staticmethod
     def init_node_counts(dict, new_key, type):
         dict[new_key] = {
             "type"       : type,
@@ -177,7 +195,8 @@ class MicrobetagNetsAnalysis:
     def init_edge_counts(dict, new_key):
         dict[new_key] = {
             "occurrences_across_networks": 0,
-            "interaction_types"          : set()
+            "interaction_types"          : set(),
+            "networks_with_the_edge"     : set()
         }
         return dict
 
@@ -234,11 +253,20 @@ class MicrobetagNetsAnalysis:
             return "metavar", metavar
 
         elif node["v"]['microbetag::ncbi-tax-level'] == taxonomic_level:
-            return "taxon", node["v"]["microbetag::taxon"].split("__")[1]
+
+            taxon_full = node["v"].get("microbetag::taxon", "")
+            # partition() always returns three parts: (before, sep, after):
+            _, sep, after = taxon_full.partition("__")
+            taxon = after if sep else taxon_full
+
+            taxon = parse_taxonomy_underscores(taxon_full)
+
+            return "taxon", taxon
 
         else:
 
-            taxa     = [x.split("__")[1] for x in node["v"]['microbetag::taxonomy'].split(";")]
+            # taxa     = [x.split("__")[1] for x in node["v"]['microbetag::taxonomy'].split(";")]
+            taxa     = [parse_taxonomy_underscores(x) for x in node["v"]['microbetag::taxonomy'].split(";")]
             tax_dict = dict(zip(levels, taxa))
 
             current = node["v"]['microbetag::ncbi-tax-level']
@@ -251,18 +279,25 @@ class MicrobetagNetsAnalysis:
             else:
                 return "taxon", tax_dict.get(taxonomic_level, None)
 
+def parse_taxonomy_underscores(taxonomy):
+    _, sep, after = taxonomy.partition("__")
+    taxon = after if sep else taxonomy
+    return taxon
+
 
 if __name__ == "__main__":
 
     import argparse
     parser = argparse.ArgumentParser(description="Microbetag Networks Analysis")
-    parser.add_argument("--path", type=str, required=True, help="Path to the directory containing the cx2 files. Can be either a folder or a single cx2 file.")
-    parser.add_argument("--taxonomic_level", type=str, default='species', help="Taxonomic level to analyze (default: species).")
-    parser.add_argument("--competition_threshold", type=float, default=0.5, help="Threshold for competition interaction (default: 0.5).")
-    parser.add_argument("--cooperation_threshold", type=float, default=0.2, help="Threshold for cooperation interaction (default: 0.2).")
-    parser.add_argument("--output_interactors", type=str, default="interactors.csv", help="Output CSV file for top interactors (default: interactors.csv).")
-    parser.add_argument("--output_intersections", type=str, default="intersections.csv", help="Output CSV file for intersections (default: intersections.csv).")
-    parser.add_argument("--format", type=str, choices=['csv', 'html'], default='csv', help="Output file format: 'csv' or 'html' (default: csv).")
+    # # NOTE (Haris Zafeiropoulos, 2025-12-03): nargs means one or more arguments can be passed after -p
+    parser.add_argument("-p", "--path", type=str, nargs="+", required=True, help="Path to the directory containing the cx2 files. Can be either a folder or a single cx2 file.")
+
+    parser.add_argument("-l", "--taxonomic-level", type=str, default='species', help="Taxonomic level to analyze (default: species).")
+    parser.add_argument("-comp", "--competition_threshold", type=float, default=0.5, help="Threshold for competition interaction (default: 0.5).")
+    parser.add_argument("-coop", "--cooperation_threshold", type=float, default=0.2, help="Threshold for cooperation interaction (default: 0.2).")
+    parser.add_argument("-r", "--output_interactors", type=str, default="interactors.csv", help="Output CSV file for top interactors (default: interactors.csv).")
+    parser.add_argument("-s", "--output_intersections", type=str, default="intersections.csv", help="Output CSV file for intersections (default: intersections.csv).")
+    parser.add_argument("-f", "--format", type=str, choices=['csv', 'html'], default='csv', help="Output file format: 'csv' or 'html' (default: csv).")
     args = parser.parse_args()
 
     anal = MicrobetagNetsAnalysis(
@@ -271,6 +306,7 @@ if __name__ == "__main__":
         competition_threshold = args.competition_threshold,
         cooperation_threshold = args.cooperation_threshold
     )
+
     interactors, intersection = anal.get_stats_df()
 
     if args.format == 'csv':

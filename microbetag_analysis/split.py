@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 import os
+import sys
+import argparse
+import warnings
 import numpy as np
 import pandas as pd
-import warnings
 from pathlib import Path
+
 
 AMINOACIDS = [
     "L-Tyrosine",
@@ -39,10 +42,11 @@ VITAMINS = [
 ]
 
 OTHER = [
-    "Adenine"
-    "Guanosine"
-    "Lactic acid"
-    "Sulfoacetic acid"
+    "Adenine",
+    "Guanosine",
+    "Lactic acid",
+    "Sulfoacetic acid",
+    "Putrescine"
 ]
 
 class SplitDataset:
@@ -53,9 +57,10 @@ class SplitDataset:
         metadata_file,
         metabolites_file,
         categories,
-        threshold = 0.2,
-        outdir    = None,
-        skip  = []
+        threshold   = 0.2,
+        norm_metabo = None,
+        outdir      = None,
+        skip        = []
     ):
 
         self.threshold  = threshold
@@ -124,6 +129,10 @@ class SplitDataset:
             .rename_axis("animal")
             .reset_index()
         )
+        if norm_metabo == "log1p":
+            num_cols = dig_long.select_dtypes(include=[np.number]).columns
+            dig_long_norm = dig_long.copy()
+            dig_long_norm[num_cols] = np.log1p(dig_long[num_cols])
 
         # ------------------------------------------------------------
         # Attach metabolite info to metadata
@@ -178,7 +187,7 @@ class SplitDataset:
 
                 # Export those subset of the dataframes to files
                 abd_outfile  = "_".join(["abd_prev", str(self.threshold), str(type), str(case)])
-                abd_outfile += ".tsv"
+                abd_outfile += ".csv"
                 meta_outfile = "_".join(["metadata_prev", str(self.threshold), str(type), str(case)])
                 meta_outfile += ".tsv"
 
@@ -191,7 +200,7 @@ class SplitDataset:
 
         # Export those subset of the dataframes to files
         abd_outfile  = "_".join(["abd_prev", str(self.threshold), "overall"])
-        abd_outfile += ".tsv"
+        abd_outfile += ".csv"
         meta_outfile = "_".join(["metadata_prev", str(self.threshold), "overall"])
         meta_outfile += ".tsv"
 
@@ -233,16 +242,23 @@ class SplitDataset:
 
 
 if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser(description="Split dataset based on prevalence threshold.")
-    parser.add_argument("--abundance_file", type=str, required=True, help="Path to the abundance file.")
-    parser.add_argument("--genome_information", type=str, required=True, help="Path to the genome info file.")
-    parser.add_argument("--metabolites_file", type=str, required=True, help="Path to the EXCEL file with metabolites.")
-    parser.add_argument("--categories", type=lambda s: s.split(","), required=True, help="List of categories to consider.")
-    parser.add_argument("--metadata_file", type=str, required=True, help="Path to the metadata file.")
-    parser.add_argument("--outdir", type=str, required=False, default=None, help="Path to save output files.")
-    parser.add_argument("--prevalence_threshold", type=float, required=False, default=0.2, help="Prevalence threshold (between 0 and 1).")
-    parser.add_argument("--metadata-to-skip", type=lambda s: s.split(","), required=False, help="List of metadata columns to be removed from the metadata files to be built.")
+
+    parser = argparse.ArgumentParser(
+        description="Split dataset based on prevalence threshold.",
+        usage="""
+            ./split.py -a data/genome_counts_macro_filt_30_zerosrem.csv -g data/genome_metadata.csv -m data/sample_metadata_macro.csv \
+                -b data/original_mets_data_20250113.xlsx -c day,treatment -p 0 -o microbetag_input/prev20 -s dpi,day_code,treatment_expl -n log1p
+        """
+    )
+    parser.add_argument("-a", "--abundance-file", type=str, required=True, help="Path to the abundance file.")
+    parser.add_argument("-g", "--genome-information", type=str, required=True, help="Path to the genome info file.")
+    parser.add_argument("-b", "--metabolites-file", type=str, required=True, help="Path to the EXCEL file with metabolites.")
+    parser.add_argument("-c", "--categories", type=lambda s: s.split(","), required=True, help="List of categories to consider.")
+    parser.add_argument("-m", "--metadata-file", type=str, required=True, help="Path to the metadata file.")
+    parser.add_argument("-o", "--outdir", type=str, required=False, default=None, help="Path to save output files.")
+    parser.add_argument("-p", "--prevalence-threshold", type=float, required=False, default=0.2, help="Prevalence threshold (between 0 and 1).")
+    parser.add_argument("-s", "--metadata-to-skip", type=lambda s: s.split(","), required=False, help="List of metadata columns to be removed from the metadata files to be built.")
+    parser.add_argument("-n", "--normalize-metabolites", type=str, required=False, help="Normalization method for metabolics data. By default: None")
 
     args = parser.parse_args()
 
@@ -253,10 +269,11 @@ if __name__ == "__main__":
         metabolites_file = args.metabolites_file,
         categories       = args.categories,
         threshold        = args.prevalence_threshold,
+        norm_metabo      = args.normalize_metabolites,
         outdir           = args.outdir,
-        skip = args.metadata_to_skip
+        skip             = args.metadata_to_skip
     )
 
-    # splitter.split()
-
     splitter.overall()
+
+    # splitter.split()

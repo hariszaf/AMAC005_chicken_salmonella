@@ -3,7 +3,7 @@
 ### Sample metadata
 
 ```{r load_sample_metadata, message=FALSE, eval=FALSE}
-sample_metadata <- read_csv("microbetag_analysis/data/sample_metadata_corrected.csv")
+sample_metadata <- read_csv("microbetag_analysis/data/sample_metadata_macro.csv")
 ```
 
 ### Genome metadata
@@ -136,10 +136,13 @@ genome_counts <- read_counts %>%
 
 genome_counts_filt <- read_counts_filt %>%
   mutate(across(where(is.numeric), ~ . / (genome_metadata$length / readlength) ))
+
 ```
 
 ### Distil functional annotations
 Raw functional annotations are distilled into genome-inferred functional traits to generate biologically more meaningful functional traits for downstream analyses.
+
+No need to run every time, you may load it in [02_mag_gatalogue.Rmd](./02_mag_catalogue.Rmd).
 
 ```{r distill_annotations, warning=FALSE, comments="", message=FALSE, results='hide', eval=FALSE}
 genome_gifts <- distill(genome_annotations, GIFT_db, genomecol=2, annotcol=c(9,10,19))

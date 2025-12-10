@@ -353,3 +353,31 @@ def compute_weight_scores(cx_net, parsed_net):
         }
 
     return {"pos": pos_weight_scores, "neg": neg_weight_scores}
+
+
+def drop_sample(abd_file=None, colnames=[], rownames=[], meta_file=None, abd_sep=',', meta_sep='\t'):
+
+    if abd_file:
+        abd = pd.read_csv(abd_file, sep=abd_sep)
+        if len(colnames) > 0:
+            abd = abd.drop(columns=colnames, errors="ignore")
+            save_with_suffix(abd, abd_file, delim=abd_sep)
+
+    if meta_file:
+        meta = pd.read_csv(meta_file, sep=meta_sep)
+
+        if len(colnames) > 0:
+            meta = meta.drop(columns=colnames, errors="ignore")
+
+        if len(rownames) > 0:
+            meta = meta[~meta["sample"].isin(rownames)]
+            save_with_suffix(meta, meta_file, delim=meta_sep)
+
+
+def save_with_suffix(df, file_path, suffix="_cropped", delim=","):
+    from pathlib import Path
+
+    file_path = Path(file_path)
+    new_path  = file_path.with_name(file_path.stem + suffix + file_path.suffix)
+    df.to_csv(new_path, index=False, sep=delim)
+    return new_path

@@ -24,14 +24,31 @@ neutral <- genome_counts_filt %>%
   dplyr::rename(neutral = 1) %>%
   rownames_to_column(var = "sample")
 
-phylogenetic <- genome_counts_filt %>%
-  column_to_rownames(var = "genome") %>%
-  dplyr::select(where(~ !all(. == 0))) %>%
-  hilldiv(., q = 1, tree = genome_tree) %>%
-  t() %>%
+# phylogenetic <- genome_counts_filt %>%
+#   column_to_rownames(var = "genome") %>%
+#   dplyr::select(where(~ !all(. == 0))) %>%
+#   hilldiv(., q = 1, tree = genome_tree) %>%
+#   t() %>%
+#   as.data.frame() %>%
+#   dplyr::rename(phylogenetic = 1) %>%
+#   rownames_to_column(var = "sample")
+
+
+w <- genome_counts_filt %>%
   as.data.frame() %>%
-  dplyr::rename(phylogenetic = 1) %>%
-  rownames_to_column(var = "sample")
+  column_to_rownames(var = "genome") %>%
+  dplyr::select(where(~ !all(. == 0)))
+
+# Keep only genomes present in both the table and the tree
+common_genomes <- intersect(rownames(w), genome_tree$tip.label)
+w_subset <- w[common_genomes, , drop = FALSE]
+
+# Optional: drop tips from tree that are not in the table
+tree_subset <- drop.tip(genome_tree, setdiff(genome_tree$tip.label, common_genomes))
+
+# Now run hilldiv
+phylogenetic <- hilldiv(w_subset, q = 1, tree = tree_subset)
+
 
 # Aggregate basal GIFT into elements
 dist <- genome_gifts %>%
@@ -42,28 +59,57 @@ dist <- genome_gifts %>%
 dist_filt <- dist[!rownames(dist) %in% c("GEXTRA:bin_000002", "GEXTRA:bin_000006"), 
                                !colnames(dist) %in% c("GEXTRA:bin_000002", "GEXTRA:bin_000006")]
 
+# functional <- genome_counts_filt %>%
+#   arrange(match(genome,rownames(dist))) %>%
+#   filter(!genome %in% c("GEXTRA:bin_000002", "GEXTRA:bin_000006")) %>% 
+#   column_to_rownames(var = "genome") %>%
+#   dplyr::select(where(~ !all(. == 0))) %>%
+#   hilldiv(., q = 1, dist = dist_filt) %>%
+#   t() %>%
+#   as.data.frame() %>%
+#   dplyr::rename(functional = 1) %>%
+#   rownames_to_column(var = "sample") %>%
+#   mutate(functional = if_else(is.nan(functional), 1, functional))
+
+# Keep only genomes present in dist_filt
+common_genomes <- intersect(genome_counts_filt$genome, rownames(dist_filt))
+
 functional <- genome_counts_filt %>%
-  arrange(match(genome,rownames(dist))) %>%
-  filter(!genome %in% c("GEXTRA:bin_000002", "GEXTRA:bin_000006")) %>% 
+  filter(genome %in% common_genomes) %>%          # remove excluded genomes
+  arrange(match(genome, rownames(dist_filt))) %>% # reorder to match dist_filt
   column_to_rownames(var = "genome") %>%
-  dplyr::select(where(~ !all(. == 0))) %>%
-  hilldiv(., q = 1, dist = dist_filt) %>%
+  dplyr::select(where(~ !all(. == 0)))           # remove all-zero samples
+
+
+# For phylogenetic (single row, q1)
+phylogenetic_df <- phylogenetic %>%
   t() %>%
   as.data.frame() %>%
-  dplyr::rename(functional = 1) %>%
-  rownames_to_column(var = "sample") %>%
-  mutate(functional = if_else(is.nan(functional), 1, functional))
+  rownames_to_column(var = "sample")
+colnames(phylogenetic_df)[2] <- "phylogenetic"
+
+# For functional (could be 1 or more rows)
+functional_df <- functional %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column(var = "sample")
+colnames(functional_df)[2] <- "functional"
 
 # Merge all metrics
 alpha_div <- richness %>%
-  full_join(neutral, by = join_by(sample == sample)) %>%
-  full_join(phylogenetic, by = join_by(sample == sample)) %>%
-  full_join(functional, by = join_by(sample == sample))
+  full_join(neutral, by = "sample") %>%
+  full_join(phylogenetic_df, by = "sample") %>%
+  full_join(functional_df, by = "sample")
+
+# alpha_div <- richness %>%
+#   full_join(neutral, by = join_by(sample == sample)) %>%
+#   full_join(phylogenetic, by = join_by(sample == sample)) %>%
+#   full_join(functional, by = join_by(sample == sample))
 ```
 
 ```{r alpha_div_boxplot, comment="", message=FALSE, warning=FALSE, fig.height=3, fig.width=10, fig.fullwidth=TRUE}
 
-#Richness
+# Richness
 alpha_div %>%
   pivot_longer(-sample, names_to = "metric", values_to = "value") %>%
   left_join(., sample_metadata, by = join_by(sample == sample)) %>%
@@ -88,7 +134,7 @@ alpha_div %>%
         axis.text.x = element_text(angle = 45, hjust = 1)
       )
 
-#Neutral
+# Neutral
 alpha_div %>%
   pivot_longer(-sample, names_to = "metric", values_to = "value") %>%
   left_join(., sample_metadata, by = join_by(sample == sample)) %>%
@@ -114,7 +160,7 @@ alpha_div %>%
     theme_linedraw() + 
     theme(legend.position = "none")
 
-#Phylogenetic
+# Phylogenetic
 alpha_div %>%
   pivot_longer(-sample, names_to = "metric", values_to = "value") %>%
   left_join(., sample_metadata, by = join_by(sample == sample)) %>%
@@ -139,7 +185,7 @@ alpha_div %>%
         axis.text.x = element_text(angle = 45, hjust = 1)
       )
 
-#Functional
+# Functional
 alpha_div %>%
   pivot_longer(-sample, names_to = "metric", values_to = "value") %>%
   left_join(., sample_metadata, by = join_by(sample == sample)) %>%
@@ -166,7 +212,7 @@ alpha_div %>%
 ```
 
 ```{r alpha_div_trajectories, comment="", message=FALSE, warning=FALSE, fig.height=3, fig.width=10, fig.fullwidth=TRUE}
-#Richness
+# Richness
 alpha_div %>%
   pivot_longer(-sample, names_to = "metric", values_to = "value") %>%
   left_join(., sample_metadata, by = join_by(sample == sample)) %>%
@@ -260,6 +306,86 @@ alpha_div %>%
       )
 ```
 
+## Seed-oriented competition and cooperation scores
+
+```{r seed_scores, comment="", message=FALSE, warning=FALSE, fig.height=3, fig.width=10, fig.fullwidth=TRUE}
+
+sscores <- read_tsv("microbetag_analysis/mgg_prec/seeds_complementarity/seed_scores.tsv")
+# sscores <- sscores[sscores$A != sscores$B, ]
+
+# use the 'genome' column as index
+rownames(genome_counts_filt) <- genome_counts_filt$genome
+genome_counts_filt_ss <- genome_counts_filt[, setdiff(names(genome_counts_filt), "genome")]
+
+genome_counts_filt_ss <- genome_counts_filt_ss %>%
+  rownames_to_column(var = "genome") %>%       # turn rownames into a column
+  select(genome, everything())                 # ensure genome is first column
+
+
+# genome_counts_filt_ss <- dplyr::bind_cols(
+#   tibble(genome = genome_counts[[1]]),
+#   genome_counts_filt_ss
+# )
+
+# Make the genome column, index of the tibble
+# genome_counts_filt_ss <- tibble::column_to_rownames(genome_counts_filt, var = "genome")
+genome_counts_filt_ss <- genome_counts_filt %>%
+  as.data.frame() %>%                     # convert tibble to data.frame
+  column_to_rownames(var = "genome") 
+
+
+# get all pairwise combinations of genomes for each column based on non-zero values
+pairs_per_col <- lapply(genome_counts_filt, function(col) {
+  nz <- rownames(genome_counts_filt_ss)[col != 0]
+  if (length(nz) >= 2) {
+    combn(nz, 2, simplify = FALSE)
+  } else {
+    list()
+  }
+})
+
+
+pairs_df <- bind_rows(lapply(names(pairs_per_col), function(colname) {
+  if (length(pairs_per_col[[colname]]) > 0) {
+    tibble(
+      col = colname,
+      A = sapply(pairs_per_col[[colname]], `[`, 1),
+      B = sapply(pairs_per_col[[colname]], `[`, 2)
+    )
+  }
+}))
+
+pairs_df <- pairs_df[pairs_df$col != "genome", ]
+
+
+# Join with sscores on (A, B)
+pairs_with_scores <- pairs_df %>%
+  left_join(sscores %>% select(A, B, Competition, Complementarity), by = c("A", "B"))
+
+# Get average competition and complementarity scores based on the pairwise taxa found present in each sample
+sscores_per_sample <- pairs_with_scores %>%
+  group_by(col) %>%
+  summarise(
+    mean_competition     = mean(Competition, na.rm = TRUE),
+    sd_competition       = sd(Competition, na.rm = TRUE),
+    mean_complementarity = mean(Complementarity, na.rm = TRUE),
+    sd_complementarity   = sd(Complementarity, na.rm = TRUE)
+  )
+
+sscores_per_sample <- sscores_per_sample %>%
+  rename(sample = col)
+
+sscores_per_sample_df <- as.data.frame(sscores_per_sample)
+
+q <- sscores_per_sample  %>% 
+    as.data.frame() %>% 
+    left_join(sample_metadata, by = join_by(sample == sample)) %>% 
+    group_by(sample,treatment,day)
+
+
+```
+
+
 ## Alpha diversity vs. MCI
 
 ```{r alpha_div_vs mci, comment="", message=FALSE, warning=FALSE, fig.height=3, fig.width=10, fig.fullwidth=TRUE}
@@ -270,22 +396,12 @@ alpha <- alpha_div %>%
   filter(metric=="richness") %>%
   select(sample,alpha)
 
-mci <- genome_gifts %>%
-    to.elements(., GIFT_db) %>% 
-    to.functions(., GIFT_db) %>% 
-    to.community(., genome_counts_filt %>%
-                    mutate_at(vars(-genome),~./sum(.)) %>%
-                   column_to_rownames(var="genome"), GIFT_db) %>% 
-    as.data.frame() %>% 
-    rownames_to_column(var="sample") %>% 
-    pivot_longer(-sample, names_to = "trait", values_to = "mci") %>%
-    left_join(sample_metadata, by = join_by(sample == sample)) %>% 
-    group_by(sample,treatment,day) %>% 
-    summarise(mci=mean(mci)) %>% 
-    filter(treatment != "TG0") 
+# transmute() works like mutate() but drops all other columns except the ones you explicitly create or keep.
+shannon <- neutral %>%
+  transmute(sample, shannon = log(neutral))
 
-inner_join(alpha,mci,by="sample") %>%
-      ggplot(aes(y = alpha, x = mci)) +
+inner_join(alpha, q, by="sample") %>%
+      ggplot(aes(y = alpha, x = mean_complementarity )) +
       geom_smooth(method = "glm", 
                   formula = y~x, 
                   method.args = list(family = gaussian(link = 'log')),
@@ -294,9 +410,183 @@ inner_join(alpha,mci,by="sample") %>%
       scale_color_manual(name="Treatment",
       breaks=c("TG1","TG2","TG3","TG4","TG5"),
       values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
-      theme_classic() + 
-        theme(legend.position = "none")
+
+      scale_color_manual(
+        name = "Treatment",
+        breaks = c("TG1","TG2","TG3","TG4","TG5"),
+        values = c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")
+      ) +
+      theme_classic() +
+      theme(legend.position = "right")  # show the legend  
+
+
+shannon <- shannon %>% as.tibble()
+
+p1 <- inner_join(shannon, q, by="sample") %>%
+      ggplot(aes(y = shannon, x = mean_competition  )) +
+      geom_smooth(method = "glm", 
+                  formula = y~x, 
+                  method.args = list(family = gaussian(link = 'log')),
+                  color="#999999") +
+      geom_point(aes(color=treatment)) +
+      scale_color_manual(name="Treatment",
+      breaks=c("TG1","TG2","TG3","TG4","TG5"),
+      values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+
+      scale_color_manual(
+        name = "Treatment",
+        breaks = c("TG1","TG2","TG3","TG4","TG5"),
+        values = c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")
+      ) +
+      theme_classic() +
+      theme(legend.position = "right")  # show the legend  
+
+p1
+p2 <- inner_join(shannon, q, by="sample") %>%
+      ggplot(aes(y = shannon, x = mean_complementarity / mean_competition )) +
+      geom_smooth(method = "glm", 
+                  formula = y~x, 
+                  method.args = list(family = gaussian(link = 'log')),
+                  color="#999999") +
+      geom_point(aes(color=treatment)) +
+      scale_color_manual(name="Treatment",
+      breaks=c("TG1","TG2","TG3","TG4","TG5"),
+      values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
+      scale_color_manual(
+        name = "Treatment",
+        breaks = c("TG1","TG2","TG3","TG4","TG5"),
+        values = c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")
+      ) +
+      theme_classic() +
+      theme(legend.position = "right")  # show the legend  
+
+
+ggsave("microbetag_analysis/figs/seed_stats/alphaDiv_complementarity.svg", plot = p1, width = 8, height = 6)
+
+
+p3 <- inner_join(alpha, q, by = "sample") %>%
+  mutate(day = factor(day, levels = c(7, 14, 21, 28, 35))) %>%
+  ggplot(aes(y = alpha, x = mean_complementarity / mean_competition)) +
+  geom_smooth(method = "glm", 
+              formula = y ~ x, 
+              method.args = list(family = gaussian(link = 'log')),
+              color = "#999999") +
+  geom_point(aes(color = day)) +
+  scale_color_manual(
+    name = "Day",
+    values = c("#4059AE", "#6A9AC3", "#97D8C4", "#AFD699", "#F3B942")
+  ) +
+  theme_classic() +
+  theme(legend.position = "right")
+
+
+
+p4 <- inner_join(shannon, q, by = "sample") %>%
+  mutate(day = factor(day, levels = c(7, 14, 21, 28, 35))) %>%
+  ggplot(aes(y = shannon, x = mean_complementarity / mean_competition)) +
+  geom_smooth(method = "glm", 
+              formula = y ~ x, 
+              method.args = list(family = gaussian(link = 'log')),
+              color = "#999999") +
+  geom_point(aes(color = day)) +
+  scale_color_manual(
+    name = "Day",
+    values = c("#4059AE", "#6A9AC3", "#97D8C4", "#AFD699", "#F3B942")
+  ) +
+  theme_classic() +
+  theme(legend.position = "right")
 
 ```
+
+
+
+
+### random pick sets of genomes of different size (n=100, 200, 500, 1000, genomes etc. )
+and check whether we have a null hypothesis test
+
+```{r}
+df <- sscores
+set.seed(132)
+
+min_k <- 500
+n <- nrow(df)
+
+
+results_list <- vector("list", 10)   # store all 10 runs
+
+for (run in 1:10) {
+
+  # 1 — generate the 1000 random dfs
+  dfs <- lapply(1:1000, function(i) {
+    k <- sample(min_k:n, 1)
+    df[sample(n, k), ]
+  })
+
+  # 2 — compute summary stats for each
+  result <- map_dfr(seq_along(dfs), function(i) {
+    dfs[[i]] %>%
+      summarise(
+        id = i,
+        meanCompetition     = mean(Competition, na.rm = TRUE),
+        meanComplementarity = mean(Complementarity, na.rm = TRUE),
+        size                = nrow(dfs[[i]])
+      )
+  })
+
+  # 3 — correlation tests
+  cor_comp   <- cor.test(result$size, result$meanCompetition)
+  p_fdr_comp <- p.adjust(cor_comp$p.value, method = "fdr")
+  cor_compl <- cor.test(result$size, result$meanComplementarity)
+  p_fdr_compl  <- p.adjust(cor_compl$p.value, method = "fdr")
+
+  # 4 — store everything from this run
+  results_list[[run]] <- list(
+    summary = result,
+    cor_competition     = cor_comp,
+    fdr_competition     = p_fdr_comp,
+    cor_complementarity = cor_compl,
+    fdr_complementarity = p_fdr_compl
+  )
+}
+```
+
+
+```{r}
+hist(result$size,
+     breaks = 30,
+     main = "Size of the dataframes samples distibution",
+     xlab = "Sample size",
+     ylab = "Count",
+     col = "lightblue",
+     border = "white"
+)
+
+
+hist(result$meanCompetition,
+     breaks = 30,
+     main = "Mean competition distribution",
+     xlab = "Competition",
+     ylab = "Count",
+     col = "lightblue",
+     border = "white"
+)
+
+
+hist(result$meanComplementarity,
+     breaks = 30,
+     main = "Mean cooperation distribution",
+     xlab = "Cooperation",
+     ylab = "Count",
+     col = "lightblue",
+     border = "white"
+)
+
+
+
+```
+
+
+competition score ~ genome size 
+
 
 

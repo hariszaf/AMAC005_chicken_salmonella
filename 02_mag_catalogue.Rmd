@@ -20,10 +20,10 @@ circular_tree <- force.ultrametric(genome_tree, method="extend") %>% # extend to
     ggtree(., layout="fan", open.angle=10, size=0.5)
 
 # Add phylum ring
-circular_tree <- gheatmap(circular_tree, phylum_heatmap, offset=0.55, width=0.1, colnames=FALSE) +
-        scale_fill_manual(values=phylum_colors) +
-        geom_tiplab2(size=1, hjust=-0.1) +
-        theme(legend.position = "none", plot.margin = margin(0, 0, 0, 0), panel.margin = margin(0, 0, 0, 0))
+# circular_tree <- gheatmap(circular_tree, phylum_heatmap, offset=0.55, width=0.1, colnames=FALSE) +
+#         scale_fill_manual(values=phylum_colors) +
+#         geom_tiplab2(size=1, hjust=-0.1) +
+#         theme(legend.position = "none", plot.margin = margin(0, 0, 0, 0), panel.margin = margin(0, 0, 0, 0))
 
 # Flush color scale to enable a new color scheme in the next ring
 circular_tree <- circular_tree + new_scale_fill()
@@ -151,7 +151,6 @@ genome_metadata %>%
 ## Functional overview
 
 ```{r function_heatmap, message=FALSE, warning=FALSE, fig.height=10, fig.width=10, fig.fullwidth=TRUE}
-
 order_heatmap <- genome_metadata %>%
     arrange(match(genome, genome_tree$tip.label)) %>%
     select(genome,order) %>%
