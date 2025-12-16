@@ -619,7 +619,7 @@ p1 <- ggplot(sscores_length, aes(x = length_ratio, y = Complementarity)) +
   annotate("text",
            x = Inf, y = Inf, label = stats_coop,
            hjust = 1.1, vjust = 1.2,
-           size = 4, color="black", family="Inter-Medium"
+           size = 3, color="black", family="Inter-Medium"
   ) +
   labs(
     x = "Genome size ratio ( A / (A+B) )",
@@ -635,7 +635,7 @@ p2 <- ggplot(sscores_length, aes(x = length_ratio, y = Competition)) +
   annotate("text",
            x = Inf, y = Inf, label = stats_comp,
            hjust = 1.1, vjust = 1.2,
-           size = 4, color="black", family="Inter-Medium"
+           size = 3, color="black", family="Inter-Medium"
   ) +
   labs(
     x = "Genome size ratio ( A / (A+B) )",
@@ -710,6 +710,18 @@ samples_length_scores_S <- pairs_per_sample_S %>%
   ) %>% 
   merge(neutral, by="sample")
 
+samples_length_scores_LS <- pairs_per_sample_LS %>%
+  group_by(sample) %>%
+  summarise(
+    mean_genome_size_ratio = mean(size_ratio, na.rm = TRUE),
+    mean_competition  = mean(Competition,  na.rm = TRUE),
+    mean_cooperation  = mean(Cooperation,  na.rm = TRUE)
+  ) %>% 
+  merge(neutral, by="sample")
+
+
+
+
 w1 <- plot_lm_relationship(df= samples_length_scores_S, x_var = "mean_genome_size_ratio", y_var = "mean_cooperation", color_var = "neutral", var_label = "genome size ratio considering smaller genome as beneficiary")
 w2 <- plot_lm_relationship(df= samples_length_scores_S, x_var = "mean_genome_size_ratio", y_var = "mean_competition", color_var = "neutral", var_label = "genome size ratio considering smaller genome as beneficiary")
 w3 <- plot_lm_relationship(df= samples_length_scores_L, x_var = "mean_genome_size_ratio", y_var = "mean_cooperation", color_var = "neutral", var_label = "genome size ratio considering larger genome as beneficiary")
@@ -767,19 +779,26 @@ make_hist <- function(data, variable, title) {
     geom_histogram(fill = "#69b3a2", color = "#e9ecef", alpha = 0.9) +
     ggtitle(title) +
     theme_ipsum() +
-    theme(plot.title = element_text(size = 15))
+    theme(
+      plot.title  = element_text(size = 15),
+      axis.title.x = element_text(size = 14),
+      axis.title.y = element_text(size = 14),
+      axis.text.x  = element_text(size = 12),
+      axis.text.y  = element_text(size = 12)
+    ) 
 }
-q1 <- make_hist(samples_length_scores, "mean_competition",
+
+q1 <- make_hist(samples_length_scores_LS, "mean_competition",
                 "Mean competition per sample")
 
-q2 <- make_hist(samples_length_scores, "mean_cooperation",
+q2 <- make_hist(samples_length_scores_LS, "mean_cooperation",
                 "Mean cooperation per sample")
 
-q3 <- make_hist(samples_length_scores_neutral, "neutral",
-                "Neutral index")
-
-q4 <- make_hist(samples_mean_scors_based_on_pos_neutral, "mean_complementarity", 
-          "Mean cooperation per sample on co-occurrying taxa")
+# q3 <- make_hist(samples_length_scores_neutral, "neutral",
+#                 "Neutral index")
+# 
+# q4 <- make_hist(samples_mean_scors_based_on_pos_neutral, "mean_complementarity", 
+#           "Mean cooperation per sample on co-occurrying taxa")
 
 # q <- (q1 | q2 | q3)
 
@@ -907,11 +926,18 @@ samples_mean_scors_based_on_pos_neutral_S <-samples_mean_scors_based_on_pos_S %>
   select(sample, treatment, day, mean_competition, mean_complementarity, mean_genome_size) %>% 
   left_join(neutral, by="sample")
 
-lm_model              <- lm(mean_genome_size ~ mean_complementarity, data = samples_mean_scors_based_on_pos_neutral_S)
+
+lm_model                 <- lm(mean_genome_size ~ mean_complementarity, data = samples_mean_scors_based_on_pos_neutral_S)
 compl_gneomesize_stats_S <- paste(get_lm_stats(lm_model), collapse = "\n")
 
 lm_model                  <- lm(mean_genome_size ~ mean_competition, data = samples_mean_scors_based_on_pos_neutral_S)
 compet_genomesize_stats_S <- paste(get_lm_stats(lm_model), collapse = "\n")
+
+lm_model              <- lm(neutral ~ mean_complementarity, data = samples_mean_scors_based_on_pos_neutral_S)
+compl_neutral_stats_S <- paste(get_lm_stats(lm_model), collapse = "\n")
+
+lm_model               <- lm(neutral ~ mean_competition, data = samples_mean_scors_based_on_pos_neutral_S)
+compet_neutral_stats_S <- paste(get_lm_stats(lm_model), collapse = "\n")
 
 r1_S <- plot_neutral_mean(
   samples_mean_scors_based_on_pos_neutral_S,
@@ -920,7 +946,7 @@ r1_S <- plot_neutral_mean(
   "mean cooperation", 
   "S- mean genome size ratio for positive associations vs sample's mean cooperation",
   compl_gneomesize_stats_S,
-  "treatment", "day", "neutral"
+  "day", "treatment", "neutral"
 )
 
 r2_S <- plot_neutral_mean(
@@ -933,13 +959,31 @@ r2_S <- plot_neutral_mean(
   "day", "treatment", "neutral"
 )
 
+r3_S <- plot_neutral_mean(
+  samples_mean_scors_based_on_pos_neutral_S,
+  "neutral",  "mean_complementarity", 
+  "neutral",
+  "mean cooperation", 
+  "S- mean genome size ratio for positive associations vs sample's mean cooperation",
+  compl_neutral_stats_S,
+  "day", "treatment", "mean_genome_size"
+)
 
+r4_S <- plot_neutral_mean(
+  samples_mean_scors_based_on_pos_neutral_S,
+  "neutral",  "mean_competition", 
+  "neutral",  
+  "sample's mean competition", 
+  "S- mean genome size ratio (positive associations) vs sample's mean competition",
+  compet_neutral_stats_S, 
+  "day", "treatment", "mean_genome_size"
+)
 
-rr <- (r1_L | r2_L) /
-      (r1_S | r2_S ) +
+# rr <- (r1_L | r2_L) /
+rr <- (r1_S | r2_S ) +
       plot_layout(guides = "collect")
 
-ggsave("coop_S_based_on_pos_assoc.png", r1_S, dpi=300, width = 12, height=8)
+ggsave("coop_comp_S_based_on_pos_assoc.png", rr, dpi=300, width = 18, height=8)
 
 
 
@@ -962,13 +1006,6 @@ ggsave("neutral_based_on_pos_assoc.png", rr, dpi=300, width = 18, height=15)
 `samples_length_scores`
 
 `samples_mean_scors_based_on_pos_neutral`
-
-
-
-
-
-
-
 
 
 
@@ -1285,5 +1322,3 @@ plot_lm_relationship <- function(df, x_var, y_var,
 
 
 ```
-
-
