@@ -55,7 +55,7 @@ library(tinytable)
 library(broom)
 library(broom.mixed)
 library(rlang)
-
+library(readxl)
 
 # For tree handling
 library(ape)
@@ -74,6 +74,9 @@ library(grid)
 library(gridExtra)
 library(corrplot)
 library(png)
+library(patchwork)
+library(hrbrthemes)
+
 
 # For statistics
 library(microbiome)

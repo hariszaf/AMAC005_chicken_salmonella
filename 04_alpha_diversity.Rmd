@@ -24,20 +24,12 @@ neutral <- genome_counts_filt %>%
   dplyr::rename(neutral = 1) %>%
   rownames_to_column(var = "sample")
 
-# phylogenetic <- genome_counts_filt %>%
-#   column_to_rownames(var = "genome") %>%
-#   dplyr::select(where(~ !all(. == 0))) %>%
-#   hilldiv(., q = 1, tree = genome_tree) %>%
-#   t() %>%
-#   as.data.frame() %>%
-#   dplyr::rename(phylogenetic = 1) %>%
-#   rownames_to_column(var = "sample")
-
-
 w <- genome_counts_filt %>%
   as.data.frame() %>%
   column_to_rownames(var = "genome") %>%
   dplyr::select(where(~ !all(. == 0)))
+
+# Phylo
 
 # Keep only genomes present in both the table and the tree
 common_genomes <- intersect(rownames(w), genome_tree$tip.label)
@@ -49,7 +41,6 @@ tree_subset <- drop.tip(genome_tree, setdiff(genome_tree$tip.label, common_genom
 # Now run hilldiv
 phylogenetic <- hilldiv(w_subset, q = 1, tree = tree_subset)
 
-
 # Aggregate basal GIFT into elements
 dist <- genome_gifts %>%
   to.elements(., GIFT_db) %>%
@@ -59,18 +50,6 @@ dist <- genome_gifts %>%
 dist_filt <- dist[!rownames(dist) %in% c("GEXTRA:bin_000002", "GEXTRA:bin_000006"), 
                                !colnames(dist) %in% c("GEXTRA:bin_000002", "GEXTRA:bin_000006")]
 
-# functional <- genome_counts_filt %>%
-#   arrange(match(genome,rownames(dist))) %>%
-#   filter(!genome %in% c("GEXTRA:bin_000002", "GEXTRA:bin_000006")) %>% 
-#   column_to_rownames(var = "genome") %>%
-#   dplyr::select(where(~ !all(. == 0))) %>%
-#   hilldiv(., q = 1, dist = dist_filt) %>%
-#   t() %>%
-#   as.data.frame() %>%
-#   dplyr::rename(functional = 1) %>%
-#   rownames_to_column(var = "sample") %>%
-#   mutate(functional = if_else(is.nan(functional), 1, functional))
-
 # Keep only genomes present in dist_filt
 common_genomes <- intersect(genome_counts_filt$genome, rownames(dist_filt))
 
@@ -79,7 +58,6 @@ functional <- genome_counts_filt %>%
   arrange(match(genome, rownames(dist_filt))) %>% # reorder to match dist_filt
   column_to_rownames(var = "genome") %>%
   dplyr::select(where(~ !all(. == 0)))           # remove all-zero samples
-
 
 # For phylogenetic (single row, q1)
 phylogenetic_df <- phylogenetic %>%
@@ -100,11 +78,6 @@ alpha_div <- richness %>%
   full_join(neutral, by = "sample") %>%
   full_join(phylogenetic_df, by = "sample") %>%
   full_join(functional_df, by = "sample")
-
-# alpha_div <- richness %>%
-#   full_join(neutral, by = join_by(sample == sample)) %>%
-#   full_join(phylogenetic, by = join_by(sample == sample)) %>%
-#   full_join(functional, by = join_by(sample == sample))
 ```
 
 ```{r alpha_div_boxplot, comment="", message=FALSE, warning=FALSE, fig.height=3, fig.width=10, fig.fullwidth=TRUE}
@@ -322,11 +295,6 @@ genome_counts_filt_ss <- genome_counts_filt_ss %>%
   select(genome, everything())                 # ensure genome is first column
 
 
-# genome_counts_filt_ss <- dplyr::bind_cols(
-#   tibble(genome = genome_counts[[1]]),
-#   genome_counts_filt_ss
-# )
-
 # Make the genome column, index of the tibble
 # genome_counts_filt_ss <- tibble::column_to_rownames(genome_counts_filt, var = "genome")
 genome_counts_filt_ss <- genome_counts_filt %>%
@@ -396,34 +364,27 @@ alpha <- alpha_div %>%
   filter(metric=="richness") %>%
   select(sample,alpha)
 
-# transmute() works like mutate() but drops all other columns except the ones you explicitly create or keep.
-shannon <- neutral %>%
-  transmute(sample, shannon = log(neutral))
 
-inner_join(alpha, q, by="sample") %>%
-      ggplot(aes(y = alpha, x = mean_complementarity )) +
-      geom_smooth(method = "glm", 
-                  formula = y~x, 
-                  method.args = list(family = gaussian(link = 'log')),
-                  color="#999999") +
-      geom_point(aes(color=treatment)) +
-      scale_color_manual(name="Treatment",
-      breaks=c("TG1","TG2","TG3","TG4","TG5"),
-      values=c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")) +
-
-      scale_color_manual(
-        name = "Treatment",
-        breaks = c("TG1","TG2","TG3","TG4","TG5"),
-        values = c("#4059AE", "#6A9AC3","#97D8C4","#AFD699","#F3B942")
-      ) +
-      theme_classic() +
-      theme(legend.position = "right")  # show the legend  
+# df_plot <- inner_join(alpha, q, by="sample")     # TAKE CARE ALPHA OR SHANNOT
+df_plot <- inner_join(neutral, q, by="sample")
 
 
-shannon <- shannon %>% as.tibble()
 
-p1 <- inner_join(shannon, q, by="sample") %>%
-      ggplot(aes(y = shannon, x = mean_competition  )) +
+
+p1 <- plot_neutral_vs(df_plot, "mean_competition")
+p2 <- plot_neutral_vs(df_plot, "mean_complementarity")
+
+p1 + p2  # side-by-side
+p_combined <- p1 + p2
+ggsave("neutral_comp_compl.png", p_combined, width = 10, height = 6, dpi = 300)
+
+
+
+neutral <- neutral %>% as.tibble()
+
+p1 <- inner_join(neutral, q, by="sample") %>%
+      ggplot(aes(y = neutral, x = mean_competition  )) +
+      ggtitle("Mean competition vs Neutral diversity") + 
       geom_smooth(method = "glm", 
                   formula = y~x, 
                   method.args = list(family = gaussian(link = 'log')),
@@ -442,8 +403,11 @@ p1 <- inner_join(shannon, q, by="sample") %>%
       theme(legend.position = "right")  # show the legend  
 
 p1
-p2 <- inner_join(shannon, q, by="sample") %>%
-      ggplot(aes(y = shannon, x = mean_complementarity / mean_competition )) +
+
+
+
+p2 <- inner_join(neutral, q, by="sample") %>%
+      ggplot(aes(y = neutral, x = mean_complementarity / mean_competition )) +
       geom_smooth(method = "glm", 
                   formula = y~x, 
                   method.args = list(family = gaussian(link = 'log')),
@@ -481,9 +445,9 @@ p3 <- inner_join(alpha, q, by = "sample") %>%
 
 
 
-p4 <- inner_join(shannon, q, by = "sample") %>%
+p4 <- inner_join(neutral, q, by = "sample") %>%
   mutate(day = factor(day, levels = c(7, 14, 21, 28, 35))) %>%
-  ggplot(aes(y = shannon, x = mean_complementarity / mean_competition)) +
+  ggplot(aes(y = neutral, x = mean_complementarity / mean_competition)) +
   geom_smooth(method = "glm", 
               formula = y ~ x, 
               method.args = list(family = gaussian(link = 'log')),
@@ -500,8 +464,7 @@ p4 <- inner_join(shannon, q, by = "sample") %>%
 
 
 
-
-### random pick sets of genomes of different size (n=100, 200, 500, 1000, genomes etc. )
+Select random sets of genomes of different size (n=100, 200, 500, 1000, genomes etc. )
 and check whether we have a null hypothesis test
 
 ```{r}
@@ -509,8 +472,7 @@ df <- sscores
 set.seed(132)
 
 min_k <- 500
-n <- nrow(df)
-
+n     <- nrow(df)
 
 results_list <- vector("list", 10)   # store all 10 runs
 
@@ -551,42 +513,777 @@ for (run in 1:10) {
 ```
 
 
+competition score ~ genome size 
+
+
+
+
 ```{r}
-hist(result$size,
-     breaks = 30,
-     main = "Size of the dataframes samples distibution",
-     xlab = "Sample size",
-     ylab = "Count",
-     col = "lightblue",
-     border = "white"
+
+# --- Load & clean digesta ---
+digesta <- read_excel("microbetag_analysis/data/original_mets_data_20250113.xlsx", sheet = "Digesta") %>%
+  rename_with(~ sub("M$", "", .x))   # remove trailing 'M' in column names
+
+annotations <- read_excel(
+  "microbetag_analysis/data/original_mets_data_20250113.xlsx",
+  sheet = "Annotations"
+) %>% 
+  select(Feature_ID, Curated.ID)
+
+# --- Apply curated IDs and transpose ---
+digesta_t <- digesta %>%
+  left_join(annotations, by = "Feature_ID") %>%
+  select(-Feature_ID) %>%
+  column_to_rownames("Curated.ID") %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column("animal")
+
+# --- Load metadata & merge ---
+metadata <- read.csv("microbetag_analysis/data/sample_metadata_macro.csv")
+
+metadata_mets <- metadata %>%
+  left_join(digesta_t, by = "animal")
+
+# Remove blanks
+metadata_mets_filt <- metadata_mets %>% filter(treatment!="TG0") %>% filter(sample!="D300430")
+
+# Plot-per-met
+p1 <- plot_mets(metadata_mets_filt, metabolite = "L-Arginine")
+p2 <- plot_mets(metadata_mets_filt, metabolite = "L-Ornithine")
+p3 <- plot_mets(metadata_mets_filt, metabolite = "L-Proline")
+p4 <- plot_mets(metadata_mets_filt, metabolite = "Putrescine")
+p5 <- plot_mets(metadata_mets_filt, metabolite = "gamma-Aminobutyric acid")
+p6 <- plot_mets(metadata_mets_filt, metabolite = "Spermidine")
+
+mp <- (p1 | p4) /
+      (p2 | p5) / 
+      (p3 | p6)
+
+ggsave("mets.png", plot=mp, dpi=300,  width = 14, height = 18)
+```
+
+
+
+
+
+
+```{r}
+gems_nums       <- read.csv("microbetag_analysis/gems_numbers.csv")
+genome_metadata <- genome_metadata %>% merge(gems_nums, "genome")
+
+lm_model <- lm(reactions ~ length, data = genome_metadata)
+
+plot(genome_metadata$length, genome_metadata$reactions, pch=19, col="blue", xlab="Genome length", ylab="Number of reactions")
+abline(lm_model, col="red", lwd=2)
+
+# Add text with equation and R-squared
+legend("topleft", legend=get_lm_stats(lm_model), bty="n")
+```
+
+
+
+```{r}
+sscores_length <- sscores %>%
+  left_join(
+    genome_metadata %>% 
+      select(genome, length) %>% 
+      rename(length_A = length), by = c("A" = "genome")
+  ) %>%
+  left_join(
+    genome_metadata %>% 
+      select(genome, length) %>% 
+      rename(length_B = length), by = c("B" = "genome")
+  )
+
+sscores_length <- sscores_length %>% 
+  mutate(score_ratio = Complementarity / Competition ) %>% 
+  mutate(length_ratio = length_A / (length_A + length_B))
+
+
+
+# Models
+lm_coop <- lm(Complementarity ~ length_ratio, data = sscores_length)
+lm_comp <- lm(Competition ~ length_ratio,     data = sscores_length)
+lm_comp <- lm(Competition ~ length_ratio + I(length_ratio^2), data = sscores_length)
+
+
+# Stats as multi-line strings
+stats_coop <- paste(get_lm_stats(lm_coop), collapse = "\n")
+stats_comp <- paste(get_lm_stats(lm_comp), collapse = "\n")
+
+# Panel 1: Complementarity
+p1 <- ggplot(sscores_length, aes(x = length_ratio, y = Complementarity)) +
+  geom_point(alpha = 0.4, color = "blue") +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  annotate("text",
+           x = Inf, y = Inf, label = stats_coop,
+           hjust = 1.1, vjust = 1.2,
+           size = 4, color="black", family="Inter-Medium"
+  ) +
+  labs(
+    x = "Genome size ratio ( A / (A+B) )",
+    y = "Cooperation score",
+    title = "Genome size ratio vs Cooperation"
+  ) +
+  theme_ipsum_inter() 
+
+# Panel 2: Competition
+p2 <- ggplot(sscores_length, aes(x = length_ratio, y = Competition)) +
+  geom_point(alpha = 0.4, color = "blue") +
+  geom_smooth(method = "lm", formula = y ~ x + I(x^2), se = FALSE, color = "red") +
+  annotate("text",
+           x = Inf, y = Inf, label = stats_comp,
+           hjust = 1.1, vjust = 1.2,
+           size = 4, color="black", family="Inter-Medium"
+  ) +
+  labs(
+    x = "Genome size ratio ( A / (A+B) )",
+    y = "Competition score",
+    title = "Genome size ratio vs Competition"
+  ) +
+  theme_ipsum_inter() 
+
+w0 <- p1 | p2
+ggsave("coop_comp_vs_length_ratio.png", plot = w0, width = 12, height = 6, dpi=300)
+```
+
+
+/////////////////////////////////
+USING ALL PAIRS PRESENT ON A SAMPLE
+/////////////////////////////////
+
+
+
+
+```{r}
+pairs_per_sample <- get_nonzero_pairs(genome_counts_filt_ss)
+pairs_per_sample <- pairs_per_sample %>%
+  left_join(
+    sscores_length %>% 
+      select(A, B, length_A, length_B) %>%
+      rename(length_A = length_A, ), by = c("A" = "A", "B" = "B")
+  ) %>% 
+  left_join(
+    sscores_length %>% 
+      select(A, B, Competition) %>%
+      rename(Competition = Competition), by = c("A" = "A", "B" = "B")
+  ) %>% 
+  left_join(
+    sscores_length %>% 
+      select(A, B, Complementarity) %>%
+      rename(Cooperation = Complementarity), by = c("A" = "A", "B" = "B")
+  )
+
+
+pairs_per_sample_LS <- pairs_per_sample %>%
+    dplyr::mutate(
+        A_length_class = if_else(length_A / (length_A + length_B) >= 0.5, "L", "S")
+    )
+
+pairs_per_sample_LS <- pairs_per_sample_LS %>% mutate(size_ratio = (length_A - length_B) / (length_A + length_B) )
+
+
+# Using scores where the genome with the largest size is being considered as A, i.e. as potential beneficiary
+pairs_per_sample_L <- pairs_per_sample_LS %>%
+  filter(A_length_class == "L")
+
+pairs_per_sample_S <- pairs_per_sample_LS %>%
+  filter(A_length_class == "S")
+
+# 
+samples_length_scores_L <- pairs_per_sample_L %>%
+  group_by(sample) %>%
+  summarise(
+    mean_genome_size_ratio = mean(size_ratio, na.rm = TRUE),
+    mean_competition  = mean(Competition,  na.rm = TRUE),
+    mean_cooperation  = mean(Cooperation,  na.rm = TRUE)
+  ) %>%
+  merge(neutral, by="sample")
+
+samples_length_scores_S <- pairs_per_sample_S %>%
+  group_by(sample) %>%
+  summarise(
+    mean_genome_size_ratio = mean(size_ratio, na.rm = TRUE),
+    mean_competition  = mean(Competition,  na.rm = TRUE),
+    mean_cooperation  = mean(Cooperation,  na.rm = TRUE)
+  ) %>% 
+  merge(neutral, by="sample")
+
+w1 <- plot_lm_relationship(df= samples_length_scores_S, x_var = "mean_genome_size_ratio", y_var = "mean_cooperation", color_var = "neutral", var_label = "genome size ratio considering smaller genome as beneficiary")
+w2 <- plot_lm_relationship(df= samples_length_scores_S, x_var = "mean_genome_size_ratio", y_var = "mean_competition", color_var = "neutral", var_label = "genome size ratio considering smaller genome as beneficiary")
+w3 <- plot_lm_relationship(df= samples_length_scores_L, x_var = "mean_genome_size_ratio", y_var = "mean_cooperation", color_var = "neutral", var_label = "genome size ratio considering larger genome as beneficiary")
+w4 <- plot_lm_relationship(df= samples_length_scores_L, x_var = "mean_genome_size_ratio", y_var = "mean_competition", color_var = "neutral", var_label = "genome size ratio considering larger genome as beneficiary")
+
+w <- (w1 | w2) / (w3 | w4) + plot_layout(guides = "collect")
+
+ggsave("S_L_comp_coop.png", w, width = 16, height = 12, dpi = 300)
+```
+
+
+```{r}
+samples_length_scores_neutral <- samples_length_scores_S %>%
+  merge(neutral, by="sample")
+
+lm_model <- lm(mean_genome_size_ratio ~ mean_competition, data = samples_length_scores_neutral)
+stats <- paste(get_lm_stats(lm_model), collapse = "\n")
+
+ww1 <- ggplot(
+  samples_length_scores_neutral, 
+  aes(
+    x = mean_genome_size_ratio, 
+    y = mean_competition, 
+    color = neutral)
+  ) +
+  geom_point(size = 3, alpha = 0.7) +   # fixed size, transparency
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  annotate(
+      "text",
+      x = -Inf, y = Inf,
+      label = stats,
+      hjust = -0.1, vjust = 1.1,
+      size = 4,
+      fontface = "bold"
+  ) +
+  scale_color_gradient(low = "blue", high = "orange") +
+  labs(
+      x = "Mean competition",
+      y = "Mean genome size ratio ( A / (A+B) )",
+      color = "neutral index",
+      # title = "Mean pairwise competition ~ genome size ratio of a sample's taxa"
+  ) +
+  theme_bw()
+
+ggsave("per_sample_length_competition_neutral.png", w2, width = 10, height = 6, dpi = 300)
+```
+
+
+
+
+```{r}
+
+make_hist <- function(data, variable, title) {
+  ggplot(data, aes(x = .data[[variable]])) +
+    geom_histogram(fill = "#69b3a2", color = "#e9ecef", alpha = 0.9) +
+    ggtitle(title) +
+    theme_ipsum() +
+    theme(plot.title = element_text(size = 15))
+}
+q1 <- make_hist(samples_length_scores, "mean_competition",
+                "Mean competition per sample")
+
+q2 <- make_hist(samples_length_scores, "mean_cooperation",
+                "Mean cooperation per sample")
+
+q3 <- make_hist(samples_length_scores_neutral, "neutral",
+                "Neutral index")
+
+q4 <- make_hist(samples_mean_scors_based_on_pos_neutral, "mean_complementarity", 
+          "Mean cooperation per sample on co-occurrying taxa")
+
+# q <- (q1 | q2 | q3)
+
+b1 <- make_hist(sscores, "Competition", "Distribution of the seed competition score")
+b2 <- make_hist(sscores, "Complementarity", "Distribution of the seed cooperation score")
+
+q <- (b1 | b2) /
+    (q1 | q2)
+
+ggsave("comp_coop_mean_comp_coop.png", q, dpi=300, width = 12, height = 9)
+```
+
+
+
+
+//////////////////////////////////////////
+USING ONLY POSITIVE CORRELATED PAIRS
+//////////////////////////////////////////
+
+
+
+
+```{r}
+
+file <- "microbetag_analysis/associations.xlsx"
+associations <- excel_sheets(file) %>%
+  set_names() %>%                           # <-- important: name the list!
+  map_dfr(~ read_excel(file, sheet = .x), 
+          .id = "sheet")
+
+associations_scores <- associations %>%
+  filter(A %in% genome_metadata$genome & B %in% genome_metadata$genome ) %>%
+  merge(
+    sscores_length, 
+    by=c("A","B")
+  )
+
+# associations_scores: the networks association across the 11 nets built -- column 'sheet' stands for network where the association was found 
+# pairs_per_sample:    all the non-zero genome pairs based on the global abundance with prev 20
+# samples_per_pair:    for each pair, list samples that pair was found 
+samples_per_pair <- pairs_per_sample %>%
+  group_by(A, B) %>%
+  summarise(samples = list(sample), .groups = "drop")
+
+pos_associations_scores <- associations_scores %>%
+  left_join(samples_per_pair, by = c("A", "B")) %>%
+  filter(!map_lgl(samples, is.null)) %>% 
+  filter(weight >= 0)
+
+pos_associations_scores_exp <- pos_associations_scores %>%
+  # The unnest() function expands a list-column containing data frames into rows and columns.
+  unnest(samples) %>% 
+  rename(sample = samples) %>% 
+  left_join(sample_metadata, by = "sample")
+  
+
+pos_associations_scores_exp_filt <- pos_associations_scores_exp %>%
+    filter(sheet == treatment |
+           sheet == day |
+           sheet == "global"
+    )
+
+pos_associations_scores_exp_filt_LS <- pos_associations_scores_exp_filt %>%
+    dplyr::mutate(
+        A_length_class = if_else(length_A / (length_A + length_B) >= 0.5, "L", "S")
+    ) %>% 
+  mutate(size_ratio = (length_A - length_B) / (length_A + length_B) )
+
+
+pos_associations_scores_exp_filt_L <- pos_associations_scores_exp_filt_LS %>% filter(A_length_class=="L")
+pos_associations_scores_exp_filt_S <- pos_associations_scores_exp_filt_LS %>% filter(A_length_class=="S")
+
+# L-
+samples_mean_scors_based_on_pos_L <- pos_associations_scores_exp_filt_L %>%
+  group_by(sample) %>%
+  summarise(
+    mean_competition     = mean(Competition, na.rm = TRUE),
+    mean_complementarity = mean(Complementarity, na.rm = TRUE),
+    mean_genome_size     = mean((length_A - length_B)/(length_A + length_B), na.rm = TRUE)
+  )
+
+samples_mean_scors_based_on_pos_neutral_L <-samples_mean_scors_based_on_pos_L %>% 
+  left_join(metadata, by = "sample") %>% 
+  select(sample, treatment, day, mean_competition, mean_complementarity, mean_genome_size) %>% 
+  left_join(neutral, by="sample")
+
+lm_model                 <- lm(mean_genome_size ~ mean_complementarity, data = samples_mean_scors_based_on_pos_neutral_L)
+compl_genomesize_stats_L <- paste(get_lm_stats(lm_model), collapse = "\n")
+
+lm_model                  <- lm(mean_genome_size ~ mean_competition, data = samples_mean_scors_based_on_pos_neutral_L)
+compet_genomesize_stats_L <- paste(get_lm_stats(lm_model), collapse = "\n")
+
+r1_L <- plot_neutral_mean(
+  samples_mean_scors_based_on_pos_neutral_L,
+  "mean_genome_size",  "mean_complementarity", 
+  "mean genome size difference",  
+  "sample's mean cooperation", 
+  "L- mean genome size ratio for positive associations vs sample's mean cooperation",
+  compl_genomesize_stats_L,
+  "treatment", "day", "neutral"
+)
+
+r2_L <- plot_neutral_mean(
+  samples_mean_scors_based_on_pos_neutral_L,
+  "mean_genome_size",
+  "mean_competition",
+  "mean genome size difference",
+  "sample's mean competition", "L- mean genome size ratio (positive associations) vs sample's mean competition",
+  compet_genomesize_stats_L, 
+  "day", "treatment", "neutral"
 )
 
 
-hist(result$meanCompetition,
-     breaks = 30,
-     main = "Mean competition distribution",
-     xlab = "Competition",
-     ylab = "Count",
-     col = "lightblue",
-     border = "white"
+# S-
+samples_mean_scors_based_on_pos_S <- pos_associations_scores_exp_filt_S %>%
+  group_by(sample) %>%
+  summarise(
+    mean_competition     = mean(Competition, na.rm = TRUE),
+    mean_complementarity = mean(Complementarity, na.rm = TRUE),
+    mean_genome_size     = mean((length_A - length_B)/(length_A + length_B), na.rm = TRUE)
+  )
+
+samples_mean_scors_based_on_pos_neutral_S <-samples_mean_scors_based_on_pos_S %>% 
+  left_join(metadata, by = "sample") %>% 
+  select(sample, treatment, day, mean_competition, mean_complementarity, mean_genome_size) %>% 
+  left_join(neutral, by="sample")
+
+lm_model              <- lm(mean_genome_size ~ mean_complementarity, data = samples_mean_scors_based_on_pos_neutral_S)
+compl_gneomesize_stats_S <- paste(get_lm_stats(lm_model), collapse = "\n")
+
+lm_model                  <- lm(mean_genome_size ~ mean_competition, data = samples_mean_scors_based_on_pos_neutral_S)
+compet_genomesize_stats_S <- paste(get_lm_stats(lm_model), collapse = "\n")
+
+r1_S <- plot_neutral_mean(
+  samples_mean_scors_based_on_pos_neutral_S,
+  "mean_genome_size",  "mean_complementarity", 
+  "mean genome size difference",
+  "mean cooperation", 
+  "S- mean genome size ratio for positive associations vs sample's mean cooperation",
+  compl_gneomesize_stats_S,
+  "treatment", "day", "neutral"
+)
+
+r2_S <- plot_neutral_mean(
+  samples_mean_scors_based_on_pos_neutral_S,
+  "mean_genome_size",  "mean_competition", 
+  "mean genome size difference",  
+  "sample's mean competition", 
+  "S- mean genome size ratio (positive associations) vs sample's mean competition",
+  compet_genomesize_stats_S, 
+  "day", "treatment", "neutral"
 )
 
 
-hist(result$meanComplementarity,
-     breaks = 30,
-     main = "Mean cooperation distribution",
-     xlab = "Cooperation",
-     ylab = "Count",
-     col = "lightblue",
-     border = "white"
-)
+
+rr <- (r1_L | r2_L) /
+      (r1_S | r2_S ) +
+      plot_layout(guides = "collect")
+
+ggsave("coop_S_based_on_pos_assoc.png", r1_S, dpi=300, width = 12, height=8)
 
 
+
+qq <- (r2 | r5) + plot_layout(guides = "collect")
+ggsave("mean_comp_vs_mean_size_neutral.png", qq, dpi=300, width = 18, height=6)
+
+rr <- (r1 | r2 ) /
+      (r3 | r4 ) /
+      (r5 |  plot_spacer()) +
+      plot_layout(guides = "collect")
+
+ggsave("neutral_based_on_pos_assoc.png", rr, dpi=300, width = 18, height=15)
 
 ```
 
 
-competition score ~ genome size 
 
+
+
+`samples_length_scores`
+
+`samples_mean_scors_based_on_pos_neutral`
+
+
+
+
+
+
+
+
+
+
+
+```{r Functions}
+get_nonzero_pairs <- function(df,
+                              directed = TRUE,
+                              self_pairs = FALSE,
+                              add_unordered_id = FALSE) {
+  #
+  # Get all pairwise genomes with non-zero values per sample
+  #
+
+  df <- df %>%
+    tibble::rownames_to_column("genome")
+
+  sample_cols <- setdiff(names(df), "genome")
+
+  purrr::map_dfr(sample_cols, function(samp) {
+
+    g <- df %>%
+      dplyr::filter(.data[[samp]] != 0) %>%
+      dplyr::pull(genome)
+
+    if (length(g) < 2 && !self_pairs)
+      return(NULL)
+
+    if (directed) {
+      pairs <- expand.grid(A = g, B = g, stringsAsFactors = FALSE)
+
+      if (!self_pairs)
+        pairs <- pairs %>% dplyr::filter(A != B)
+
+    } else {
+      if (self_pairs) {
+        pairs <- tibble::tibble(A = g, B = g)
+      } else {
+        pairs <- t(combn(g, 2)) %>%
+          as.data.frame(stringsAsFactors = FALSE) %>%
+          setNames(c("A", "B"))
+      }
+    }
+
+    pairs <- tibble::tibble(sample = samp) %>%
+      dplyr::bind_cols(pairs)
+
+    if (add_unordered_id) {
+      pairs <- pairs %>%
+        dplyr::mutate(
+          unordered_id = paste(pmin(A, B), pmax(A, B), sep = "__")
+        )
+    }
+
+    pairs
+  })
+}
+# 
+# get_nonzero_pairs <- function(df) {
+#   #
+#   # Function to get all pairwise genomes with non-zero values per sample from a df
+#   #
+# 
+#   df <- df %>%
+#     tibble::rownames_to_column("genome")   # <- convert rownames to column
+# 
+#   sample_cols <- setdiff(names(df), "genome")
+# 
+#   map_dfr(sample_cols, function(samp) {
+#     g <- df %>% filter(.data[[samp]] != 0) %>% pull(genome)
+# 
+#     if (length(g) < 2)
+#       return(NULL)
+# 
+#     pairs <- t(combn(g, 2))
+# 
+#     tibble(sample = samp,
+#            A = pairs[, 1],
+#            B = pairs[, 2])
+#   })
+# }
+
+get_lm_stats <- function(lm_model) {
+  #
+  # Function to get statistics from a linear model
+  #
+  summary_lm <- summary(lm_model)
+
+  # Extract coefficients
+  intercept <- summary_lm$coefficients[1,1]
+  slope <- summary_lm$coefficients[2,1]
+  
+  # Extract R-squared and p-value
+  r2      <- summary_lm$r.squared
+  p_value <- summary_lm$coefficients[2,4]
+
+  
+  eq_text <- paste0("y = ", round(slope, 3), "x + ", round(intercept, 1))
+  r2_text <- paste0("R² = ", round(r2, 3))
+  p_text <- paste0("p = ", signif(p_value, 3))
+  
+  return(c(eq_text, r2_text, p_text))
+} 
+
+plot_neutral_vs <- function(df, xvar) {
+  # 
+  # Plot neutral index vs mean competition, mean cooperation etc.
+  # 
+  
+  # convert the x-variable to a symbol for tidy evaluation
+  x_sym <- rlang::sym(xvar)
+  
+  # build formula programmatically
+  formula_lm <- stats::as.formula(paste("neutral ~", xvar))
+  
+  # fit linear model
+  lm_fit <- lm(formula_lm, data = df)
+  r2     <- summary(lm_fit)$r.squared
+  
+  # overall model p-value
+  fstat <- summary(lm_fit)$fstatistic
+  pval  <- pf(fstat[1], fstat[2], fstat[3], lower.tail = FALSE)
+  
+  label_text <- paste0(
+    "R² = ", signif(r2, 3),
+    ", p = ", signif(pval, 3)
+  )
+  
+  # build ggplot
+  p <- df %>%
+    ggplot(aes(x = !!x_sym, y = neutral)) +
+    geom_point(aes(color = treatment)) +
+    geom_smooth(
+      method = "glm",
+      formula = y ~ x,
+      method.args = list(family = gaussian(link = "log")),
+      color = "#999999"
+    ) +
+    annotate("text", x = Inf, y = Inf,
+             label = label_text,
+             size = 4 ,
+             hjust = 1.5, 
+             vjust = 2.5, 
+             size = 5
+    ) +
+    scale_color_manual(
+      name = "Treatment",
+      breaks = c("TG1", "TG2", "TG3", "TG4", "TG5"),
+      values = c("#4059AE", "#6A9AC3", "#97D8C4", "#AFD699", "#F3B942")
+    ) +
+    ggtitle(paste("neutral diversity vs", xvar)) +
+    theme_classic() +
+    theme(legend.position = "right")
+  
+  return(p)
+}
+
+plot_mets <- function(metadata_mets, treatment_col = "treatment", metabolite) {
+  #
+  # Function to plot a metabolite abundance 
+  #
+  ggplot(
+    metadata_mets,
+    aes(
+      x    = .data[[treatment_col]], 
+      y    = as.numeric(.data[[metabolite]]),
+      fill = .data[[treatment_col]])
+  ) +
+    geom_boxplot(alpha = 0.6) +
+    # Dots - values of each sample
+    geom_jitter(
+      width = 0.2, 
+      size = 2, 
+      # color="grey"
+    ) +
+    theme_classic(base_size = 14) +
+    labs(
+      title = paste0(metabolite, " per Treatment"),
+      x     = "Treatment",
+      y     = paste0(metabolite, " concentration")
+    ) +
+    scale_fill_brewer(palette = "Set2") +
+
+    # Pairwise stats comparisons
+    stat_compare_means(
+      method      = "wilcox.test",
+      comparisons = combn(unique(metadata_mets[[treatment_col]]), 2, simplify = FALSE),
+      label       = "p.signif",
+      color       = "black"
+    ) +
+    
+    # Global p-value
+    stat_compare_means(
+      label.x = -Inf,
+      label.y = Inf,
+      hjust = -0.1,   # small move to the right
+      vjust = 1.2,     # small move downward from the top
+      color = "black"
+    )
+}
+
+plot_neutral_mean <- function(
+  df, 
+  x_data, y_data,
+  x_axis_text, y_axis_text, title_text, 
+  stats_label, 
+  color_data, shape_data, size_data
+) {
+  #
+  # Function to plot mean per sample based on network occurences
+  # 
+  df <- df %>%
+    mutate(
+      shape_var = as.factor(.data[[shape_data]]),
+      color_var = as.factor(.data[[color_data]]),
+      size_var  = .data[[size_data]]
+    )
+
+  ggplot(
+    df,
+    aes(
+      x = .data[[x_data]],
+      y = .data[[y_data]],
+      color = color_var
+    )
+  ) +
+    geom_point(
+      aes(
+        shape = shape_var,
+        size = size_var
+      )
+    ) +
+    geom_smooth(method = "lm", se = FALSE, color = "red") +
+    annotate(
+      "text",
+      x = -Inf, y = Inf,
+      label = stats_label,
+      hjust = -0.1, vjust = 1.1,
+      size = 4,
+      fontface = "bold"
+    ) +
+    labs(
+      x = x_axis_text,
+      y = y_axis_text,
+      title = title_text,
+      color = color_data,
+      shape = shape_data
+    ) +
+    theme_bw()
+}
+
+plot_lm_relationship <- function(df, x_var, y_var,
+                                 color_var = NULL,
+                                 var_label = NULL) {
+
+  # ---- checks ----
+  stopifnot(x_var %in% names(df))
+  stopifnot(y_var %in% names(df))
+
+  if (!is.null(color_var) && !color_var %in% names(df)) {
+    stop(sprintf("color_var '%s' not found in dataframe", color_var),
+         call. = FALSE)
+  }
+
+  # ---- model ----
+  lm_model <- lm(
+    as.formula(paste(x_var, "~", y_var)),
+    data = df
+  )
+  stats <- paste(get_lm_stats(lm_model), collapse = "\n")
+
+  if (is.null(var_label)) {
+    var_label <- paste(x_var, "~", y_var)
+  }
+
+  # ---- plot base ----
+  p <- ggplot(
+    df,
+    aes(
+      x = .data[[x_var]],
+      y = .data[[y_var]]
+    )
+  )
+
+  # ---- points ----
+  if (!is.null(color_var)) {
+    p <- p + geom_point(aes(colour = .data[[color_var]]))
+  } else {
+    p <- p + geom_point()
+  }
+
+  # ---- regression ----
+  p <- p +
+    geom_smooth(method = "lm", se = FALSE, color = "grey") +
+    annotate(
+      "text",
+      x = -Inf, y = Inf,
+      label = stats,
+      hjust = -0.1, vjust = 1.1,
+      size = 4,
+      fontface = "bold"
+    ) +
+    labs(
+      title = paste("Mean pairwise", var_label),
+      colour = color_var
+    )
+
+  # ---- optional gradient scale ----
+  if (!is.null(color_var) && is.numeric(df[[color_var]])) {
+    p <- p + scale_color_gradient(low = "#44AA99", high = "#882255")
+  }
+
+  p
+}
+
+
+```
 
 
